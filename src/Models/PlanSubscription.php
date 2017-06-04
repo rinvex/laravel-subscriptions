@@ -402,7 +402,7 @@ class PlanSubscription extends Model
      *
      * @param string $invoice_interval
      * @param int    $invoice_period
-     * @param string $start            Start date
+     * @param string $start
      *
      * @return $this
      */
