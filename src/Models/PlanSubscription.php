@@ -304,6 +304,7 @@ class PlanSubscription extends Model
      * Renew subscription period.
      *
      * @throws \LogicException
+     *
      * @return $this
      */
     public function renew(): self
@@ -330,8 +331,8 @@ class PlanSubscription extends Model
     /**
      * Scope subscriptions by user id.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $builder
-     * @param  int                                   $userId
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param int                                   $userId
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -401,7 +402,7 @@ class PlanSubscription extends Model
      *
      * @param string $invoice_interval
      * @param int    $invoice_period
-     * @param string $start Start date
+     * @param string $start            Start date
      *
      * @return $this
      */
@@ -474,7 +475,7 @@ class PlanSubscription extends Model
         $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if (is_null($usage)) {
-            return null;
+            return;
         }
 
         $usage->used = max($usage->used - $uses, 0);
@@ -513,7 +514,7 @@ class PlanSubscription extends Model
     /**
      * Get how many times the feature has been used.
      *
-     * @param  string $featureSlug
+     * @param string $featureSlug
      *
      * @return int
      */
@@ -527,19 +528,19 @@ class PlanSubscription extends Model
     /**
      * Get the available uses.
      *
-     * @param  string $featureSlug
+     * @param string $featureSlug
      *
      * @return int
      */
     public function getFeatureRemainings(string $featureSlug): int
     {
-        return ($this->getFeatureValue($featureSlug) - $this->getFeatureUsage($featureSlug));
+        return $this->getFeatureValue($featureSlug) - $this->getFeatureUsage($featureSlug);
     }
 
     /**
      * Get feature value.
      *
-     * @param  string $featureSlug
+     * @param string $featureSlug
      *
      * @return mixed
      */

@@ -23,14 +23,14 @@ class Period
     protected $end;
 
     /**
-     * Interval
+     * Interval.
      *
      * @var string
      */
     protected $interval;
 
     /**
-     * Interval count
+     * Interval count.
      *
      * @var int
      */
@@ -39,16 +39,16 @@ class Period
     /**
      * Create a new Period instance.
      *
-     * @param  string $interval Interval
-     * @param  int    $count    Interval count
-     * @param  string $start    Starting point
+     * @param string $interval Interval
+     * @param int    $count    Interval count
+     * @param string $start    Starting point
      *
-     * @return  void
+     * @return void
      */
     public function __construct($interval = 'month', $count = 1, $start = '')
     {
         if (empty($start)) {
-            $this->start = new Carbon;
+            $this->start = new Carbon();
         } elseif (! $start instanceof Carbon) {
             $this->start = new Carbon($start);
         } else {
@@ -62,7 +62,7 @@ class Period
         }
 
         $method = 'add'.ucfirst($this->interval).'s';
-        $start = clone($this->start);
+        $start = clone $this->start;
         $this->end = $start->$method($this->period);
     }
 

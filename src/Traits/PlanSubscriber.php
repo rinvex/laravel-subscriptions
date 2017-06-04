@@ -6,10 +6,10 @@ namespace Rinvex\Subscribable\Traits;
 
 use Carbon\Carbon;
 use Rinvex\Subscribable\Models\Plan;
+use Rinvex\Subscribable\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
 use Rinvex\Subscribable\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Rinvex\Subscribable\Services\Period;
 
 trait PlanSubscriber
 {
@@ -60,7 +60,7 @@ trait PlanSubscriber
     /**
      * Check if the user subscribed to the given plan.
      *
-     * @param  int $planId
+     * @param int $planId
      *
      * @return bool
      */
