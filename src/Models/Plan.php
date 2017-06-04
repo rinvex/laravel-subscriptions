@@ -202,7 +202,7 @@ class Plan extends Model
      */
     public function isFree(): bool
     {
-        return ((float) $this->price <= 0.00);
+        return (float) $this->price <= 0.00;
     }
 
     /**
