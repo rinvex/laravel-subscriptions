@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rinvex\Subscribable\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Watson\Validating\ValidatingTrait;
@@ -14,6 +13,7 @@ use Rinvex\Cacheable\CacheableEloquent;
 use Rinvex\Subscribable\Services\Period;
 use Spatie\Translatable\HasTranslations;
 use Rinvex\Subscribable\Traits\BelongsToPlan;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PlanFeature extends Model
 {
@@ -183,7 +183,7 @@ class PlanFeature extends Model
      */
     public function getResetDate(Carbon $dateFrom): Carbon
     {
-        $period = new Period($this->resettable_interval, $this->resettable_period, $dateFrom ?? new Carbon);
+        $period = new Period($this->resettable_interval, $this->resettable_period, $dateFrom ?? new Carbon());
 
         return $period->getEndDate();
     }
