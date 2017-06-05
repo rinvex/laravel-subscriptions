@@ -13,7 +13,7 @@ use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Rinvex\Subscribable\Models\Plan
+ * Rinvex\Subscribable\Models\Plan.
  *
  * @property int                                                                                          $id
  * @property string                                                                                       $slug
@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon                                                                               $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanFeature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscription[] $subscriptions
+ *
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereActiveSubscribersLimit($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereCurrency($value)

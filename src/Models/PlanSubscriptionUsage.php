@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Rinvex\Subscribable\Models\PlanSubscriptionUsage
+ * Rinvex\Subscribable\Models\PlanSubscriptionUsage.
  *
  * @property int                                               $id
  * @property int                                               $subscription_id
@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon                                    $deleted_at
  * @property-read \Rinvex\Subscribable\Models\PlanFeature      $feature
  * @property-read \Rinvex\Subscribable\Models\PlanSubscription $subscription
+ *
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereDeletedAt($value)
