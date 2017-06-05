@@ -16,7 +16,7 @@ use Rinvex\Subscribable\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Rinvex\Subscribable\Models\PlanFeature
+ * Rinvex\Subscribable\Models\PlanFeature.
  *
  * @property int                                                                                               $id
  * @property int                                                                                               $plan_id
@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon                                                                                    $deleted_at
  * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
+ *
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature byPlanId($planId)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDeletedAt($value)
