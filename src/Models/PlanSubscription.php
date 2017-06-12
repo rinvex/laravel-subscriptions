@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Rinvex\Subscribable\Models\PlanSubscription
+ * Rinvex\Subscribable\Models\PlanSubscription.
  *
  * @property int                                                                                               $id
  * @property int                                                                                               $user_id
@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
  * @property-read \Cortex\Fort\Models\User                                                                     $user
+ *
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byPlanId($planId)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byUserId($userId)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription findEndedPeriod()
