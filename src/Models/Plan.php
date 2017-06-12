@@ -142,9 +142,9 @@ class Plan extends Model
 
         $this->setTable(config('rinvex.subscribable.tables.plans'));
         $this->setRules([
-            'name' => 'required|string',
+            'name' => 'required|string|max:250',
             'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|unique:'.config('rinvex.subscribable.tables.plans').',slug',
+            'slug' => 'required|alpha_dash|max:250|unique:'.config('rinvex.subscribable.tables.plans').',slug',
             'price' => 'numeric',
             'signup_fee' => 'numeric',
             'currency' => 'alpha|size:3',
