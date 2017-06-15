@@ -170,7 +170,7 @@ class PlanSubscription extends Model
             if (! $planSubscription->slug) {
                 if ($planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnUpdate) {
                     $planSubscription->generateSlugOnUpdate();
-                } else if (! $planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnCreate) {
+                } elseif (! $planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnCreate) {
                     $planSubscription->generateSlugOnCreate();
                 }
             }

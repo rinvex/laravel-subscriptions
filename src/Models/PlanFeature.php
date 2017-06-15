@@ -139,7 +139,7 @@ class PlanFeature extends Model
             if (! $planFeature->slug) {
                 if ($planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnUpdate) {
                     $planFeature->generateSlugOnUpdate();
-                } else if (! $planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnCreate) {
+                } elseif (! $planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnCreate) {
                     $planFeature->generateSlugOnCreate();
                 }
             }
