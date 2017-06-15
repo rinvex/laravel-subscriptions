@@ -169,7 +169,7 @@ class Plan extends Model
             if (! $plan->slug) {
                 if ($plan->exists && $plan->getSlugOptions()->generateSlugsOnUpdate) {
                     $plan->generateSlugOnUpdate();
-                } else if (! $plan->exists && $plan->getSlugOptions()->generateSlugsOnCreate) {
+                } elseif (! $plan->exists && $plan->getSlugOptions()->generateSlugsOnCreate) {
                     $plan->generateSlugOnCreate();
                 }
             }
