@@ -164,18 +164,16 @@ class Plan extends Model
     {
         parent::boot();
 
-        if (isset(static::$dispatcher)) {
-            // Early auto generate slugs before validation
-            static::$dispatcher->listen('eloquent.validating: '.static::class, function (self $model) {
-                if (! $model->slug) {
-                    if ($model->exists) {
-                        $model->generateSlugOnUpdate();
-                    } else {
-                        $model->generateSlugOnCreate();
-                    }
+        // Auto generate slugs early before validation
+        static::registerModelEvent('validating', function (self $plan) {
+            if (! $plan->slug) {
+                if ($plan->exists && $plan->getSlugOptions()->generateSlugsOnUpdate) {
+                    $plan->generateSlugOnUpdate();
+                } else if (! $plan->exists && $plan->getSlugOptions()->generateSlugsOnCreate) {
+                    $plan->generateSlugOnCreate();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**

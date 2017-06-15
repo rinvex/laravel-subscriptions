@@ -161,22 +161,20 @@ class PlanSubscription extends Model
     {
         parent::boot();
 
-        if (isset(static::$dispatcher)) {
-            // Early auto generate slugs before validation
-            static::$dispatcher->listen('eloquent.validating: '.static::class, function (self $model) {
-                if (! $model->starts_at || ! $model->ends_at) {
-                    $model->setNewPeriod();
-                }
+        // Auto generate slugs early before validation
+        static::registerModelEvent('validating', function (self $planSubscription) {
+            if (! $planSubscription->starts_at || ! $planSubscription->ends_at) {
+                $planSubscription->setNewPeriod();
+            }
 
-                if (! $model->slug) {
-                    if ($model->exists) {
-                        $model->generateSlugOnUpdate();
-                    } else {
-                        $model->generateSlugOnCreate();
-                    }
+            if (! $planSubscription->slug) {
+                if ($planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnUpdate) {
+                    $planSubscription->generateSlugOnUpdate();
+                } else if (! $planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnCreate) {
+                    $planSubscription->generateSlugOnCreate();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
