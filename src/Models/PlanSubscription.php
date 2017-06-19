@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon                                                                                    $deleted_at
  * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
- * @property-read \Cortex\Fort\Models\User                                                                     $user
+ * @property-read \Rinvex\Fort\Models\User                                                                     $user
  *
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byPlanId($planId)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byUserId($userId)

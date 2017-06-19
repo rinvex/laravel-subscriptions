@@ -130,7 +130,7 @@ class PlanFeature extends Model
     /**
      * {@inheritdoc}
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
