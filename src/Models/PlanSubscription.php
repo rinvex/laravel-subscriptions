@@ -19,6 +19,49 @@ use Rinvex\Subscribable\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Rinvex\Subscribable\Models\PlanSubscription.
+ *
+ * @property int                                                                                               $id
+ * @property int                                                                                               $user_id
+ * @property int                                                                                               $plan_id
+ * @property string                                                                                            $slug
+ * @property array                                                                                             $name
+ * @property array                                                                                             $description
+ * @property \Carbon\Carbon                                                                                    $trial_ends_at
+ * @property \Carbon\Carbon                                                                                    $starts_at
+ * @property \Carbon\Carbon                                                                                    $ends_at
+ * @property \Carbon\Carbon                                                                                    $cancels_at
+ * @property \Carbon\Carbon                                                                                    $canceled_at
+ * @property \Carbon\Carbon                                                                                    $created_at
+ * @property \Carbon\Carbon                                                                                    $updated_at
+ * @property \Carbon\Carbon                                                                                    $deleted_at
+ * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
+ * @property-read \Illuminate\Database\Eloquent\Model                                                          $user
+ *
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byPlanId($planId)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byUserId($userId)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription findEndedPeriod()
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription findEndedTrial()
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription findEndingPeriod($dayRange = 3)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription findEndingTrial($dayRange = 3)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereCanceledAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereCancelsAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereEndsAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription wherePlanId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereStartsAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereTrialEndsAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription whereUserId($value)
+ * @mixin \Eloquent
+ */
 class PlanSubscription extends Model
 {
     use HasSlug;
@@ -94,13 +137,16 @@ class PlanSubscription extends Model
     {
         parent::__construct($attributes);
 
+        // Get users model
+        $userModel = config('auth.providers.'.config('auth.guards.'.config('auth.defaults.guard').'.provider').'.model');
+
         $this->setTable(config('rinvex.subscribable.tables.plan_subscriptions'));
         $this->setRules([
-            'name' => 'required|string',
+            'name' => 'required|string|max:150',
             'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|unique:'.config('rinvex.subscribable.tables.plan_subscriptions').',slug',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plans').',id',
-            'user_id' => 'required|integer|exists:'.config('rinvex.fort.tables.users').',id',
+            'user_id' => 'required|integer|exists:'.(new $userModel())->getTable().',id',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
@@ -118,22 +164,20 @@ class PlanSubscription extends Model
     {
         parent::boot();
 
-        if (isset(static::$dispatcher)) {
-            // Early auto generate slugs before validation
-            static::$dispatcher->listen('eloquent.validating: '.static::class, function (self $model) {
-                if (! $model->starts_at || ! $model->ends_at) {
-                    $model->setNewPeriod();
-                }
+        // Auto generate slugs early before validation
+        static::registerModelEvent('validating', function (self $planSubscription) {
+            if (! $planSubscription->starts_at || ! $planSubscription->ends_at) {
+                $planSubscription->setNewPeriod();
+            }
 
-                if (! $model->slug) {
-                    if ($model->exists) {
-                        $model->generateSlugOnUpdate();
-                    } else {
-                        $model->generateSlugOnCreate();
-                    }
+            if (! $planSubscription->slug) {
+                if ($planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnUpdate) {
+                    $planSubscription->generateSlugOnUpdate();
+                } elseif (! $planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnCreate) {
+                    $planSubscription->generateSlugOnCreate();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -304,6 +348,7 @@ class PlanSubscription extends Model
      * Renew subscription period.
      *
      * @throws \LogicException
+     *
      * @return $this
      */
     public function renew(): self
@@ -330,8 +375,8 @@ class PlanSubscription extends Model
     /**
      * Scope subscriptions by user id.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $builder
-     * @param  int                                   $userId
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param int                                   $userId
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -401,7 +446,7 @@ class PlanSubscription extends Model
      *
      * @param string $invoice_interval
      * @param int    $invoice_period
-     * @param string $start Start date
+     * @param string $start
      *
      * @return $this
      */
@@ -474,7 +519,7 @@ class PlanSubscription extends Model
         $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if (is_null($usage)) {
-            return null;
+            return;
         }
 
         $usage->used = max($usage->used - $uses, 0);
@@ -513,7 +558,7 @@ class PlanSubscription extends Model
     /**
      * Get how many times the feature has been used.
      *
-     * @param  string $featureSlug
+     * @param string $featureSlug
      *
      * @return int
      */
@@ -527,19 +572,19 @@ class PlanSubscription extends Model
     /**
      * Get the available uses.
      *
-     * @param  string $featureSlug
+     * @param string $featureSlug
      *
      * @return int
      */
     public function getFeatureRemainings(string $featureSlug): int
     {
-        return ($this->getFeatureValue($featureSlug) - $this->getFeatureUsage($featureSlug));
+        return $this->getFeatureValue($featureSlug) - $this->getFeatureUsage($featureSlug);
     }
 
     /**
      * Get feature value.
      *
-     * @param  string $featureSlug
+     * @param string $featureSlug
      *
      * @return mixed
      */

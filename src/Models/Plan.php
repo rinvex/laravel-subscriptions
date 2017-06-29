@@ -12,6 +12,58 @@ use Rinvex\Cacheable\CacheableEloquent;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Rinvex\Subscribable\Models\Plan.
+ *
+ * @property int                                                                                          $id
+ * @property string                                                                                       $slug
+ * @property array                                                                                        $name
+ * @property array                                                                                        $description
+ * @property bool                                                                                         $is_active
+ * @property float                                                                                        $price
+ * @property float                                                                                        $signup_fee
+ * @property string                                                                                       $currency
+ * @property int                                                                                          $trial_period
+ * @property string                                                                                       $trial_interval
+ * @property int                                                                                          $invoice_period
+ * @property string                                                                                       $invoice_interval
+ * @property int                                                                                          $grace_period
+ * @property string                                                                                       $grace_interval
+ * @property bool                                                                                         $prorate_day
+ * @property bool                                                                                         $prorate_period
+ * @property bool                                                                                         $prorate_extend_due
+ * @property int                                                                                          $active_subscribers_limit
+ * @property int                                                                                          $sort_order
+ * @property \Carbon\Carbon                                                                               $created_at
+ * @property \Carbon\Carbon                                                                               $updated_at
+ * @property \Carbon\Carbon                                                                               $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanFeature[]      $features
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscription[] $subscriptions
+ *
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereActiveSubscribersLimit($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereCurrency($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereGraceInterval($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereGracePeriod($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereInvoiceInterval($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereInvoicePeriod($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereIsActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan wherePrice($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereProrateDay($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereProrateExtendDue($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereProratePeriod($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereSignupFee($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereSortOrder($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereTrialInterval($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereTrialPeriod($value)
+ * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Plan extends Model
 {
     use HasSlug;
@@ -91,9 +143,9 @@ class Plan extends Model
 
         $this->setTable(config('rinvex.subscribable.tables.plans'));
         $this->setRules([
-            'name' => 'required|string',
+            'name' => 'required|string|max:150',
             'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|unique:'.config('rinvex.subscribable.tables.plans').',slug',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plans').',slug',
             'price' => 'numeric',
             'signup_fee' => 'numeric',
             'currency' => 'alpha|size:3',
@@ -112,18 +164,16 @@ class Plan extends Model
     {
         parent::boot();
 
-        if (isset(static::$dispatcher)) {
-            // Early auto generate slugs before validation
-            static::$dispatcher->listen('eloquent.validating: '.static::class, function (self $model) {
-                if (! $model->slug) {
-                    if ($model->exists) {
-                        $model->generateSlugOnUpdate();
-                    } else {
-                        $model->generateSlugOnCreate();
-                    }
+        // Auto generate slugs early before validation
+        static::registerModelEvent('validating', function (self $plan) {
+            if (! $plan->slug) {
+                if ($plan->exists && $plan->getSlugOptions()->generateSlugsOnUpdate) {
+                    $plan->generateSlugOnUpdate();
+                } elseif (! $plan->exists && $plan->getSlugOptions()->generateSlugsOnCreate) {
+                    $plan->generateSlugOnCreate();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -202,7 +252,7 @@ class Plan extends Model
      */
     public function isFree(): bool
     {
-        return ((float) $this->price <= 0.00);
+        return (float) $this->price <= 0.00;
     }
 
     /**
