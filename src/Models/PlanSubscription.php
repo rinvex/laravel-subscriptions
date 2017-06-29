@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon                                                                                    $deleted_at
  * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
- * @property-read \Rinvex\Fort\Models\User                                                                     $user
+ * @property-read \Illuminate\Database\Eloquent\Model                                                          $user
  *
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byPlanId($planId)
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscription byUserId($userId)
@@ -137,13 +137,16 @@ class PlanSubscription extends Model
     {
         parent::__construct($attributes);
 
+        // Get users model
+        $userModel = config('auth.providers.'.config('auth.guards.'.config('auth.defaults.guard').'.provider').'.model');
+
         $this->setTable(config('rinvex.subscribable.tables.plan_subscriptions'));
         $this->setRules([
             'name' => 'required|string|max:150',
             'description' => 'nullable|string',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plans').',id',
-            'user_id' => 'required|integer|exists:'.config('rinvex.fort.tables.users').',id',
+            'user_id' => 'required|integer|exists:'.(new $userModel)->getTable().',id',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',

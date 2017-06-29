@@ -14,7 +14,10 @@ class CreatePlanSubscriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('rinvex.subscribable.tables.plan_subscriptions'), function (Blueprint $table) {
+        // Get users model
+        $userModel = config('auth.providers.'.config('auth.guards.'.config('auth.defaults.guard').'.provider').'.model');
+
+        Schema::create(config('rinvex.subscribable.tables.plan_subscriptions'), function (Blueprint $table) use ($userModel) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('plan_id')->unsigned();
@@ -30,7 +33,7 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->softDeletes();
 
             // Indexes
-            $table->foreign('user_id')->references('id')->on(config('rinvex.fort.tables.users'))
+            $table->foreign('user_id')->references('id')->on((new $userModel)->getTable())
                   ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('plan_id')->references('id')->on(config('rinvex.subscribable.tables.plans'))
                   ->onDelete('cascade')->onUpdate('cascade');
