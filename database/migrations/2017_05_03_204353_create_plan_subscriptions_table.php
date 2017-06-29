@@ -33,7 +33,7 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->softDeletes();
 
             // Indexes
-            $table->foreign('user_id')->references('id')->on((new $userModel)->getTable())
+            $table->foreign('user_id')->references('id')->on((new $userModel())->getTable())
                   ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('plan_id')->references('id')->on(config('rinvex.subscribable.tables.plans'))
                   ->onDelete('cascade')->onUpdate('cascade');
