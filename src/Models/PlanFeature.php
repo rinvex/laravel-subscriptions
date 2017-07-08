@@ -129,12 +129,14 @@ class PlanFeature extends Model
 
         $this->setTable(config('rinvex.subscribable.tables.plan_features'));
         $this->setRules([
-            'name' => 'required|string|max:150',
-            'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plan_features').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plans').',id',
-            'resettable_interval' => 'in:day,week,month,year',
-            'value' => 'required',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plan_features').',slug',
+            'name' => 'required|string|max:150',
+            'description' => 'nullable|string|max:10000',
+            'value' => 'required|string',
+            'resettable_period' => 'sometimes|integer',
+            'resettable_interval' => 'in:d,w,m,y',
+            'sort_order' => 'integer|max:10000000',
         ]);
     }
 

@@ -164,15 +164,24 @@ class Plan extends Model
 
         $this->setTable(config('rinvex.subscribable.tables.plans'));
         $this->setRules([
-            'name' => 'required|string|max:150',
-            'description' => 'nullable|string',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plans').',slug',
-            'price' => 'numeric',
-            'signup_fee' => 'numeric',
-            'currency' => 'alpha|size:3',
-            'trial_interval' => 'in:day,week,month,year',
-            'invoice_interval' => 'in:day,week,month,year',
-            'grace_interval' => 'in:day,week,month,year',
+            'name' => 'required|string|max:150',
+            'description' => 'nullable|string|max:10000',
+            'is_active' => 'boolean',
+            'price' => 'required|numeric',
+            'signup_fee' => 'required|numeric',
+            'currency' => 'required|alpha|size:3',
+            'trial_period' => 'sometimes|integer',
+            'trial_interval' => 'in:d,w,m,y',
+            'invoice_period' => 'sometimes|integer',
+            'invoice_interval' => 'in:d,w,m,y',
+            'grace_period' => 'sometimes|integer',
+            'grace_interval' => 'in:d,w,m,y',
+            'sort_order' => 'integer|max:10000000',
+            'prorate_day' => 'nullable|integer',
+            'prorate_period' => 'nullable|integer',
+            'prorate_extend_due' => 'nullable|integer',
+            'active_subscribers_limit' => 'nullable|integer',
         ]);
     }
 

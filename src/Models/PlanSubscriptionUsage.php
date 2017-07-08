@@ -98,7 +98,7 @@ class PlanSubscriptionUsage extends Model
         $this->setRules([
             'subscription_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plan_subscriptions').',id',
             'feature_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plan_features').',id',
-            'used' => 'required|numeric',
+            'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
     }
