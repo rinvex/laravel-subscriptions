@@ -7,11 +7,13 @@ namespace Rinvex\Subscribable\Models;
 use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\EloquentSortable\Sortable;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Rinvex\Subscribable\Services\Period;
 use Spatie\Translatable\HasTranslations;
+use Spatie\EloquentSortable\SortableTrait;
 use Rinvex\Subscribable\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -48,10 +50,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereValue($value)
  * @mixin \Eloquent
  */
-class PlanFeature extends Model
+class PlanFeature extends Model implements Sortable
 {
     use HasSlug;
     use BelongsToPlan;
+    use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
     use CacheableEloquent;
@@ -101,6 +104,15 @@ class PlanFeature extends Model
     public $translatable = [
         'name',
         'description',
+    ];
+
+    /**
+     * The sortable settings.
+     *
+     * @var array
+     */
+    public $sortable = [
+        'order_column_name' => 'sort_order',
     ];
 
     /**

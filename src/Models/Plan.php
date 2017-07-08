@@ -6,10 +6,12 @@ namespace Rinvex\Subscribable\Models;
 
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Spatie\EloquentSortable\Sortable;
 use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Spatie\Translatable\HasTranslations;
+use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -64,9 +66,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Plan extends Model
+class Plan extends Model implements Sortable
 {
     use HasSlug;
+    use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
     use CacheableEloquent;
@@ -136,6 +139,15 @@ class Plan extends Model
     public $translatable = [
         'name',
         'description',
+    ];
+
+    /**
+     * The sortable settings.
+     *
+     * @var array
+     */
+    public $sortable = [
+        'order_column_name' => 'sort_order',
     ];
 
     /**
