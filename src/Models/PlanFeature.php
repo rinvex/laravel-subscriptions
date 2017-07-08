@@ -73,14 +73,25 @@ class PlanFeature extends Model
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'deleted_at',
+    protected $casts = [
+        'plan_id' => 'integer',
+        'slug' => 'string',
+        'name' => 'string',
+        'description' => 'string',
+        'value' => 'string',
+        'resettable_period' => 'integer',
+        'resettable_interval' => 'string',
+        'sort_order' => 'integer',
+        'deleted_at' => 'datetime',
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The attributes that are translatable.

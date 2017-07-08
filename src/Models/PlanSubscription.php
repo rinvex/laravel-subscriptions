@@ -89,19 +89,27 @@ class PlanSubscription extends Model
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'trial_ends_at',
-        'starts_at',
-        'ends_at',
-        'cancels_at',
-        'canceled_at',
-        'deleted_at',
+    protected $casts = [
+        'user_id' => 'integer',
+        'plan_id' => 'integer',
+        'slug' => 'string',
+        'name' => 'string',
+        'description' => 'string',
+        'trial_ends_at' => 'datetime',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
+        'cancels_at' => 'datetime',
+        'canceled_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The attributes that are translatable.

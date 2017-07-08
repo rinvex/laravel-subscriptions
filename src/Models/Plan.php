@@ -98,14 +98,35 @@ class Plan extends Model
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'deleted_at',
+    protected $casts = [
+        'slug' => 'string',
+        'name' => 'string',
+        'description' => 'string',
+        'is_active' => 'boolean',
+        'price' => 'float',
+        'signup_fee' => 'float',
+        'currency' => 'string',
+        'trial_period' => 'integer',
+        'trial_interval' => 'string',
+        'invoice_period' => 'integer',
+        'invoice_interval' => 'string',
+        'grace_period' => 'integer',
+        'grace_interval' => 'string',
+        'prorate_day' => 'integer',
+        'prorate_period' => 'integer',
+        'prorate_extend_due' => 'integer',
+        'active_subscribers_limit' => 'integer',
+        'sort_order' => 'integer',
+        'deleted_at' => 'datetime',
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The attributes that are translatable.

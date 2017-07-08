@@ -54,15 +54,21 @@ class PlanSubscriptionUsage extends Model
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'valid_until',
-        'deleted_at',
+    protected $casts = [
+        'subscription_id' => 'integer',
+        'feature_id' => 'integer',
+        'used' => 'integer',
+        'valid_until' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The default rules that the model will validate against.
