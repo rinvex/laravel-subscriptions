@@ -32,7 +32,7 @@
 
 3. Add the following service provider to the `'providers'` array inside `app/config/app.php`:
     ```php
-    Rinvex\Subscribable\Providers\SubscribableServiceProvider::class
+    Rinvex\Subscribable\Providers\SubscribableServiceProvider::class,
     ```
 
    And then you can publish the migrations by running the following command:
@@ -55,8 +55,6 @@
 **Rinvex Subscribable** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscribable functionality to your User model just use the `\Rinvex\Subscribable\Traits\PlanSubscriber` trait like this:
 
 ```php
-<?php
-
 namespace App\Models;
 
 use Rinvex\Subscribable\Traits\PlanSubscriber;
@@ -67,12 +65,10 @@ class User extends Authenticatable
     use PlanSubscriber;
 ```
 
-That's it, we only have to include that trait in our User model! Now your users may subscribe to plans.
+That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
 ### Create a Plan
 ```php
-<?php
-
 use Rinvex\Subscribable\Models\Plan;
 use Rinvex\Subscribable\Models\PlanFeature;
 
@@ -83,7 +79,7 @@ $plan = Plan::create([
     'invoice_period' => 1,
     'invoice_interval' => 'month',
     'trial_period' => 15,
-    'trial_interval' => 'day',
+    'trial_interval' => 'd',
     'sort_order' => 1,
     'currency' => 'USD',
 ]);
@@ -102,8 +98,6 @@ $plan->features()->saveMany([
 You can query the plan for further details, using the intuitive API as follows:
 
 ```php
-<?php
-
 use Rinvex\Subscribable\Models\Plan;
 
 $plan = Plan::find(1);
@@ -146,8 +140,6 @@ $amountOfPictures = PlanSubscription::find(1)->getFeatureValue('pictures_per_lis
 You can subscribe a user to a plan by using the `newSubscription()` function available in the `PlanSubscriber` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
 
 ```php
-<?php
-
 use Rinvex\Subscribable\Models\Plan;
 
 $user = User::find(1);
@@ -163,8 +155,6 @@ The first argument passed to `newSubscription` method should be the name of the 
 You can change subscription plan easily as follows:
 
 ```php
-<?php
-
 use Rinvex\Subscribable\Models\PlanSubscription;
 
 $plan = Plan::find(2);
@@ -181,8 +171,6 @@ If both plans (current and new plan) have the same billing frequency (e.g., `inv
 Plan features are great for fine tuning subscriptions, you can topup certain feature for X times of usage, so users may then use it only for that amount. Features also have the ability to be resettable and then it's usage could be expired too. See the following examples:
 
 ```php
-<?php
-
 use Carbon\Carbon;
 use Rinvex\Subscribable\Models\PlanFeature;
 
@@ -298,8 +286,6 @@ $user->subscription('main')->cancel(true);
 #### Subscription Model
 
 ```php
-<?php
-
 use Rinvex\Subscribable\Models\PlanSubscription;
 
 // Get subscriptions by plan:
