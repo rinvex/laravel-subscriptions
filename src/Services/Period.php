@@ -39,13 +39,13 @@ class Period
     /**
      * Create a new Period instance.
      *
-     * @param string $interval Interval
-     * @param int    $count    Interval count
-     * @param string $start    Starting point
+     * @param string $interval
+     * @param int    $count   
+     * @param string $start   
      *
      * @return void
      */
-    public function __construct($interval = 'month', $count = 1, $start = '')
+    public function __construct($interval = 'm', $count = 1, $start = '')
     {
         if (empty($start)) {
             $this->start = new Carbon();
@@ -55,7 +55,7 @@ class Period
             $this->start = $start;
         }
 
-        $this->interval = in_array($interval, ['day', 'week', 'month', 'year']) ? $interval : 'month';
+        $this->interval = in_array($interval, ['d', 'w', 'm', 'y']) ? $interval : 'm';
 
         if ($count > 0) {
             $this->period = $count;

@@ -23,7 +23,7 @@ class CreatePlanFeaturesTable extends Migration
             $table->{$this->jsonable()}('description')->nullable();
             $table->string('value');
             $table->smallInteger('resettable_period')->unsigned()->default(0);
-            $table->string('resettable_interval')->default('month');
+            $table->char('resettable_interval', 1)->default('m');
             $table->mediumInteger('sort_order')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
