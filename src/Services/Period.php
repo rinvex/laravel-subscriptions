@@ -40,8 +40,8 @@ class Period
      * Create a new Period instance.
      *
      * @param string $interval
-     * @param int    $count   
-     * @param string $start   
+     * @param int    $count
+     * @param string $start
      *
      * @return void
      */
