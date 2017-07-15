@@ -35,17 +35,17 @@
     Rinvex\Subscribable\Providers\SubscribableServiceProvider::class,
     ```
 
-   And then you can publish the migrations by running the following command:
+4. **Optionally** you can publish migrations and config files by running the following commands:
     ```shell
-    php artisan vendor:publish --tag="migrations" --provider="Rinvex\Subscribable\Providers\SubscribableServiceProvider"
+    php artisan vendor:publish --tag="rinvex-subscribable-migrations"
     ```
 
    And also you can publish the config by running the following command:
     ```shell
-    php artisan vendor:publish --tag="config" --provider="Rinvex\Subscribable\Providers\SubscribableServiceProvider"
+    php artisan vendor:publish --tag="rinvex-subscribable-config"
     ```
 
-4. Done!
+5. Done!
 
 
 ## Usage

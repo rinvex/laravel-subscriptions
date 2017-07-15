@@ -41,7 +41,7 @@ class SubscribableServiceProvider extends ServiceProvider
      */
     protected function publishResources()
     {
-        $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'migrations');
-        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.subscribable.php')], 'config');
+        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.subscribable.php')], 'rinvex-subscribable-config');
+        $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'rinvex-subscribable-migrations');
     }
 }
