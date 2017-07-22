@@ -146,9 +146,9 @@ class PlanFeature extends Model implements Sortable
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
-            'resettable_period' => 'sometimes|required|integer',
-            'resettable_interval' => 'sometimes|required|in:d,w,m,y',
-            'sort_order' => 'sometimes|required|integer|max:10000000',
+            'resettable_period' => 'sometimes|integer',
+            'resettable_interval' => 'sometimes|in:d,w,m,y',
+            'sort_order' => 'sometimes|integer|max:10000000',
         ]);
     }
 
