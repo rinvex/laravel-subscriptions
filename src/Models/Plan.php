@@ -11,6 +11,7 @@ use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -216,6 +217,30 @@ class Plan extends Model implements Sortable
                 }
             }
         });
+    }
+
+    /**
+     * Get the active plans.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('is_active', true);
+    }
+
+    /**
+     * Get the inactive plans.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInactive(Builder $builder): Builder
+    {
+        return $builder->where('is_active', false);
     }
 
     /**
