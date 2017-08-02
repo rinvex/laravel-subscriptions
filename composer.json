@@ -71,5 +71,7 @@
                 "Rinvex\\Subscribable\\Providers\\SubscribableServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
