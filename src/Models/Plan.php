@@ -353,4 +353,28 @@ class Plan extends Model implements Sortable
     {
         return $this->features()->where('slug', $featureSlug)->first();
     }
+
+    /**
+     * Active the plan.
+     *
+     * @return $this
+     */
+    public function activate(): self
+    {
+        $this->update(['is_active' => true]);
+
+        return $this;
+    }
+
+    /**
+     * Deactivate the plan.
+     *
+     * @return $this
+     */
+    public function deactivate(): self
+    {
+        $this->update(['is_active' => false]);
+
+        return $this;
+    }
 }
