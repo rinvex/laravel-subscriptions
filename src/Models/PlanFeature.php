@@ -204,7 +204,7 @@ class PlanFeature extends Model implements Sortable
      */
     public function setSlugAttribute($value)
     {
-        $this->attributes['slug'] = str_slug($value);
+        $this->attributes['slug'] = str_slug($value, '_');
     }
 
     /**
