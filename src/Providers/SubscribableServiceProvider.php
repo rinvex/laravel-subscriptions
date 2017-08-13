@@ -5,9 +5,19 @@ declare(strict_types=1);
 namespace Rinvex\Subscribable\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Rinvex\Subscribable\Console\Commands\MigrateCommand;
 
 class SubscribableServiceProvider extends ServiceProvider
 {
+    /**
+     * The commands to be registered.
+     *
+     * @var array
+     */
+    protected $commands = [
+        MigrateCommand::class => 'command.rinvex.subscribable.migrate',
+    ];
+
     /**
      * Register the application services.
      *
@@ -16,6 +26,15 @@ class SubscribableServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.subscribable');
+
+        // Register artisan commands
+        foreach ($this->commands as $key => $value) {
+            $this->app->singleton($value, function ($app) use ($key) {
+                return new $key();
+            });
+        }
+
+        $this->commands(array_values($this->commands));
     }
 
     /**
