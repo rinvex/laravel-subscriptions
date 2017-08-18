@@ -211,18 +211,6 @@ class PlanSubscription extends Model
     }
 
     /**
-     * Enforce clean slugs.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = str_slug($value, '_');
-    }
-
-    /**
      * Get the options for generating the slug.
      *
      * @return \Spatie\Sluggable\SlugOptions
@@ -230,6 +218,7 @@ class PlanSubscription extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
+                          ->usingSeparator('_')
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('name')
                           ->saveSlugsTo('slug');
