@@ -79,8 +79,6 @@ class PlanFeature extends Model implements Sortable
     protected $casts = [
         'plan_id' => 'integer',
         'slug' => 'string',
-        'name' => 'string',
-        'description' => 'string',
         'value' => 'string',
         'resettable_period' => 'integer',
         'resettable_interval' => 'string',

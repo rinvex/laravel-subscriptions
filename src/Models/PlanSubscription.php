@@ -93,8 +93,6 @@ class PlanSubscription extends Model
         'user_id' => 'integer',
         'plan_id' => 'integer',
         'slug' => 'string',
-        'name' => 'string',
-        'description' => 'string',
         'trial_ends_at' => 'datetime',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',

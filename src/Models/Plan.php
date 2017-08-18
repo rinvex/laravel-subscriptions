@@ -104,8 +104,6 @@ class Plan extends Model implements Sortable
      */
     protected $casts = [
         'slug' => 'string',
-        'name' => 'string',
-        'description' => 'string',
         'is_active' => 'boolean',
         'price' => 'float',
         'signup_fee' => 'float',
