@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Rinvex\Subscribable\Models\Plan;
 use Rinvex\Subscribable\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
-use Rinvex\Subscribable\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait PlanSubscriber
@@ -20,7 +19,7 @@ trait PlanSubscriber
      */
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(PlanSubscription::class, 'user_id', 'id');
+        return $this->hasMany(config('rinvex.subscribable.models.plan_subscription'), 'user_id', 'id');
     }
 
     /**
@@ -54,7 +53,7 @@ trait PlanSubscriber
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
-        return Plan::whereIn('id', $planIds)->get();
+        return app('rinvex.subscribable.plan')->whereIn('id', $planIds)->get();
     }
 
     /**

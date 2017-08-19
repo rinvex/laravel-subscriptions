@@ -286,7 +286,7 @@ class Plan extends Model implements Sortable
      */
     public function features(): HasMany
     {
-        return $this->hasMany(PlanFeature::class, 'plan_id', 'id');
+        return $this->hasMany(config('rinvex.subscribable.models.plan_feature'), 'plan_id', 'id');
     }
 
     /**
@@ -296,7 +296,7 @@ class Plan extends Model implements Sortable
      */
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(PlanSubscription::class, 'plan_id', 'id');
+        return $this->hasMany(config('rinvex.subscribable.models.plan_subscription'), 'plan_id', 'id');
     }
 
     /**

@@ -214,7 +214,7 @@ class PlanFeature extends Model implements Sortable
      */
     public function usage(): HasMany
     {
-        return $this->hasMany(PlanSubscriptionUsage::class, 'feature_id', 'id');
+        return $this->hasMany(config('rinvex.subscribable.models.plan_subscription_usage'), 'feature_id', 'id');
     }
 
     /**

@@ -241,7 +241,7 @@ class PlanSubscription extends Model
      */
     public function usage(): hasMany
     {
-        return $this->hasMany(PlanSubscriptionUsage::class, 'subscription_id', 'id');
+        return $this->hasMany(config('rinvex.subscribable.models.plan_subscription_usage'), 'subscription_id', 'id');
     }
 
     /**
