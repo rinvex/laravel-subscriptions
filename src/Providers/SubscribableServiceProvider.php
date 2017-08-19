@@ -27,6 +27,23 @@ class SubscribableServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.subscribable');
 
+        // Register eloquent models
+        $this->app->singleton('rinvex.subscribable.plan', function ($app) {
+            return new $app['config']['rinvex.subscribable.models.plan']();
+        });
+
+        $this->app->singleton('rinvex.subscribable.plan_features', function ($app) {
+            return new $app['config']['rinvex.subscribable.models.plan_features']();
+        });
+
+        $this->app->singleton('rinvex.subscribable.plan_subscriptions', function ($app) {
+            return new $app['config']['rinvex.subscribable.models.plan_subscriptions']();
+        });
+
+        $this->app->singleton('rinvex.subscribable.plan_subscription_usage', function ($app) {
+            return new $app['config']['rinvex.subscribable.models.plan_subscription_usage']();
+        });
+
         // Register artisan commands
         foreach ($this->commands as $key => $value) {
             $this->app->singleton($value, function ($app) use ($key) {
