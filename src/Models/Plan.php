@@ -188,7 +188,7 @@ class Plan extends Model implements Sortable
             'invoice_interval' => 'sometimes|in:d,w,m,y',
             'grace_period' => 'sometimes|integer',
             'grace_interval' => 'sometimes|in:d,w,m,y',
-            'sort_order' => 'sometimes|integer|max:10000000',
+            'sort_order' => 'nullable|integer|max:10000000',
             'prorate_day' => 'nullable|integer',
             'prorate_period' => 'nullable|integer',
             'prorate_extend_due' => 'nullable|integer',
