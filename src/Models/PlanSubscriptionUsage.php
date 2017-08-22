@@ -25,15 +25,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \Rinvex\Subscribable\Models\PlanFeature      $feature
  * @property-read \Rinvex\Subscribable\Models\PlanSubscription $subscription
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereFeatureId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereSubscriptionId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUsed($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereValidUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereFeatureId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
 class PlanSubscriptionUsage extends Model

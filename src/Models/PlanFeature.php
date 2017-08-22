@@ -35,19 +35,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature byPlanId($planId)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature wherePlanId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereResettableInterval($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereResettablePeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereSortOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature byPlanId($planId)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature wherePlanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereResettableInterval($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereResettablePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereValue($value)
  * @mixin \Eloquent
  */
 class PlanFeature extends Model implements Sortable

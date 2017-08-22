@@ -32,9 +32,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string                                                                                       $invoice_interval
  * @property int                                                                                          $grace_period
  * @property string                                                                                       $grace_interval
- * @property bool                                                                                         $prorate_day
- * @property bool                                                                                         $prorate_period
- * @property bool                                                                                         $prorate_extend_due
+ * @property int                                                                                          $prorate_day
+ * @property int                                                                                          $prorate_period
+ * @property int                                                                                          $prorate_extend_due
  * @property int                                                                                          $active_subscribers_limit
  * @property int                                                                                          $sort_order
  * @property \Carbon\Carbon                                                                               $created_at
@@ -43,28 +43,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanFeature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscription[] $subscriptions
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereActiveSubscribersLimit($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereCurrency($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereGraceInterval($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereGracePeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereInvoiceInterval($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereInvoicePeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereIsActive($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan wherePrice($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereProrateDay($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereProrateExtendDue($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereProratePeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereSignupFee($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereSortOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereTrialInterval($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereTrialPeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\Plan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan active()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan inactive()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereActiveSubscribersLimit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereCurrency($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereGraceInterval($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereGracePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereInvoiceInterval($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereInvoicePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereProrateDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereProrateExtendDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereProratePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereSignupFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereTrialInterval($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereTrialPeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Plan extends Model implements Sortable
