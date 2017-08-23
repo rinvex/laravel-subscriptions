@@ -13,6 +13,7 @@ use Rinvex\Cacheable\CacheableEloquent;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\EloquentSortable\SortableTrait;
+use Rinvex\Subscribable\Contracts\PlanContract;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -70,7 +71,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\Plan whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Plan extends Model implements Sortable
+class Plan extends Model implements PlanContract, Sortable
 {
     use HasSlug;
     use SortableTrait;

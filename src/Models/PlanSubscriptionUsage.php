@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Rinvex\Subscribable\Contracts\PlanSubscriptionUsageContract;
 
 /**
  * Rinvex\Subscribable\Models\PlanSubscriptionUsage.
@@ -36,7 +37,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
-class PlanSubscriptionUsage extends Model
+class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContract
 {
     use ValidatingTrait;
     use CacheableEloquent;

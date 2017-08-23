@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscribable\Providers;
 
-use Rinvex\Subscribable\Models\Plan;
 use Illuminate\Support\ServiceProvider;
-use Rinvex\Subscribable\Models\PlanFeature;
-use Rinvex\Subscribable\Models\PlanSubscription;
-use Rinvex\Subscribable\Models\PlanSubscriptionUsage;
+use Rinvex\Subscribable\Contracts\PlanContract;
+use Rinvex\Subscribable\Contracts\PlanFeatureContract;
 use Rinvex\Subscribable\Console\Commands\MigrateCommand;
+use Rinvex\Subscribable\Contracts\PlanSubscriptionContract;
+use Rinvex\Subscribable\Contracts\PlanSubscriptionUsageContract;
 
 class SubscribableServiceProvider extends ServiceProvider
 {
@@ -35,22 +35,22 @@ class SubscribableServiceProvider extends ServiceProvider
         $this->app->singleton('rinvex.subscribable.plan', function ($app) {
             return new $app['config']['rinvex.subscribable.models.plan']();
         });
-        $this->app->alias('rinvex.subscribable.plan', Plan::class);
+        $this->app->alias('rinvex.subscribable.plan', PlanContract::class);
 
         $this->app->singleton('rinvex.subscribable.plan_features', function ($app) {
-            return new $app['config']['rinvex.subscribable.models.plan_features']();
+            return new $app['config']['rinvex.subscribable.models.plan_feature']();
         });
-        $this->app->alias('rinvex.subscribable.plan_features', PlanFeature::class);
+        $this->app->alias('rinvex.subscribable.plan_features', PlanFeatureContract::class);
 
         $this->app->singleton('rinvex.subscribable.plan_subscriptions', function ($app) {
-            return new $app['config']['rinvex.subscribable.models.plan_subscriptions']();
+            return new $app['config']['rinvex.subscribable.models.plan_subscription']();
         });
-        $this->app->alias('rinvex.subscribable.plan_subscriptions', PlanSubscription::class);
+        $this->app->alias('rinvex.subscribable.plan_subscriptions', PlanSubscriptionContract::class);
 
         $this->app->singleton('rinvex.subscribable.plan_subscription_usage', function ($app) {
             return new $app['config']['rinvex.subscribable.models.plan_subscription_usage']();
         });
-        $this->app->alias('rinvex.subscribable.plan_subscription_usage', PlanSubscriptionUsage::class);
+        $this->app->alias('rinvex.subscribable.plan_subscription_usage', PlanSubscriptionUsageContract::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();

@@ -16,6 +16,7 @@ use Spatie\Translatable\HasTranslations;
 use Spatie\EloquentSortable\SortableTrait;
 use Rinvex\Subscribable\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rinvex\Subscribable\Contracts\PlanFeatureContract;
 
 /**
  * Rinvex\Subscribable\Models\PlanFeature.
@@ -51,7 +52,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanFeature whereValue($value)
  * @mixin \Eloquent
  */
-class PlanFeature extends Model implements Sortable
+class PlanFeature extends Model implements PlanFeatureContract, Sortable
 {
     use HasSlug;
     use BelongsToPlan;
