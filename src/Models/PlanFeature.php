@@ -160,13 +160,11 @@ class PlanFeature extends Model implements PlanFeatureContract, Sortable
         parent::boot();
 
         // Auto generate slugs early before validation
-        static::registerModelEvent('validating', function (self $planFeature) {
-            if (! $planFeature->slug) {
-                if ($planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnUpdate) {
-                    $planFeature->generateSlugOnUpdate();
-                } elseif (! $planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnCreate) {
-                    $planFeature->generateSlugOnCreate();
-                }
+        static::validating(function (self $planFeature) {
+            if ($planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnUpdate) {
+                $planFeature->generateSlugOnUpdate();
+            } elseif (! $planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnCreate) {
+                $planFeature->generateSlugOnCreate();
             }
         });
     }

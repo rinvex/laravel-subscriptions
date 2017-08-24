@@ -210,13 +210,11 @@ class Plan extends Model implements PlanContract, Sortable
         parent::boot();
 
         // Auto generate slugs early before validation
-        static::registerModelEvent('validating', function (self $plan) {
-            if (! $plan->slug) {
-                if ($plan->exists && $plan->getSlugOptions()->generateSlugsOnUpdate) {
-                    $plan->generateSlugOnUpdate();
-                } elseif (! $plan->exists && $plan->getSlugOptions()->generateSlugsOnCreate) {
-                    $plan->generateSlugOnCreate();
-                }
+        static::validating(function (self $plan) {
+            if ($plan->exists && $plan->getSlugOptions()->generateSlugsOnUpdate) {
+                $plan->generateSlugOnUpdate();
+            } elseif (! $plan->exists && $plan->getSlugOptions()->generateSlugsOnCreate) {
+                $plan->generateSlugOnCreate();
             }
         });
     }
