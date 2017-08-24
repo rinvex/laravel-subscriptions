@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Rinvex\Subscribable\Models;
 
 use Carbon\Carbon;
-use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Rinvex\Subscribable\Contracts\PlanSubscriptionUsageContract;
 
