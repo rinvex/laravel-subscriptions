@@ -297,7 +297,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @param bool $immediately
      *
-     * @return $this
+     * @return static
      */
     public function cancel($immediately = false): self
     {
@@ -317,7 +317,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @param \Rinvex\Subscribable\Models\Plan $plan
      *
-     * @return $this
+     * @return static
      */
     public function changePlan(Plan $plan): self
     {
@@ -342,7 +342,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @throws \LogicException
      *
-     * @return $this
+     * @return static
      */
     public function renew(): self
     {
@@ -441,7 +441,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      * @param int    $invoice_period
      * @param string $start
      *
-     * @return $this
+     * @return static
      */
     protected function setNewPeriod($invoice_interval = '', $invoice_period = '', $start = '')
     {
