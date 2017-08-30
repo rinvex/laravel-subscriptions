@@ -172,15 +172,15 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
         parent::boot();
 
         // Auto generate slugs early before validation
-        static::validating(function (self $planSubscription) {
-            if (! $planSubscription->starts_at || ! $planSubscription->ends_at) {
-                $planSubscription->setNewPeriod();
+        static::validating(function (self $model) {
+            if (! $model->starts_at || ! $model->ends_at) {
+                $model->setNewPeriod();
             }
 
-            if ($planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnUpdate) {
-                $planSubscription->generateSlugOnUpdate();
-            } elseif (! $planSubscription->exists && $planSubscription->getSlugOptions()->generateSlugsOnCreate) {
-                $planSubscription->generateSlugOnCreate();
+            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
+                $model->generateSlugOnUpdate();
+            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
+                $model->generateSlugOnCreate();
             }
         });
     }
