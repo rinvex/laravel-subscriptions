@@ -321,7 +321,7 @@ class Plan extends Model implements PlanContract, Sortable
     /**
      * Active the plan.
      *
-     * @return static
+     * @return $this
      */
     public function activate()
     {
@@ -333,7 +333,7 @@ class Plan extends Model implements PlanContract, Sortable
     /**
      * Deactivate the plan.
      *
-     * @return static
+     * @return $this
      */
     public function deactivate()
     {
