@@ -323,7 +323,7 @@ class Plan extends Model implements PlanContract, Sortable
      *
      * @return static
      */
-    public function activate(): self
+    public function activate()
     {
         $this->update(['is_active' => true]);
 
@@ -335,7 +335,7 @@ class Plan extends Model implements PlanContract, Sortable
      *
      * @return static
      */
-    public function deactivate(): self
+    public function deactivate()
     {
         $this->update(['is_active' => false]);
 

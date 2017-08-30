@@ -275,7 +275,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return static
      */
-    public function cancel($immediately = false): self
+    public function cancel($immediately = false)
     {
         $this->canceled_at = Carbon::now();
 
@@ -295,7 +295,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return static
      */
-    public function changePlan(Plan $plan): self
+    public function changePlan(Plan $plan)
     {
         // If plans does not have the same billing frequency
         // (e.g., invoice_interval and invoice_period) we will update
@@ -320,7 +320,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return static
      */
-    public function renew(): self
+    public function renew()
     {
         if ($this->ended() && $this->canceled()) {
             throw new LogicException('Unable to renew canceled ended subscription.');
