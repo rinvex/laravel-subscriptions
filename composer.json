@@ -40,7 +40,7 @@
         "illuminate/database": "~5.4.0|~5.5.0",
         "spatie/laravel-sluggable": "^1.5.0",
         "spatie/eloquent-sortable": "^3.3.0",
-        "spatie/laravel-translatable": "^1.3.0",
+        "spatie/laravel-translatable": "^2.0.0",
         "rinvex/cacheable": "dev-develop",
         "watson/validating": "^3.0.1",
         "nesbot/carbon": "~1.22"
