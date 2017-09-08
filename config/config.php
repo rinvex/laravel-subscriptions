@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
 
-    // Subscribable Database Tables
+    // Subscriptions Database Tables
     'tables' => [
 
         'plans' => 'plans',
@@ -14,13 +14,13 @@ return [
 
     ],
 
-    // Subscribable Models
+    // Subscriptions Models
     'models' => [
 
-        'plan' => \Rinvex\Subscribable\Models\Plan::class,
-        'plan_feature' => \Rinvex\Subscribable\Models\PlanFeature::class,
-        'plan_subscription' => \Rinvex\Subscribable\Models\PlanSubscription::class,
-        'plan_subscription_usage' => \Rinvex\Subscribable\Models\PlanSubscriptionUsage::class,
+        'plan' => \Rinvex\Subscriptions\Models\Plan::class,
+        'plan_feature' => \Rinvex\Subscriptions\Models\PlanFeature::class,
+        'plan_subscription' => \Rinvex\Subscriptions\Models\PlanSubscription::class,
+        'plan_subscription_usage' => \Rinvex\Subscriptions\Models\PlanSubscriptionUsage::class,
 
     ],
 

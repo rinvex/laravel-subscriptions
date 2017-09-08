@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Contracts;
+namespace Rinvex\Subscriptions\Contracts;
 
 /**
- * Rinvex\Subscribable\Contracts\PlanSubscriptionUsageContract.
+ * Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract.
  *
  * @property int                                               $id
  * @property int                                               $subscription_id
@@ -15,18 +15,18 @@ namespace Rinvex\Subscribable\Contracts;
  * @property \Carbon\Carbon                                    $created_at
  * @property \Carbon\Carbon                                    $updated_at
  * @property \Carbon\Carbon                                    $deleted_at
- * @property-read \Rinvex\Subscribable\Models\PlanFeature      $feature
- * @property-read \Rinvex\Subscribable\Models\PlanSubscription $subscription
+ * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
+ * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereFeatureId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereSubscriptionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUsed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereValidUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereFeatureId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
 interface PlanSubscriptionUsageContract

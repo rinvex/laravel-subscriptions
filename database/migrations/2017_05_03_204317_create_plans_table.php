@@ -14,7 +14,7 @@ class CreatePlansTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('rinvex.subscribable.tables.plans'), function (Blueprint $table) {
+        Schema::create(config('rinvex.subscriptions.tables.plans'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
             $table->string('slug');
@@ -50,7 +50,7 @@ class CreatePlansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('rinvex.subscribable.tables.plans'));
+        Schema::dropIfExists(config('rinvex.subscriptions.tables.plans'));
     }
 
     /**

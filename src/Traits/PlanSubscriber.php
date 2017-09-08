@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Traits;
+namespace Rinvex\Subscriptions\Traits;
 
 use Carbon\Carbon;
-use Rinvex\Subscribable\Models\Plan;
-use Rinvex\Subscribable\Services\Period;
+use Rinvex\Subscriptions\Models\Plan;
+use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -19,7 +19,7 @@ trait PlanSubscriber
      */
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(config('rinvex.subscribable.models.plan_subscription'), 'user_id', 'id');
+        return $this->hasMany(config('rinvex.subscriptions.models.plan_subscription'), 'user_id', 'id');
     }
 
     /**
@@ -37,7 +37,7 @@ trait PlanSubscriber
      *
      * @param string $subscriptionSlug
      *
-     * @return \Rinvex\Subscribable\Models\PlanSubscription|null
+     * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
     public function subscription(string $subscriptionSlug)
     {
@@ -47,13 +47,13 @@ trait PlanSubscriber
     /**
      * Get subscribed plans.
      *
-     * @return \Rinvex\Subscribable\Models\PlanSubscription|null
+     * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
     public function subscribedPlans()
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
-        return app('rinvex.subscribable.plan')->whereIn('id', $planIds)->get();
+        return app('rinvex.subscriptions.plan')->whereIn('id', $planIds)->get();
     }
 
     /**
@@ -74,9 +74,9 @@ trait PlanSubscriber
      * Subscribe user to a new plan.
      *
      * @param string                           $subscription
-     * @param \Rinvex\Subscribable\Models\Plan $plan
+     * @param \Rinvex\Subscriptions\Models\Plan $plan
      *
-     * @return \Rinvex\Subscribable\Models\PlanSubscription
+     * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
     public function newSubscription($subscription, Plan $plan)
     {

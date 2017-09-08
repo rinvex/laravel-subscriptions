@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Console\Commands;
+namespace Rinvex\Subscriptions\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -13,14 +13,14 @@ class MigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:migrate:subscribable';
+    protected $signature = 'rinvex:migrate:subscriptions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Migrate Rinvex Subscribable Tables.';
+    protected $description = 'Migrate Rinvex Subscriptions Tables.';
 
     /**
      * Execute the console command.
@@ -29,7 +29,7 @@ class MigrateCommand extends Command
      */
     public function handle()
     {
-        $this->warn('Migrate rinvex/subscribable:');
-        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/subscribable/database/migrations']);
+        $this->warn('Migrate rinvex/subscriptions:');
+        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/subscriptions/database/migrations']);
     }
 }

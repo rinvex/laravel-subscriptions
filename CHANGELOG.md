@@ -1,4 +1,4 @@
-# Rinvex Subscribable Change Log
+# Rinvex Subscriptions Change Log
 
 All notable changes to this project will be documented in this file.
 

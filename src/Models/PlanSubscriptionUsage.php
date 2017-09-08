@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Models;
+namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -10,10 +10,10 @@ use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rinvex\Subscribable\Contracts\PlanSubscriptionUsageContract;
+use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
 
 /**
- * Rinvex\Subscribable\Models\PlanSubscriptionUsage.
+ * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
  *
  * @property int                                               $id
  * @property int                                               $subscription_id
@@ -23,18 +23,18 @@ use Rinvex\Subscribable\Contracts\PlanSubscriptionUsageContract;
  * @property \Carbon\Carbon                                    $created_at
  * @property \Carbon\Carbon                                    $updated_at
  * @property \Carbon\Carbon                                    $deleted_at
- * @property-read \Rinvex\Subscribable\Models\PlanFeature      $feature
- * @property-read \Rinvex\Subscribable\Models\PlanSubscription $subscription
+ * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
+ * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereFeatureId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereSubscriptionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUsed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereValidUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereFeatureId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
 class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContract
@@ -95,10 +95,10 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('rinvex.subscribable.tables.plan_subscription_usage'));
+        $this->setTable(config('rinvex.subscriptions.tables.plan_subscription_usage'));
         $this->setRules([
-            'subscription_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plan_subscriptions').',id',
-            'feature_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plan_features').',id',
+            'subscription_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_subscriptions').',id',
+            'feature_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_features').',id',
             'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
@@ -111,7 +111,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
      */
     public function feature(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscribable.models.plan_feature'), 'feature_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id');
     }
 
     /**
@@ -121,7 +121,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
      */
     public function subscription(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscribable.models.plan_subscription'), 'subscription_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id');
     }
 
     /**

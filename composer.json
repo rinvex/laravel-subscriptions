@@ -1,6 +1,6 @@
 {
-    "name": "rinvex/subscribable",
-    "description": "Rinvex Subscribable is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
+    "name": "rinvex/subscriptions",
+    "description": "Rinvex Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
     "keywords": [
         "plan",
         "value",
@@ -13,9 +13,9 @@
     "homepage": "https://rinvex.com",
     "support": {
         "email": "help@rinvex.com",
-        "issues": "https://github.com/rinvex/subscribable/issues",
-        "source": "https://github.com/rinvex/subscribable",
-        "docs": "https://github.com/rinvex/subscribable/blob/master/README.md"
+        "issues": "https://github.com/rinvex/subscriptions/issues",
+        "source": "https://github.com/rinvex/subscriptions",
+        "docs": "https://github.com/rinvex/subscriptions/blob/master/README.md"
     },
     "authors": [
         {
@@ -31,7 +31,7 @@
         },
         {
             "name": "The Generous Laravel Community",
-            "homepage": "https://github.com/rinvex/subscribable/contributors"
+            "homepage": "https://github.com/rinvex/subscriptions/contributors"
         }
     ],
     "require": {
@@ -54,7 +54,7 @@
             "database"
         ],
         "psr-4": {
-            "Rinvex\\Subscribable\\": "src"
+            "Rinvex\\Subscriptions\\": "src"
         }
     },
     "config": {
@@ -68,7 +68,7 @@
         },
         "laravel": {
             "providers": [
-                "Rinvex\\Subscribable\\Providers\\SubscribableServiceProvider"
+                "Rinvex\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
             ]
         }
     },
