@@ -73,7 +73,7 @@ trait PlanSubscriber
     /**
      * Subscribe user to a new plan.
      *
-     * @param string                           $subscription
+     * @param string                            $subscription
      * @param \Rinvex\Subscriptions\Models\Plan $plan
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
