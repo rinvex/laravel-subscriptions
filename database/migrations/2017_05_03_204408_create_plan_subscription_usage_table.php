@@ -14,7 +14,7 @@ class CreatePlanSubscriptionUsageTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('rinvex.subscribable.tables.plan_subscription_usage'), function (Blueprint $table) {
+        Schema::create(config('rinvex.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
             $table->increments('id');
             $table->integer('subscription_id')->unsigned();
             $table->integer('feature_id')->unsigned();
@@ -24,9 +24,9 @@ class CreatePlanSubscriptionUsageTable extends Migration
             $table->softDeletes();
 
             $table->unique(['subscription_id', 'feature_id']);
-            $table->foreign('subscription_id')->references('id')->on(config('rinvex.subscribable.tables.plan_subscriptions'))
+            $table->foreign('subscription_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_subscriptions'))
                   ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('feature_id')->references('id')->on(config('rinvex.subscribable.tables.plan_features'))
+            $table->foreign('feature_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_features'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -38,6 +38,6 @@ class CreatePlanSubscriptionUsageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('rinvex.subscribable.tables.plan_subscription_usage'));
+        Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_subscription_usage'));
     }
 }

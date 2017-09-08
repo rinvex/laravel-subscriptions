@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Models;
+namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
-use Watson\Validating\ValidatingTrait;
+use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
-use Rinvex\Subscribable\Services\Period;
-use Spatie\Translatable\HasTranslations;
-use Rinvex\Subscribable\Traits\BelongsToPlan;
+use Rinvex\Subscriptions\Services\Period;
+use Rinvex\Support\Traits\HasTranslations;
+use Rinvex\Support\Traits\ValidatingTrait;
+use Spatie\EloquentSortable\SortableTrait;
+use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rinvex\Subscriptions\Contracts\PlanFeatureContract;
 
 /**
- * Rinvex\Subscribable\Models\PlanFeature.
+ * Rinvex\Subscriptions\Models\PlanFeature.
  *
  * @property int                                                                                               $id
  * @property int                                                                                               $plan_id
@@ -30,28 +33,30 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon                                                                                    $created_at
  * @property \Carbon\Carbon                                                                                    $updated_at
  * @property \Carbon\Carbon                                                                                    $deleted_at
- * @property-read \Rinvex\Subscribable\Models\Plan                                                             $plan
- * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscribable\Models\PlanSubscriptionUsage[] $usage
+ * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature byPlanId($planId)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature wherePlanId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereResettableInterval($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereResettablePeriod($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereSortOrder($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanFeature whereValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature byPlanId($planId)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature ordered($direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature wherePlanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettableInterval($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettablePeriod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereSortOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereValue($value)
  * @mixin \Eloquent
  */
-class PlanFeature extends Model
+class PlanFeature extends Model implements PlanFeatureContract, Sortable
 {
     use HasSlug;
     use BelongsToPlan;
+    use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
     use CacheableEloquent;
@@ -73,14 +78,23 @@ class PlanFeature extends Model
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'deleted_at',
+    protected $casts = [
+        'plan_id' => 'integer',
+        'slug' => 'string',
+        'value' => 'string',
+        'resettable_period' => 'integer',
+        'resettable_interval' => 'string',
+        'sort_order' => 'integer',
+        'deleted_at' => 'datetime',
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The attributes that are translatable.
@@ -90,6 +104,15 @@ class PlanFeature extends Model
     public $translatable = [
         'name',
         'description',
+    ];
+
+    /**
+     * The sortable settings.
+     *
+     * @var array
+     */
+    public $sortable = [
+        'order_column_name' => 'sort_order',
     ];
 
     /**
@@ -116,14 +139,16 @@ class PlanFeature extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('rinvex.subscribable.tables.plan_features'));
+        $this->setTable(config('rinvex.subscriptions.tables.plan_features'));
         $this->setRules([
+            'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
             'name' => 'required|string|max:150',
-            'description' => 'nullable|string',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscribable.tables.plan_features').',slug',
-            'plan_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plans').',id',
-            'resettable_interval' => 'in:day,week,month,year',
-            'value' => 'required',
+            'description' => 'nullable|string|max:10000',
+            'value' => 'required|string',
+            'resettable_period' => 'sometimes|integer',
+            'resettable_interval' => 'sometimes|in:d,w,m,y',
+            'sort_order' => 'nullable|integer|max:10000000',
         ]);
     }
 
@@ -135,51 +160,13 @@ class PlanFeature extends Model
         parent::boot();
 
         // Auto generate slugs early before validation
-        static::registerModelEvent('validating', function (self $planFeature) {
-            if (! $planFeature->slug) {
-                if ($planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnUpdate) {
-                    $planFeature->generateSlugOnUpdate();
-                } elseif (! $planFeature->exists && $planFeature->getSlugOptions()->generateSlugsOnCreate) {
-                    $planFeature->generateSlugOnCreate();
-                }
+        static::validating(function (self $model) {
+            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
+                $model->generateSlugOnUpdate();
+            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
+                $model->generateSlugOnCreate();
             }
         });
-    }
-
-    /**
-     * Set the translatable name attribute.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = json_encode(! is_array($value) ? [app()->getLocale() => $value] : $value);
-    }
-
-    /**
-     * Set the translatable description attribute.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setDescriptionAttribute($value)
-    {
-        $this->attributes['description'] = ! empty($value) ? json_encode(! is_array($value) ? [app()->getLocale() => $value] : $value) : null;
-    }
-
-    /**
-     * Enforce clean slugs.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = str_slug($value);
     }
 
     /**
@@ -202,7 +189,7 @@ class PlanFeature extends Model
      */
     public function usage(): HasMany
     {
-        return $this->hasMany(PlanSubscriptionUsage::class, 'feature_id', 'id');
+        return $this->hasMany(config('rinvex.subscriptions.models.plan_subscription_usage'), 'feature_id', 'id');
     }
 
     /**

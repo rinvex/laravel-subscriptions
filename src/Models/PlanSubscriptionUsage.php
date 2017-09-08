@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Models;
+namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
-use Watson\Validating\ValidatingTrait;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
 
 /**
- * Rinvex\Subscribable\Models\PlanSubscriptionUsage.
+ * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
  *
  * @property int                                               $id
  * @property int                                               $subscription_id
@@ -22,21 +23,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon                                    $created_at
  * @property \Carbon\Carbon                                    $updated_at
  * @property \Carbon\Carbon                                    $deleted_at
- * @property-read \Rinvex\Subscribable\Models\PlanFeature      $feature
- * @property-read \Rinvex\Subscribable\Models\PlanSubscription $subscription
+ * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
+ * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereFeatureId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereSubscriptionId($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereUsed($value)
- * @method static \Illuminate\Database\Query\Builder|\Rinvex\Subscribable\Models\PlanSubscriptionUsage whereValidUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereFeatureId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
-class PlanSubscriptionUsage extends Model
+class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContract
 {
     use ValidatingTrait;
     use CacheableEloquent;
@@ -54,15 +55,21 @@ class PlanSubscriptionUsage extends Model
     /**
      * {@inheritdoc}
      */
-    protected $dates = [
-        'valid_until',
-        'deleted_at',
+    protected $casts = [
+        'subscription_id' => 'integer',
+        'feature_id' => 'integer',
+        'used' => 'integer',
+        'valid_until' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
      * {@inheritdoc}
      */
-    protected $observables = ['validating', 'validated'];
+    protected $observables = [
+        'validating',
+        'validated',
+    ];
 
     /**
      * The default rules that the model will validate against.
@@ -88,11 +95,11 @@ class PlanSubscriptionUsage extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('rinvex.subscribable.tables.plan_subscription_usage'));
+        $this->setTable(config('rinvex.subscriptions.tables.plan_subscription_usage'));
         $this->setRules([
-            'subscription_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plan_subscriptions').',id',
-            'feature_id' => 'required|integer|exists:'.config('rinvex.subscribable.tables.plan_features').',id',
-            'used' => 'required|numeric',
+            'subscription_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_subscriptions').',id',
+            'feature_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_features').',id',
+            'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
     }
@@ -104,7 +111,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function feature(): BelongsTo
     {
-        return $this->belongsTo(PlanFeature::class, 'feature_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id');
     }
 
     /**
@@ -114,7 +121,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function subscription(): BelongsTo
     {
-        return $this->belongsTo(PlanSubscription::class, 'subscription_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id');
     }
 
     /**

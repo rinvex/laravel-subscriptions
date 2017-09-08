@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscribable\Traits;
+namespace Rinvex\Subscriptions\Traits;
 
-use Rinvex\Subscribable\Models\Plan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -17,7 +16,7 @@ trait BelongsToPlan
      */
     public function plan(): BelongsTo
     {
-        return $this->belongsTo(Plan::class, 'plan_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan'), 'plan_id', 'id');
     }
 
     /**

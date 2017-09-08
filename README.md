@@ -1,15 +1,15 @@
-# Rinvex Subscribable
+# Rinvex Subscriptions
 
-**Rinvex Subscribable** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
+**Rinvex Subscriptions** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
 
-[![Packagist](https://img.shields.io/packagist/v/rinvex/subscribable.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/subscribable)
-[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:subscribable.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:subscribable/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/subscribable.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/subscribable/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/subscribable.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/subscribable)
-[![Travis](https://img.shields.io/travis/rinvex/subscribable.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/subscribable)
+[![Packagist](https://img.shields.io/packagist/v/rinvex/subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/subscriptions)
+[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:subscriptions.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:subscriptions/)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/subscriptions/)
+[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/subscriptions)
+[![Travis](https://img.shields.io/travis/rinvex/subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/subscriptions)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/81ab6092-1c20-4eb3-b180-2fd13114384e.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/81ab6092-1c20-4eb3-b180-2fd13114384e)
 [![StyleCI](https://styleci.io/repos/93313402/shield)](https://styleci.io/repos/93313402)
-[![License](https://img.shields.io/packagist/l/rinvex/subscribable.svg?label=License&style=flat-square)](https://github.com/rinvex/subscribable/blob/develop/LICENSE)
+[![License](https://img.shields.io/packagist/l/rinvex/subscriptions.svg?label=License&style=flat-square)](https://github.com/rinvex/subscriptions/blob/develop/LICENSE)
 
 
 ## Considerations
@@ -22,68 +22,47 @@
 
 1. Install the package via composer:
     ```shell
-    composer require rinvex/subscribable
+    composer require rinvex/subscriptions
     ```
 
 2. Execute migrations via the following command:
     ```shell
-    php artisan migrate --path="vendor/rinvex/subscribable/database/migrations"
+    php artisan rinvex:migrate:subscriptions
     ```
 
-3. Add the following service provider to the `'providers'` array inside `app/config/app.php`:
-    ```php
-    Rinvex\Subscribable\Providers\SubscribableServiceProvider::class
-    ```
-
-   And then you can publish the migrations by running the following command:
-    ```shell
-    php artisan vendor:publish --tag="migrations" --provider="Rinvex\Subscribable\Providers\SubscribableServiceProvider"
-    ```
-
-   And also you can publish the config by running the following command:
-    ```shell
-    php artisan vendor:publish --tag="config" --provider="Rinvex\Subscribable\Providers\SubscribableServiceProvider"
-    ```
-
-4. Done!
+3. Done!
 
 
 ## Usage
 
-### Add Subscribable to User model
+### Add Subscriptions to User model
 
-**Rinvex Subscribable** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscribable functionality to your User model just use the `\Rinvex\Subscribable\Traits\PlanSubscriber` trait like this:
+**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\PlanSubscriber` trait like this:
 
 ```php
-<?php
-
 namespace App\Models;
 
-use Rinvex\Subscribable\Traits\PlanSubscriber;
+use Rinvex\Subscriptions\Traits\PlanSubscriber;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use PlanSubscriber;
+}
 ```
 
-That's it, we only have to include that trait in our User model! Now your users may subscribe to plans.
+That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
 ### Create a Plan
 ```php
-<?php
-
-use Rinvex\Subscribable\Models\Plan;
-use Rinvex\Subscribable\Models\PlanFeature;
-
-$plan = Plan::create([
+$plan = app('rinvex.subscriptions.plan')->create([
     'name' => 'Pro',
     'description' => 'Pro plan',
     'price' => 9.99,
     'invoice_period' => 1,
     'invoice_interval' => 'month',
     'trial_period' => 15,
-    'trial_interval' => 'day',
+    'trial_interval' => 'd',
     'sort_order' => 1,
     'currency' => 'USD',
 ]);
@@ -102,11 +81,7 @@ $plan->features()->saveMany([
 You can query the plan for further details, using the intuitive API as follows:
 
 ```php
-<?php
-
-use Rinvex\Subscribable\Models\Plan;
-
-$plan = Plan::find(1);
+$plan = app('rinvex.subscriptions.plan')->find(1);
 
 // Get all plan features                
 $plan->features;
@@ -135,10 +110,10 @@ Say you want to show the value of the feature _pictures_per_listing_ from above.
 $amountOfPictures = $plan->getFeatureBySlug('pictures_per_listing')->value;
 
 // Query the feature itself directly
-$amountOfPictures = PlanFeature::where('slug', 'pictures_per_listing')->first()->value;
+$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('slug', 'pictures_per_listing')->first()->value;
 
 // Get feature value through the subscription instance
-$amountOfPictures = PlanSubscription::find(1)->getFeatureValue('pictures_per_listing');
+$amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
 ```
 
 ### Create a Subscription
@@ -146,12 +121,8 @@ $amountOfPictures = PlanSubscription::find(1)->getFeatureValue('pictures_per_lis
 You can subscribe a user to a plan by using the `newSubscription()` function available in the `PlanSubscriber` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
 
 ```php
-<?php
-
-use Rinvex\Subscribable\Models\Plan;
-
 $user = User::find(1);
-$plan = Plan::find(1);
+$plan = app('rinvex.subscriptions.plan')->find(1);
 
 $user->newSubscription('main', $plan);
 ```
@@ -163,12 +134,8 @@ The first argument passed to `newSubscription` method should be the name of the 
 You can change subscription plan easily as follows:
 
 ```php
-<?php
-
-use Rinvex\Subscribable\Models\PlanSubscription;
-
-$plan = Plan::find(2);
-$subscription = PlanSubscription::find(1);
+$plan = app('rinvex.subscriptions.plan')->find(2);
+$subscription = app('rinvex.subscriptions.plan_subscription')->find(1);
 
 // Change subscription plan
 $subscription->changePlan($plan);
@@ -181,16 +148,11 @@ If both plans (current and new plan) have the same billing frequency (e.g., `inv
 Plan features are great for fine tuning subscriptions, you can topup certain feature for X times of usage, so users may then use it only for that amount. Features also have the ability to be resettable and then it's usage could be expired too. See the following examples:
 
 ```php
-<?php
-
-use Carbon\Carbon;
-use Rinvex\Subscribable\Models\PlanFeature;
-
 // Find plan feature
-$feature = PlanFeature::where('slug', 'listing_duration_days')->first();
+$feature = app('rinvex.subscriptions.plan_feature')->where('slug', 'listing_duration_days')->first();
 
 // Get feature reset date
-$feature->getResetDate(new Carbon());
+$feature->getResetDate(new \Carbon\Carbon());
 ```
 
 ### Subscription Feature Usage
@@ -298,38 +260,34 @@ $user->subscription('main')->cancel(true);
 #### Subscription Model
 
 ```php
-<?php
-
-use Rinvex\Subscribable\Models\PlanSubscription;
-
 // Get subscriptions by plan:
-$subscriptions = PlanSubscription::byPlanId($plan_id)->get();
+$subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
 
 // Get subscription by user:
-$subscription = PlanSubscription::byUserId($user_id)->get();
+$subscription = app('rinvex.subscriptions.plan_subscription')->byUserId($user_id)->get();
 
 // Get subscriptions with trial ending in 3 days:
-$subscriptions = PlanSubscription::findEndingTrial(3)->get();
+$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
 
 // Get subscriptions with ended trial:
-$subscriptions = PlanSubscription::findEndedTrial()->get();
+$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedTrial()->get();
 
 // Get subscriptions with period ending in 3 days:
-$subscriptions = PlanSubscription::findEndingPeriod(3)->get();
+$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
 
 // Get subscriptions with ended period:
-$subscriptions = PlanSubscription::findEndedPeriod()->get();
+$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedPeriod()->get();
 ```
 
 ### Models
 
-**Rinvex Subscribable** uses 4 models:
+**Rinvex Subscriptions** uses 4 models:
 
 ```php
-Rinvex\Subscribable\Models\Plan;
-Rinvex\Subscribable\Models\PlanFeature;
-Rinvex\Subscribable\Models\PlanSubscription;
-Rinvex\Subscribable\Models\PlanSubscriptionUsage;
+Rinvex\Subscriptions\Models\Plan;
+Rinvex\Subscriptions\Models\PlanFeature;
+Rinvex\Subscriptions\Models\PlanSubscription;
+Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
 ```
 
 
