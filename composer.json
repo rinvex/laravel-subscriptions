@@ -42,7 +42,7 @@
         "spatie/eloquent-sortable": "^3.4.0",
         "spatie/laravel-translatable": "^2.0.0",
         "rinvex/cacheable": "dev-develop",
-        "watson/validating": "^3.0.1",
+        "watson/validating": "3.0.*",
         "nesbot/carbon": "~1.22"
     },
     "require-dev": {
