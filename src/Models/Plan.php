@@ -186,17 +186,17 @@ class Plan extends Model implements PlanContract, Sortable
             'price' => 'required|numeric',
             'signup_fee' => 'required|numeric',
             'currency' => 'required|alpha|size:3',
-            'trial_period' => 'sometimes|integer',
+            'trial_period' => 'sometimes|integer|max:10000',
             'trial_interval' => 'sometimes|in:d,w,m,y',
-            'invoice_period' => 'sometimes|integer',
+            'invoice_period' => 'sometimes|integer|max:10000',
             'invoice_interval' => 'sometimes|in:d,w,m,y',
-            'grace_period' => 'sometimes|integer',
+            'grace_period' => 'sometimes|integer|max:10000',
             'grace_interval' => 'sometimes|in:d,w,m,y',
             'sort_order' => 'nullable|integer|max:10000000',
-            'prorate_day' => 'nullable|integer',
-            'prorate_period' => 'nullable|integer',
-            'prorate_extend_due' => 'nullable|integer',
-            'active_subscribers_limit' => 'nullable|integer',
+            'prorate_day' => 'nullable|integer|max:150',
+            'prorate_period' => 'nullable|integer|max:150',
+            'prorate_extend_due' => 'nullable|integer|max:150',
+            'active_subscribers_limit' => 'nullable|integer|max:10000',
         ]);
     }
 
@@ -319,7 +319,7 @@ class Plan extends Model implements PlanContract, Sortable
     }
 
     /**
-     * Active the plan.
+     * Activate the plan.
      *
      * @return $this
      */
