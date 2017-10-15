@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Rinvex\Subscriptions\Contracts\PlanContract;
 use Rinvex\Subscriptions\Contracts\PlanFeatureContract;
 use Rinvex\Subscriptions\Console\Commands\MigrateCommand;
+use Rinvex\Subscriptions\Console\Commands\PublishCommand;
 use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
 use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
 
@@ -20,6 +21,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
      */
     protected $commands = [
         MigrateCommand::class => 'command.rinvex.subscriptions.migrate',
+        PublishCommand::class => 'command.rinvex.subscriptions.publish',
     ];
 
     /**
