@@ -147,7 +147,7 @@ class PlanFeature extends Model implements PlanFeatureContract, Sortable
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
-            'resettable_interval' => 'sometimes|in:d,w,m,y',
+            'resettable_interval' => 'sometimes|string|in:h,d,w,m',
             'sort_order' => 'nullable|integer|max:10000000',
         ]);
     }
