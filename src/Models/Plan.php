@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
@@ -198,25 +198,6 @@ class Plan extends Model implements PlanContract, Sortable
             'prorate_extend_due' => 'nullable|integer|max:150',
             'active_subscribers_limit' => 'nullable|integer|max:10000',
         ]);
-    }
-
-    /**
-     * Boot function for using with User Events.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Auto generate slugs early before validation
-        static::validating(function (self $model) {
-            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
-                $model->generateSlugOnUpdate();
-            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
-                $model->generateSlugOnCreate();
-            }
-        });
     }
 
     /**

@@ -7,8 +7,8 @@ namespace Rinvex\Subscriptions\Models;
 use DB;
 use Carbon\Carbon;
 use LogicException;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -171,16 +171,9 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
     {
         parent::boot();
 
-        // Auto generate slugs early before validation
         static::validating(function (self $model) {
             if (! $model->starts_at || ! $model->ends_at) {
                 $model->setNewPeriod();
-            }
-
-            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
-                $model->generateSlugOnUpdate();
-            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
-                $model->generateSlugOnCreate();
             }
         });
     }
