@@ -3,7 +3,6 @@
 **Rinvex Subscriptions** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/subscriptions)
-[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:subscriptions.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:subscriptions/)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/subscriptions/)
 [![Code Climate](https://img.shields.io/codeclimate/github/rinvex/subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/subscriptions)
 [![Travis](https://img.shields.io/travis/rinvex/subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/subscriptions)
