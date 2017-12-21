@@ -37,12 +37,14 @@
     ],
     "require": {
         "php": "^7.0.0",
+        "illuminate/console": "~5.5.0",
         "illuminate/support": "~5.5.0",
         "illuminate/database": "~5.5.0",
         "spatie/laravel-sluggable": "^2.0.0",
         "spatie/eloquent-sortable": "^3.4.0",
         "spatie/laravel-translatable": "^2.0.0",
         "rinvex/cacheable": "dev-develop",
+        "rinvex/support": "dev-develop",
         "watson/validating": "^3.0.0",
         "nesbot/carbon": "~1.22"
     },
