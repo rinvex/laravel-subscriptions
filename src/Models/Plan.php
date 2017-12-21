@@ -44,8 +44,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanFeature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscription[] $subscriptions
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan active()
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan inactive()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan ordered($direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereActiveSubscribersLimit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereCreatedAt($value)
@@ -198,30 +196,6 @@ class Plan extends Model implements PlanContract, Sortable
             'prorate_extend_due' => 'nullable|integer|max:150',
             'active_subscribers_limit' => 'nullable|integer|max:10000',
         ]);
-    }
-
-    /**
-     * Get the active plans.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeActive(Builder $builder): Builder
-    {
-        return $builder->where('is_active', true);
-    }
-
-    /**
-     * Get the inactive plans.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeInactive(Builder $builder): Builder
-    {
-        return $builder->where('is_active', false);
     }
 
     /**
