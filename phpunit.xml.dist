@@ -11,7 +11,8 @@
          stopOnFailure="false"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutChangesToGlobalState="true"
-         beStrictAboutCoversAnnotation="true">
+         beStrictAboutCoversAnnotation="true"
+         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer">
     <testsuites>
         <testsuite name="Rinvex Subscriptions Unit Test Suite">
             <directory>tests</directory>
