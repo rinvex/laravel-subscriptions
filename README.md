@@ -52,6 +52,7 @@ class User extends Authenticatable
 That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
 ### Create a Plan
+
 ```php
 $plan = app('rinvex.subscriptions.plan')->create([
     'name' => 'Pro',
