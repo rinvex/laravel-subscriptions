@@ -45,6 +45,7 @@
         "spatie/laravel-translatable": "^2.0.0",
         "rinvex/cacheable": "dev-develop",
         "rinvex/support": "dev-develop",
+        "roave/security-advisories": "dev-master",
         "watson/validating": "^3.0.0",
         "nesbot/carbon": "~1.22"
     },
