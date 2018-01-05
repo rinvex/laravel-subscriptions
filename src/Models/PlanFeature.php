@@ -184,7 +184,7 @@ class PlanFeature extends Model implements PlanFeatureContract, Sortable
      */
     public function getResetDate(Carbon $dateFrom): Carbon
     {
-        $period = new Period($this->resettable_interval, $this->resettable_period, $dateFrom ?? new Carbon());
+        $period = new Period($this->resettable_interval, $this->resettable_period, $dateFrom ?? now());
 
         return $period->getEndDate();
     }

@@ -80,7 +80,7 @@ trait PlanSubscriber
      */
     public function newSubscription($subscription, Plan $plan)
     {
-        $trial = new Period($plan->trial_interval, $plan->trial_period, new Carbon());
+        $trial = new Period($plan->trial_interval, $plan->trial_period, now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
 
         return $this->subscriptions()->create([

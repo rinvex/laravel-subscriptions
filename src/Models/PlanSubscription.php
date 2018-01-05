@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use DB;
-use Carbon\Carbon;
 use LogicException;
 use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
@@ -238,7 +237,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function onTrial(): bool
     {
-        return $this->trial_ends_at ? Carbon::now()->lt($this->trial_ends_at) : false;
+        return $this->trial_ends_at ? now()->lt($this->trial_ends_at) : false;
     }
 
     /**
@@ -248,7 +247,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function canceled(): bool
     {
-        return $this->canceled_at ? Carbon::now()->gte($this->canceled_at) : false;
+        return $this->canceled_at ? now()->gte($this->canceled_at) : false;
     }
 
     /**
@@ -258,7 +257,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function ended(): bool
     {
-        return $this->ends_at ? Carbon::now()->gte($this->ends_at) : false;
+        return $this->ends_at ? now()->gte($this->ends_at) : false;
     }
 
     /**
@@ -270,7 +269,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function cancel($immediately = false)
     {
-        $this->canceled_at = Carbon::now();
+        $this->canceled_at = now();
 
         if ($immediately) {
             $this->ends_at = $this->canceled_at;
@@ -357,8 +356,8 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndingTrial(Builder $builder, int $dayRange = 3): Builder
     {
-        $from = Carbon::now();
-        $to = Carbon::now()->addDays($dayRange);
+        $from = now();
+        $to = now()->addDays($dayRange);
 
         return $builder->whereBetween('trial_ends_at', [$from, $to]);
     }
@@ -372,7 +371,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndedTrial(Builder $builder): Builder
     {
-        return $builder->where('trial_ends_at', '<=', Carbon::now());
+        return $builder->where('trial_ends_at', '<=', now());
     }
 
     /**
@@ -385,8 +384,8 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndingPeriod(Builder $builder, int $dayRange = 3): Builder
     {
-        $from = Carbon::now();
-        $to = Carbon::now()->addDays($dayRange);
+        $from = now();
+        $to = now()->addDays($dayRange);
 
         return $builder->whereBetween('ends_at', [$from, $to]);
     }
@@ -400,7 +399,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndedPeriod(Builder $builder): Builder
     {
-        return $builder->where('ends_at', '<=', Carbon::now());
+        return $builder->where('ends_at', '<=', now());
     }
 
     /**

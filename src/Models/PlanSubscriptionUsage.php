@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -150,6 +149,6 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
             return false;
         }
 
-        return Carbon::now()->gte($this->valid_until);
+        return now()->gte($this->valid_until);
     }
 }
