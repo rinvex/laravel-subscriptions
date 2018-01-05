@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Traits;
 
-use Carbon\Carbon;
 use Rinvex\Subscriptions\Models\Plan;
 use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
