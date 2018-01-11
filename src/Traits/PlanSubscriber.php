@@ -84,7 +84,7 @@ trait PlanSubscriber
 
         return $this->subscriptions()->create([
             'name' => $subscription,
-            'plan_id' => $plan->id,
+            'plan_id' => $plan->getKey(),
             'trial_ends_at' => $trial->getEndDate(),
             'starts_at' => $period->getStartDate(),
             'ends_at' => $period->getEndDate(),

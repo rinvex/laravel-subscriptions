@@ -299,7 +299,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
         }
 
         // Attach new plan to subscription
-        $this->plan_id = $plan->id;
+        $this->plan_id = $plan->getKey();
         $this->save();
 
         return $this;
@@ -442,8 +442,8 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
         $feature = $this->plan->features()->where('slug', $featureSlug)->first();
 
         $usage = $this->usage()->firstOrNew([
-            'subscription_id' => $this->id,
-            'feature_id' => $feature->id,
+            'subscription_id' => $this->getKey(),
+            'feature_id' => $feature->getKey(),
         ]);
 
         if ($feature->resettable_period) {

@@ -135,7 +135,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
     {
         $feature = PlanFeature::where('slug', $featureSlug)->first();
 
-        return $builder->where('feature_id', $feature->id ?? null);
+        return $builder->where('feature_id', $feature->getKey() ?? null);
     }
 
     /**
