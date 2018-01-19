@@ -12,7 +12,7 @@ class CreatePlanFeaturesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
             // Columns
@@ -40,7 +40,7 @@ class CreatePlanFeaturesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_features'));
     }

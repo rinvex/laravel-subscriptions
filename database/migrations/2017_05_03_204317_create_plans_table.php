@@ -12,7 +12,7 @@ class CreatePlansTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plans'), function (Blueprint $table) {
             // Columns
@@ -48,7 +48,7 @@ class CreatePlansTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('rinvex.subscriptions.tables.plans'));
     }

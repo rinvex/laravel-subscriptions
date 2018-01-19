@@ -27,7 +27,7 @@ class PublishCommand extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->warn($this->description);
         $this->call('vendor:publish', ['--tag' => 'rinvex-subscriptions-config', '--force' => $this->option('force')]);

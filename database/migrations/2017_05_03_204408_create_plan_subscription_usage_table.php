@@ -12,7 +12,7 @@ class CreatePlanSubscriptionUsageTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
             $table->increments('id');
@@ -36,7 +36,7 @@ class CreatePlanSubscriptionUsageTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_subscription_usage'));
     }

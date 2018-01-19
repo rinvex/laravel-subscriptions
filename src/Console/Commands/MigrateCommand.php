@@ -27,7 +27,7 @@ class MigrateCommand extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->warn($this->description);
         $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/subscriptions/database/migrations']);
