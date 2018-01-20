@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Providers;
 
+use Rinvex\Subscriptions\Models\Plan;
 use Illuminate\Support\ServiceProvider;
-use Rinvex\Subscriptions\Contracts\PlanContract;
-use Rinvex\Subscriptions\Contracts\PlanFeatureContract;
+use Rinvex\Subscriptions\Models\PlanFeature;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
 use Rinvex\Subscriptions\Console\Commands\MigrateCommand;
 use Rinvex\Subscriptions\Console\Commands\PublishCommand;
 use Rinvex\Subscriptions\Console\Commands\RollbackCommand;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
 
 class SubscriptionsServiceProvider extends ServiceProvider
 {
@@ -39,22 +39,22 @@ class SubscriptionsServiceProvider extends ServiceProvider
         $this->app->singleton('rinvex.subscriptions.plan', function ($app) {
             return new $app['config']['rinvex.subscriptions.models.plan']();
         });
-        $this->app->alias('rinvex.subscriptions.plan', PlanContract::class);
+        $this->app->alias('rinvex.subscriptions.plan', Plan::class);
 
         $this->app->singleton('rinvex.subscriptions.plan_features', function ($app) {
             return new $app['config']['rinvex.subscriptions.models.plan_feature']();
         });
-        $this->app->alias('rinvex.subscriptions.plan_features', PlanFeatureContract::class);
+        $this->app->alias('rinvex.subscriptions.plan_features', PlanFeature::class);
 
         $this->app->singleton('rinvex.subscriptions.plan_subscriptions', function ($app) {
             return new $app['config']['rinvex.subscriptions.models.plan_subscription']();
         });
-        $this->app->alias('rinvex.subscriptions.plan_subscriptions', PlanSubscriptionContract::class);
+        $this->app->alias('rinvex.subscriptions.plan_subscriptions', PlanSubscription::class);
 
         $this->app->singleton('rinvex.subscriptions.plan_subscription_usage', function ($app) {
             return new $app['config']['rinvex.subscriptions.models.plan_subscription_usage']();
         });
-        $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsageContract::class);
+        $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsage::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();

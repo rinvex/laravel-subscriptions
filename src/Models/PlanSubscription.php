@@ -17,7 +17,6 @@ use Rinvex\Support\Traits\ValidatingTrait;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
@@ -62,7 +61,7 @@ use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserId($value)
  * @mixin \Eloquent
  */
-class PlanSubscription extends Model implements PlanSubscriptionContract
+class PlanSubscription extends Model
 {
     use HasSlug;
     use BelongsToPlan;
