@@ -267,7 +267,7 @@ class Plan extends Model implements PlanContract, Sortable
      *
      * @return \Rinvex\Subscriptions\Models\PlanFeature|null
      */
-    public function getFeatureBySlug(string $featureSlug)
+    public function getFeatureBySlug(string $featureSlug): ?PlanFeature
     {
         return $this->features()->where('slug', $featureSlug)->first();
     }

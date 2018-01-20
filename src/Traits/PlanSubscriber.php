@@ -7,6 +7,7 @@ namespace Rinvex\Subscriptions\Traits;
 use Rinvex\Subscriptions\Models\Plan;
 use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
+use Rinvex\Subscriptions\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait PlanSubscriber
@@ -38,7 +39,7 @@ trait PlanSubscriber
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscription(string $subscriptionSlug)
+    public function subscription(string $subscriptionSlug): ?PlanSubscription
     {
         return $this->subscriptions()->where('slug', $subscriptionSlug)->first();
     }
@@ -48,7 +49,7 @@ trait PlanSubscriber
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscribedPlans()
+    public function subscribedPlans(): ?PlanSubscription
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
@@ -77,7 +78,7 @@ trait PlanSubscriber
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function newSubscription($subscription, Plan $plan)
+    public function newSubscription($subscription, Plan $plan): PlanSubscription
     {
         $trial = new Period($plan->trial_interval, $plan->trial_period, now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());

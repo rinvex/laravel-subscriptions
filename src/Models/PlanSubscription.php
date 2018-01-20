@@ -215,7 +215,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return bool
      */
-    public function active()
+    public function active(): bool
     {
         return ! $this->ended() || $this->onTrial();
     }
@@ -225,7 +225,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return bool
      */
-    public function inactive()
+    public function inactive(): bool
     {
         return ! $this->active();
     }
@@ -475,12 +475,12 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage|null
      */
-    public function reduceFeatureUsage(string $featureSlug, int $uses = 1)
+    public function reduceFeatureUsage(string $featureSlug, int $uses = 1): ?PlanSubscriptionUsage
     {
         $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if (is_null($usage)) {
-            return;
+            return null;
         }
 
         $usage->used = max($usage->used - $uses, 0);
