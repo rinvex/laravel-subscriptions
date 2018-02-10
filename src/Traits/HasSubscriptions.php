@@ -26,13 +26,13 @@ trait HasSubscriptions
     abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
 
     /**
-     * The customer may have many subscriptions.
+     * The user may have many subscriptions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function subscriptions(): MorphMany
     {
-        return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'customer');
+        return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'user');
     }
 
     /**

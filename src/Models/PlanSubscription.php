@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * Rinvex\Subscriptions\Models\PlanSubscription.
  *
  * @property int                                                                                                $id
- * @property int                                                                                                $customer_id
- * @property string                                                                                             $customer_type
+ * @property int                                                                                                $user_id
+ * @property string                                                                                             $user_type
  * @property int                                                                                                $plan_id
  * @property string                                                                                             $slug
  * @property array                                                                                              $name
@@ -38,19 +38,17 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property \Carbon\Carbon                                                                                     $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                 $customer
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                 $user
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription byPlanId($planId)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedPeriod()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedTrial()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingPeriod($dayRange = 3)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingTrial($dayRange = 3)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription ofCustomer(\Illuminate\Database\Eloquent\Model $customer)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription ofUser(\Illuminate\Database\Eloquent\Model $user)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCanceledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCancelsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCustomerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCustomerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereEndsAt($value)
@@ -61,6 +59,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereStartsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserType($value)
  * @mixin \Eloquent
  */
 class PlanSubscription extends Model
@@ -75,8 +75,8 @@ class PlanSubscription extends Model
      * {@inheritdoc}
      */
     protected $fillable = [
-        'customer_id',
-        'customer_type',
+        'user_id',
+        'user_type',
         'plan_id',
         'slug',
         'name',
@@ -92,8 +92,8 @@ class PlanSubscription extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'customer_id' => 'integer',
-        'customer_type' => 'string',
+        'user_id' => 'integer',
+        'user_type' => 'string',
         'plan_id' => 'integer',
         'slug' => 'string',
         'trial_ends_at' => 'datetime',
@@ -152,8 +152,8 @@ class PlanSubscription extends Model
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
-            'customer_id' => 'required|integer',
-            'customer_type' => 'required|string',
+            'user_id' => 'required|integer',
+            'user_type' => 'required|string',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
@@ -190,11 +190,11 @@ class PlanSubscription extends Model
     }
 
     /**
-     * Get the owning customer.
+     * Get the owning user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function customer(): MorphTo
+    public function user(): MorphTo
     {
         return $this->morphTo();
     }
@@ -333,16 +333,16 @@ class PlanSubscription extends Model
     }
 
     /**
-     * Get bookings of the given customer.
+     * Get bookings of the given user.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param \Illuminate\Database\Eloquent\Model   $customer
+     * @param \Illuminate\Database\Eloquent\Model   $user
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOfCustomer(Builder $builder, Model $customer): Builder
+    public function scopeOfUser(Builder $builder, Model $user): Builder
     {
-        return $builder->where('customer_type', $customer->getMorphClass())->where('customer_id', $customer->getKey());
+        return $builder->where('user_type', $user->getMorphClass())->where('user_id', $user->getKey());
     }
 
     /**

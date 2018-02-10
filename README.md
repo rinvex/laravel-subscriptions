@@ -263,9 +263,9 @@ $user->subscription('main')->cancel(true);
 // Get subscriptions by plan
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
 
-// Get bookings of the given customer
-$customer = \App\Models\Customer::find(1);
-$bookingsOfCustomer = app('rinvex.subscriptions.plan_subscription')->ofCustomer($customer)->get(); 
+// Get bookings of the given user
+$user = \App\Models\User::find(1);
+$bookingsOfUser = app('rinvex.subscriptions.plan_subscription')->ofUser($user)->get(); 
 
 // Get subscriptions with trial ending in 3 days
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
