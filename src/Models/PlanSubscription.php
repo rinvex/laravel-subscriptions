@@ -16,38 +16,41 @@ use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
  *
- * @property int                                                                                               $id
- * @property int                                                                                               $user_id
- * @property int                                                                                               $plan_id
- * @property string                                                                                            $slug
- * @property array                                                                                             $name
- * @property array                                                                                             $description
- * @property \Carbon\Carbon                                                                                    $trial_ends_at
- * @property \Carbon\Carbon                                                                                    $starts_at
- * @property \Carbon\Carbon                                                                                    $ends_at
- * @property \Carbon\Carbon                                                                                    $cancels_at
- * @property \Carbon\Carbon                                                                                    $canceled_at
- * @property \Carbon\Carbon                                                                                    $created_at
- * @property \Carbon\Carbon                                                                                    $updated_at
- * @property \Carbon\Carbon                                                                                    $deleted_at
+ * @property int                                                                                                $id
+ * @property int                                                                                                $customer_id
+ * @property string                                                                                             $customer_type
+ * @property int                                                                                                $plan_id
+ * @property string                                                                                             $slug
+ * @property array                                                                                              $name
+ * @property array                                                                                              $description
+ * @property \Carbon\Carbon                                                                                     $trial_ends_at
+ * @property \Carbon\Carbon                                                                                     $starts_at
+ * @property \Carbon\Carbon                                                                                     $ends_at
+ * @property \Carbon\Carbon                                                                                     $cancels_at
+ * @property \Carbon\Carbon                                                                                     $canceled_at
+ * @property \Carbon\Carbon                                                                                     $created_at
+ * @property \Carbon\Carbon                                                                                     $updated_at
+ * @property \Carbon\Carbon                                                                                     $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                $user
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                 $customer
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription byPlanId($planId)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription byUserId($userId)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedPeriod()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedTrial()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingPeriod($dayRange = 3)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingTrial($dayRange = 3)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription ofCustomer(\Illuminate\Database\Eloquent\Model $customer)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCanceledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCancelsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCustomerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereEndsAt($value)
@@ -58,7 +61,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereStartsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserId($value)
  * @mixin \Eloquent
  */
 class PlanSubscription extends Model
@@ -73,7 +75,8 @@ class PlanSubscription extends Model
      * {@inheritdoc}
      */
     protected $fillable = [
-        'user_id',
+        'customer_id',
+        'customer_type',
         'plan_id',
         'slug',
         'name',
@@ -89,7 +92,8 @@ class PlanSubscription extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'user_id' => 'integer',
+        'customer_id' => 'integer',
+        'customer_type' => 'string',
         'plan_id' => 'integer',
         'slug' => 'string',
         'trial_ends_at' => 'datetime',
@@ -142,16 +146,14 @@ class PlanSubscription extends Model
     {
         parent::__construct($attributes);
 
-        // Get users model
-        $userModel = config('auth.providers.'.config('auth.guards.'.config('auth.defaults.guard').'.provider').'.model');
-
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
-            'user_id' => 'required|integer|exists:'.(new $userModel())->getTable().',id',
+            'customer_id' => 'required|integer',
+            'customer_type' => 'required|string',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
@@ -190,13 +192,13 @@ class PlanSubscription extends Model
     }
 
     /**
-     * The subscription must always belongs to a user.
+     * Get the owning customer.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function user(): belongsTo
+    public function customer(): MorphTo
     {
-        return $this->belongsTo(config('auth.providers.users.model'), 'user_id', 'id');
+        return $this->morphTo();
     }
 
     /**
@@ -333,16 +335,16 @@ class PlanSubscription extends Model
     }
 
     /**
-     * Scope subscriptions by user id.
+     * Get bookings of the given customer.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param int                                   $userId
+     * @param \Illuminate\Database\Eloquent\Model   $customer
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeByUserId(Builder $builder, int $userId): Builder
+    public function scopeOfCustomer(Builder $builder, Model $customer): Builder
     {
-        return $builder->where('user_id', $userId);
+        return $builder->where('customer_type', $customer->getMorphClass())->where('customer_id', $customer->getKey());
     }
 
     /**

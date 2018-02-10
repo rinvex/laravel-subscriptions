@@ -8,18 +8,31 @@ use Rinvex\Subscriptions\Models\Plan;
 use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
 use Rinvex\Subscriptions\Models\PlanSubscription;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait PlanSubscriber
 {
     /**
-     * A model may have many subscriptions.
+     * Define a polymorphic one-to-many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param string $related
+     * @param string $name
+     * @param string $type
+     * @param string $id
+     * @param string $localKey
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function subscriptions(): HasMany
+    abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
+
+    /**
+     * The customer may have many subscriptions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function subscriptions(): MorphMany
     {
-        return $this->hasMany(config('rinvex.subscriptions.models.plan_subscription'), 'user_id', 'id');
+        return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'customer');
     }
 
     /**
