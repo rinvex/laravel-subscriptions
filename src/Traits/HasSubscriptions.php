@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Rinvex\Subscriptions\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait PlanSubscriber
+trait HasSubscriptions
 {
     /**
      * Define a polymorphic one-to-many relationship.
