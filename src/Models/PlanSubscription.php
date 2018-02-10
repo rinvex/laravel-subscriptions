@@ -163,9 +163,7 @@ class PlanSubscription extends Model
     }
 
     /**
-     * Boot function for using with User Events.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected static function boot()
     {

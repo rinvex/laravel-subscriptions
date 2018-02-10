@@ -260,23 +260,23 @@ $user->subscription('main')->cancel(true);
 #### Subscription Model
 
 ```php
-// Get subscriptions by plan:
+// Get subscriptions by plan
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
 
 // Get bookings of the given customer
 $customer = \App\Models\Customer::find(1);
-$bookingsOfCustomer = app('rinvex.subscriptions.plan_subscription')->ofCustomer($customer)->get();
+$bookingsOfCustomer = app('rinvex.subscriptions.plan_subscription')->ofCustomer($customer)->get(); 
 
-// Get subscriptions with trial ending in 3 days:
+// Get subscriptions with trial ending in 3 days
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
 
-// Get subscriptions with ended trial:
+// Get subscriptions with ended trial
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedTrial()->get();
 
-// Get subscriptions with period ending in 3 days:
+// Get subscriptions with period ending in 3 days
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
 
-// Get subscriptions with ended period:
+// Get subscriptions with ended period
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedPeriod()->get();
 ```
 
