@@ -25,11 +25,11 @@ class CreatePlansTable extends Migration
             $table->decimal('signup_fee')->default('0.00');
             $table->string('currency', 3);
             $table->smallInteger('trial_period')->unsigned()->default(0);
-            $table->char('trial_interval', 1)->default('d');
+            $table->string('trial_interval')->default('day');
             $table->smallInteger('invoice_period')->unsigned()->default(0);
-            $table->char('invoice_interval', 1)->default('m');
+            $table->string('invoice_interval')->default('month');
             $table->smallInteger('grace_period')->unsigned()->default(0);
-            $table->char('grace_interval', 1)->default('d');
+            $table->string('grace_interval')->default('day');
             $table->tinyInteger('prorate_day')->unsigned()->nullable();
             $table->tinyInteger('prorate_period')->unsigned()->nullable();
             $table->tinyInteger('prorate_extend_due')->unsigned()->nullable();
