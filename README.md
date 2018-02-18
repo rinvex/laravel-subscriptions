@@ -3,11 +3,9 @@
 **Rinvex Subscriptions** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/subscriptions)
-[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:subscriptions.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:subscriptions/)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/subscriptions/)
 [![Code Climate](https://img.shields.io/codeclimate/github/rinvex/subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/subscriptions)
 [![Travis](https://img.shields.io/travis/rinvex/subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/subscriptions)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/81ab6092-1c20-4eb3-b180-2fd13114384e.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/81ab6092-1c20-4eb3-b180-2fd13114384e)
 [![StyleCI](https://styleci.io/repos/93313402/shield)](https://styleci.io/repos/93313402)
 [![License](https://img.shields.io/packagist/l/rinvex/subscriptions.svg?label=License&style=flat-square)](https://github.com/rinvex/subscriptions/blob/develop/LICENSE)
 
@@ -37,32 +35,34 @@
 
 ### Add Subscriptions to User model
 
-**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\PlanSubscriber` trait like this:
+**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\HasSubscriptions` trait like this:
 
 ```php
 namespace App\Models;
 
-use Rinvex\Subscriptions\Traits\PlanSubscriber;
+use Rinvex\Subscriptions\Traits\HasSubscriptions;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use PlanSubscriber;
+    use HasSubscriptions;
 }
 ```
 
 That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
 ### Create a Plan
+
 ```php
 $plan = app('rinvex.subscriptions.plan')->create([
     'name' => 'Pro',
     'description' => 'Pro plan',
     'price' => 9.99,
+    'signup_fee' => 1.99,
     'invoice_period' => 1,
     'invoice_interval' => 'month',
     'trial_period' => 15,
-    'trial_interval' => 'd',
+    'trial_interval' => 'day',
     'sort_order' => 1,
     'currency' => 'USD',
 ]);
@@ -118,7 +118,7 @@ $amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getF
 
 ### Create a Subscription
 
-You can subscribe a user to a plan by using the `newSubscription()` function available in the `PlanSubscriber` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
+You can subscribe a user to a plan by using the `newSubscription()` function available in the `HasSubscriptions` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
 
 ```php
 $user = User::find(1);
@@ -260,22 +260,23 @@ $user->subscription('main')->cancel(true);
 #### Subscription Model
 
 ```php
-// Get subscriptions by plan:
+// Get subscriptions by plan
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
 
-// Get subscription by user:
-$subscription = app('rinvex.subscriptions.plan_subscription')->byUserId($user_id)->get();
+// Get bookings of the given user
+$user = \App\Models\User::find(1);
+$bookingsOfUser = app('rinvex.subscriptions.plan_subscription')->ofUser($user)->get(); 
 
-// Get subscriptions with trial ending in 3 days:
+// Get subscriptions with trial ending in 3 days
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
 
-// Get subscriptions with ended trial:
+// Get subscriptions with ended trial
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedTrial()->get();
 
-// Get subscriptions with period ending in 3 days:
+// Get subscriptions with period ending in 3 days
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
 
-// Get subscriptions with ended period:
+// Get subscriptions with ended period
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedPeriod()->get();
 ```
 
@@ -332,4 +333,4 @@ Rinvex is a software solutions startup, specialized in integrated enterprise sol
 
 This software is released under [The MIT License (MIT)](LICENSE).
 
-(c) 2016-2017 Rinvex LLC, Some rights reserved.
+(c) 2016-2018 Rinvex LLC, Some rights reserved.

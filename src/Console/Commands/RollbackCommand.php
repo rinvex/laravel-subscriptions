@@ -6,21 +6,21 @@ namespace Rinvex\Subscriptions\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class MigrateCommand extends Command
+class RollbackCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'rinvex:migrate:subscriptions {--force : Force the operation to run when in production.}';
+    protected $signature = 'rinvex:rollback:subscriptions {--force : Force the operation to run when in production.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Migrate Rinvex Subscriptions Tables.';
+    protected $description = 'Rollback Rinvex Subscriptions Tables.';
 
     /**
      * Execute the console command.
@@ -30,6 +30,6 @@ class MigrateCommand extends Command
     public function handle(): void
     {
         $this->warn($this->description);
-        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/subscriptions/database/migrations', '--force' => $this->option('force')]);
+        $this->call('migrate:reset', ['--path' => 'vendor/rinvex/subscriptions/database/migrations', '--force' => $this->option('force')]);
     }
 }

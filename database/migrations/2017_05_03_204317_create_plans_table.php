@@ -12,7 +12,7 @@ class CreatePlansTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plans'), function (Blueprint $table) {
             // Columns
@@ -25,11 +25,11 @@ class CreatePlansTable extends Migration
             $table->decimal('signup_fee')->default('0.00');
             $table->string('currency', 3);
             $table->smallInteger('trial_period')->unsigned()->default(0);
-            $table->char('trial_interval', 1)->default('d');
+            $table->string('trial_interval')->default('day');
             $table->smallInteger('invoice_period')->unsigned()->default(0);
-            $table->char('invoice_interval', 1)->default('m');
+            $table->string('invoice_interval')->default('month');
             $table->smallInteger('grace_period')->unsigned()->default(0);
-            $table->char('grace_interval', 1)->default('d');
+            $table->string('grace_interval')->default('day');
             $table->tinyInteger('prorate_day')->unsigned()->nullable();
             $table->tinyInteger('prorate_period')->unsigned()->nullable();
             $table->tinyInteger('prorate_extend_due')->unsigned()->nullable();
@@ -48,7 +48,7 @@ class CreatePlansTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('rinvex.subscriptions.tables.plans'));
     }
@@ -58,7 +58,7 @@ class CreatePlansTable extends Migration
      *
      * @return string
      */
-    protected function jsonable()
+    protected function jsonable(): string
     {
         return DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql'
                && version_compare(DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '5.7.8', 'ge')

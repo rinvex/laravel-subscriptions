@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
@@ -37,7 +35,7 @@ use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
-class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContract
+class PlanSubscriptionUsage extends Model
 {
     use ValidatingTrait;
     use CacheableEloquent;
@@ -136,7 +134,7 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
     {
         $feature = PlanFeature::where('slug', $featureSlug)->first();
 
-        return $builder->where('feature_id', $feature->id ?? null);
+        return $builder->where('feature_id', $feature->getKey() ?? null);
     }
 
     /**
@@ -150,6 +148,6 @@ class PlanSubscriptionUsage extends Model implements PlanSubscriptionUsageContra
             return false;
         }
 
-        return Carbon::now()->gte($this->valid_until);
+        return now()->gte($this->valid_until);
     }
 }

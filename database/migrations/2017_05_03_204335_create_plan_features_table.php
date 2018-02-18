@@ -12,7 +12,7 @@ class CreatePlanFeaturesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
             // Columns
@@ -23,7 +23,7 @@ class CreatePlanFeaturesTable extends Migration
             $table->{$this->jsonable()}('description')->nullable();
             $table->string('value');
             $table->smallInteger('resettable_period')->unsigned()->default(0);
-            $table->char('resettable_interval', 1)->default('m');
+            $table->string('resettable_interval')->default('month');
             $table->mediumInteger('sort_order')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -40,7 +40,7 @@ class CreatePlanFeaturesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_features'));
     }
@@ -50,7 +50,7 @@ class CreatePlanFeaturesTable extends Migration
      *
      * @return string
      */
-    protected function jsonable()
+    protected function jsonable(): string
     {
         return DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql'
                && version_compare(DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION), '5.7.8', 'ge')

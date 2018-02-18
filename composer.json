@@ -4,6 +4,7 @@
     "keywords": [
         "plan",
         "value",
+        "laravel",
         "feature",
         "database",
         "recurring",
@@ -35,19 +36,22 @@
         }
     ],
     "require": {
-        "php": "^7.0.0",
-        "illuminate/support": "~5.5.0",
-        "illuminate/database": "~5.5.0",
-        "spatie/laravel-sluggable": "^2.0.0",
-        "spatie/eloquent-sortable": "^3.4.0",
-        "spatie/laravel-translatable": "^2.0.0",
+        "php": "^7.1.3",
+        "illuminate/console": "~5.6.0",
+        "illuminate/database": "~5.6.0",
+        "illuminate/support": "~5.6.0",
+        "nesbot/carbon": "~1.22",
         "rinvex/cacheable": "dev-develop",
-        "watson/validating": "^3.0.1",
-        "nesbot/carbon": "~1.22"
+        "rinvex/support": "dev-develop",
+        "spatie/eloquent-sortable": "^3.4.0",
+        "spatie/laravel-sluggable": "^2.1.0",
+        "spatie/laravel-translatable": "^2.1.0",
+        "watson/validating": "^3.1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0.0",
-        "illuminate/container": "~5.5.0"
+        "codedungeon/phpunit-result-printer": "^0.6.0",
+        "illuminate/container": "~5.6.0",
+        "phpunit/phpunit": "^7.0.0"
     },
     "autoload": {
         "classmap": [
@@ -58,8 +62,8 @@
         }
     },
     "config": {
-        "preferred-install": "dist",
         "sort-packages": true,
+        "preferred-install": "dist",
         "optimize-autoloader": true
     },
     "extra": {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
@@ -16,7 +16,6 @@ use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Rinvex\Subscriptions\Contracts\PlanFeatureContract;
 
 /**
  * Rinvex\Subscriptions\Models\PlanFeature.
@@ -52,7 +51,7 @@ use Rinvex\Subscriptions\Contracts\PlanFeatureContract;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereValue($value)
  * @mixin \Eloquent
  */
-class PlanFeature extends Model implements PlanFeatureContract, Sortable
+class PlanFeature extends Model implements Sortable
 {
     use HasSlug;
     use BelongsToPlan;
@@ -147,26 +146,9 @@ class PlanFeature extends Model implements PlanFeatureContract, Sortable
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
-            'resettable_interval' => 'sometimes|in:d,w,m,y',
+            'resettable_interval' => 'sometimes|string|in:hour,day,week,month',
             'sort_order' => 'nullable|integer|max:10000000',
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Auto generate slugs early before validation
-        static::validating(function (self $model) {
-            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
-                $model->generateSlugOnUpdate();
-            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
-                $model->generateSlugOnCreate();
-            }
-        });
     }
 
     /**
@@ -201,7 +183,7 @@ class PlanFeature extends Model implements PlanFeatureContract, Sortable
      */
     public function getResetDate(Carbon $dateFrom): Carbon
     {
-        $period = new Period($this->resettable_interval, $this->resettable_period, $dateFrom ?? new Carbon());
+        $period = new Period($this->resettable_interval, $this->resettable_period, $dateFrom ?? now());
 
         return $period->getEndDate();
     }

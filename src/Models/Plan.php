@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
-use Rinvex\Subscriptions\Contracts\PlanContract;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -44,8 +42,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanFeature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscription[] $subscriptions
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan active()
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan inactive()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan ordered($direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereActiveSubscribersLimit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereCreatedAt($value)
@@ -71,7 +67,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Plan extends Model implements PlanContract, Sortable
+class Plan extends Model implements Sortable
 {
     use HasSlug;
     use SortableTrait;
@@ -186,61 +182,18 @@ class Plan extends Model implements PlanContract, Sortable
             'price' => 'required|numeric',
             'signup_fee' => 'required|numeric',
             'currency' => 'required|alpha|size:3',
-            'trial_period' => 'sometimes|integer',
-            'trial_interval' => 'sometimes|in:d,w,m,y',
-            'invoice_period' => 'sometimes|integer',
-            'invoice_interval' => 'sometimes|in:d,w,m,y',
-            'grace_period' => 'sometimes|integer',
-            'grace_interval' => 'sometimes|in:d,w,m,y',
+            'trial_period' => 'sometimes|integer|max:10000',
+            'trial_interval' => 'sometimes|string|in:hour,day,week,month',
+            'invoice_period' => 'sometimes|integer|max:10000',
+            'invoice_interval' => 'sometimes|string|in:hour,day,week,month',
+            'grace_period' => 'sometimes|integer|max:10000',
+            'grace_interval' => 'sometimes|string|in:hour,day,week,month',
             'sort_order' => 'nullable|integer|max:10000000',
-            'prorate_day' => 'nullable|integer',
-            'prorate_period' => 'nullable|integer',
-            'prorate_extend_due' => 'nullable|integer',
-            'active_subscribers_limit' => 'nullable|integer',
+            'prorate_day' => 'nullable|integer|max:150',
+            'prorate_period' => 'nullable|integer|max:150',
+            'prorate_extend_due' => 'nullable|integer|max:150',
+            'active_subscribers_limit' => 'nullable|integer|max:10000',
         ]);
-    }
-
-    /**
-     * Boot function for using with User Events.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Auto generate slugs early before validation
-        static::validating(function (self $model) {
-            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
-                $model->generateSlugOnUpdate();
-            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
-                $model->generateSlugOnCreate();
-            }
-        });
-    }
-
-    /**
-     * Get the active plans.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeActive(Builder $builder): Builder
-    {
-        return $builder->where('is_active', true);
-    }
-
-    /**
-     * Get the inactive plans.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeInactive(Builder $builder): Builder
-    {
-        return $builder->where('is_active', false);
     }
 
     /**
@@ -313,13 +266,13 @@ class Plan extends Model implements PlanContract, Sortable
      *
      * @return \Rinvex\Subscriptions\Models\PlanFeature|null
      */
-    public function getFeatureBySlug(string $featureSlug)
+    public function getFeatureBySlug(string $featureSlug): ?PlanFeature
     {
         return $this->features()->where('slug', $featureSlug)->first();
     }
 
     /**
-     * Active the plan.
+     * Activate the plan.
      *
      * @return $this
      */

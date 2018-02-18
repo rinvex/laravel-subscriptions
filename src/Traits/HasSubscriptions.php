@@ -4,22 +4,35 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Traits;
 
-use Carbon\Carbon;
 use Rinvex\Subscriptions\Models\Plan;
 use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait PlanSubscriber
+trait HasSubscriptions
 {
     /**
-     * A model may have many subscriptions.
+     * Define a polymorphic one-to-many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param string $related
+     * @param string $name
+     * @param string $type
+     * @param string $id
+     * @param string $localKey
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function subscriptions(): HasMany
+    abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
+
+    /**
+     * The user may have many subscriptions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function subscriptions(): MorphMany
     {
-        return $this->hasMany(config('rinvex.subscriptions.models.plan_subscription'), 'user_id', 'id');
+        return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'user');
     }
 
     /**
@@ -39,7 +52,7 @@ trait PlanSubscriber
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscription(string $subscriptionSlug)
+    public function subscription(string $subscriptionSlug): ?PlanSubscription
     {
         return $this->subscriptions()->where('slug', $subscriptionSlug)->first();
     }
@@ -49,7 +62,7 @@ trait PlanSubscriber
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscribedPlans()
+    public function subscribedPlans(): ?PlanSubscription
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
@@ -73,19 +86,19 @@ trait PlanSubscriber
     /**
      * Subscribe user to a new plan.
      *
-     * @param string                           $subscription
+     * @param string                            $subscription
      * @param \Rinvex\Subscriptions\Models\Plan $plan
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function newSubscription($subscription, Plan $plan)
+    public function newSubscription($subscription, Plan $plan): PlanSubscription
     {
-        $trial = new Period($plan->trial_interval, $plan->trial_period, new Carbon());
+        $trial = new Period($plan->trial_interval, $plan->trial_period, now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
 
         return $this->subscriptions()->create([
             'name' => $subscription,
-            'plan_id' => $plan->id,
+            'plan_id' => $plan->getKey(),
             'trial_ends_at' => $trial->getEndDate(),
             'starts_at' => $period->getStartDate(),
             'ends_at' => $period->getEndDate(),

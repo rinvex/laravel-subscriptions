@@ -5,48 +5,47 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use DB;
-use Carbon\Carbon;
 use LogicException;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Rinvex\Cacheable\CacheableEloquent;
-use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Builder;
+use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
  *
- * @property int                                                                                               $id
- * @property int                                                                                               $user_id
- * @property int                                                                                               $plan_id
- * @property string                                                                                            $slug
- * @property array                                                                                             $name
- * @property array                                                                                             $description
- * @property \Carbon\Carbon                                                                                    $trial_ends_at
- * @property \Carbon\Carbon                                                                                    $starts_at
- * @property \Carbon\Carbon                                                                                    $ends_at
- * @property \Carbon\Carbon                                                                                    $cancels_at
- * @property \Carbon\Carbon                                                                                    $canceled_at
- * @property \Carbon\Carbon                                                                                    $created_at
- * @property \Carbon\Carbon                                                                                    $updated_at
- * @property \Carbon\Carbon                                                                                    $deleted_at
+ * @property int                                                                                                $id
+ * @property int                                                                                                $user_id
+ * @property string                                                                                             $user_type
+ * @property int                                                                                                $plan_id
+ * @property string                                                                                             $slug
+ * @property array                                                                                              $name
+ * @property array                                                                                              $description
+ * @property \Carbon\Carbon                                                                                     $trial_ends_at
+ * @property \Carbon\Carbon                                                                                     $starts_at
+ * @property \Carbon\Carbon                                                                                     $ends_at
+ * @property \Carbon\Carbon                                                                                     $cancels_at
+ * @property \Carbon\Carbon                                                                                     $canceled_at
+ * @property \Carbon\Carbon                                                                                     $created_at
+ * @property \Carbon\Carbon                                                                                     $updated_at
+ * @property \Carbon\Carbon                                                                                     $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                $user
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                 $user
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription byPlanId($planId)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription byUserId($userId)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedPeriod()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedTrial()
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingPeriod($dayRange = 3)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingTrial($dayRange = 3)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription ofUser(\Illuminate\Database\Eloquent\Model $user)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCanceledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCancelsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCreatedAt($value)
@@ -61,9 +60,10 @@ use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserType($value)
  * @mixin \Eloquent
  */
-class PlanSubscription extends Model implements PlanSubscriptionContract
+class PlanSubscription extends Model
 {
     use HasSlug;
     use BelongsToPlan;
@@ -76,6 +76,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     protected $fillable = [
         'user_id',
+        'user_type',
         'plan_id',
         'slug',
         'name',
@@ -92,6 +93,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     protected $casts = [
         'user_id' => 'integer',
+        'user_type' => 'string',
         'plan_id' => 'integer',
         'slug' => 'string',
         'trial_ends_at' => 'datetime',
@@ -144,16 +146,14 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
     {
         parent::__construct($attributes);
 
-        // Get users model
-        $userModel = config('auth.providers.'.config('auth.guards.'.config('auth.defaults.guard').'.provider').'.model');
-
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
-            'user_id' => 'required|integer|exists:'.(new $userModel())->getTable().',id',
+            'user_id' => 'required|integer',
+            'user_type' => 'required|string',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
@@ -163,24 +163,15 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
     }
 
     /**
-     * Boot function for using with User Events.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected static function boot()
     {
         parent::boot();
 
-        // Auto generate slugs early before validation
         static::validating(function (self $model) {
             if (! $model->starts_at || ! $model->ends_at) {
                 $model->setNewPeriod();
-            }
-
-            if ($model->exists && $model->getSlugOptions()->generateSlugsOnUpdate) {
-                $model->generateSlugOnUpdate();
-            } elseif (! $model->exists && $model->getSlugOptions()->generateSlugsOnCreate) {
-                $model->generateSlugOnCreate();
             }
         });
     }
@@ -199,13 +190,13 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
     }
 
     /**
-     * The subscription must always belongs to a user.
+     * Get the owning user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function user(): belongsTo
+    public function user(): MorphTo
     {
-        return $this->belongsTo(config('auth.providers.users.model'), 'user_id', 'id');
+        return $this->morphTo();
     }
 
     /**
@@ -223,7 +214,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return bool
      */
-    public function active()
+    public function active(): bool
     {
         return ! $this->ended() || $this->onTrial();
     }
@@ -233,7 +224,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return bool
      */
-    public function inactive()
+    public function inactive(): bool
     {
         return ! $this->active();
     }
@@ -245,7 +236,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function onTrial(): bool
     {
-        return $this->trial_ends_at ? Carbon::now()->lt($this->trial_ends_at) : false;
+        return $this->trial_ends_at ? now()->lt($this->trial_ends_at) : false;
     }
 
     /**
@@ -255,7 +246,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function canceled(): bool
     {
-        return $this->canceled_at ? Carbon::now()->gte($this->canceled_at) : false;
+        return $this->canceled_at ? now()->gte($this->canceled_at) : false;
     }
 
     /**
@@ -265,7 +256,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function ended(): bool
     {
-        return $this->ends_at ? Carbon::now()->gte($this->ends_at) : false;
+        return $this->ends_at ? now()->gte($this->ends_at) : false;
     }
 
     /**
@@ -277,7 +268,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function cancel($immediately = false)
     {
-        $this->canceled_at = Carbon::now();
+        $this->canceled_at = now();
 
         if ($immediately) {
             $this->ends_at = $this->canceled_at;
@@ -307,7 +298,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
         }
 
         // Attach new plan to subscription
-        $this->plan_id = $plan->id;
+        $this->plan_id = $plan->getKey();
         $this->save();
 
         return $this;
@@ -342,16 +333,16 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
     }
 
     /**
-     * Scope subscriptions by user id.
+     * Get bookings of the given user.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param int                                   $userId
+     * @param \Illuminate\Database\Eloquent\Model   $user
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeByUserId(Builder $builder, int $userId): Builder
+    public function scopeOfUser(Builder $builder, Model $user): Builder
     {
-        return $builder->where('user_id', $userId);
+        return $builder->where('user_type', $user->getMorphClass())->where('user_id', $user->getKey());
     }
 
     /**
@@ -364,8 +355,8 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndingTrial(Builder $builder, int $dayRange = 3): Builder
     {
-        $from = Carbon::now();
-        $to = Carbon::now()->addDays($dayRange);
+        $from = now();
+        $to = now()->addDays($dayRange);
 
         return $builder->whereBetween('trial_ends_at', [$from, $to]);
     }
@@ -379,7 +370,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndedTrial(Builder $builder): Builder
     {
-        return $builder->where('trial_ends_at', '<=', Carbon::now());
+        return $builder->where('trial_ends_at', '<=', now());
     }
 
     /**
@@ -392,8 +383,8 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndingPeriod(Builder $builder, int $dayRange = 3): Builder
     {
-        $from = Carbon::now();
-        $to = Carbon::now()->addDays($dayRange);
+        $from = now();
+        $to = now()->addDays($dayRange);
 
         return $builder->whereBetween('ends_at', [$from, $to]);
     }
@@ -407,7 +398,7 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      */
     public function scopeFindEndedPeriod(Builder $builder): Builder
     {
-        return $builder->where('ends_at', '<=', Carbon::now());
+        return $builder->where('ends_at', '<=', now());
     }
 
     /**
@@ -450,8 +441,8 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
         $feature = $this->plan->features()->where('slug', $featureSlug)->first();
 
         $usage = $this->usage()->firstOrNew([
-            'subscription_id' => $this->id,
-            'feature_id' => $feature->id,
+            'subscription_id' => $this->getKey(),
+            'feature_id' => $feature->getKey(),
         ]);
 
         if ($feature->resettable_period) {
@@ -483,12 +474,12 @@ class PlanSubscription extends Model implements PlanSubscriptionContract
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage|null
      */
-    public function reduceFeatureUsage(string $featureSlug, int $uses = 1)
+    public function reduceFeatureUsage(string $featureSlug, int $uses = 1): ?PlanSubscriptionUsage
     {
         $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if (is_null($usage)) {
-            return;
+            return null;
         }
 
         $usage->used = max($usage->used - $uses, 0);

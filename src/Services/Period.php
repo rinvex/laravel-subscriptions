@@ -48,7 +48,7 @@ class Period
     public function __construct($interval = 'm', $count = 1, $start = '')
     {
         if (empty($start)) {
-            $this->start = new Carbon();
+            $this->start = now();
         } elseif (! $start instanceof Carbon) {
             $this->start = new Carbon($start);
         } else {

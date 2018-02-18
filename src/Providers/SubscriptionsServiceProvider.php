@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Providers;
 
+use Rinvex\Subscriptions\Models\Plan;
 use Illuminate\Support\ServiceProvider;
-use Rinvex\Subscriptions\Contracts\PlanContract;
-use Rinvex\Subscriptions\Contracts\PlanFeatureContract;
+use Rinvex\Subscriptions\Models\PlanFeature;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
 use Rinvex\Subscriptions\Console\Commands\MigrateCommand;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionContract;
-use Rinvex\Subscriptions\Contracts\PlanSubscriptionUsageContract;
+use Rinvex\Subscriptions\Console\Commands\PublishCommand;
+use Rinvex\Subscriptions\Console\Commands\RollbackCommand;
 
 class SubscriptionsServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
      */
     protected $commands = [
         MigrateCommand::class => 'command.rinvex.subscriptions.migrate',
+        PublishCommand::class => 'command.rinvex.subscriptions.publish',
+        RollbackCommand::class => 'command.rinvex.subscriptions.rollback',
     ];
 
     /**
@@ -27,30 +31,22 @@ class SubscriptionsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.subscriptions');
 
         // Bind eloquent models to IoC container
-        $this->app->singleton('rinvex.subscriptions.plan', function ($app) {
-            return new $app['config']['rinvex.subscriptions.models.plan']();
-        });
-        $this->app->alias('rinvex.subscriptions.plan', PlanContract::class);
+        $this->app->singleton('rinvex.subscriptions.plan', $planModel = $this->app['config']['rinvex.subscriptions.models.plan']);
+        $planModel === Plan::class || $this->app->alias('rinvex.subscriptions.plan', Plan::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_features', function ($app) {
-            return new $app['config']['rinvex.subscriptions.models.plan_feature']();
-        });
-        $this->app->alias('rinvex.subscriptions.plan_features', PlanFeatureContract::class);
+        $this->app->singleton('rinvex.subscriptions.plan_features', $planFeatureModel = $this->app['config']['rinvex.subscriptions.models.plan_feature']);
+        $planFeatureModel === PlanFeature::class || $this->app->alias('rinvex.subscriptions.plan_features', PlanFeature::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_subscriptions', function ($app) {
-            return new $app['config']['rinvex.subscriptions.models.plan_subscription']();
-        });
-        $this->app->alias('rinvex.subscriptions.plan_subscriptions', PlanSubscriptionContract::class);
+        $this->app->singleton('rinvex.subscriptions.plan_subscriptions', $planSubscriptionModel = $this->app['config']['rinvex.subscriptions.models.plan_subscription']);
+        $planSubscriptionModel === PlanSubscription::class || $this->app->alias('rinvex.subscriptions.plan_subscriptions', PlanSubscription::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_subscription_usage', function ($app) {
-            return new $app['config']['rinvex.subscriptions.models.plan_subscription_usage']();
-        });
-        $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsageContract::class);
+        $this->app->singleton('rinvex.subscriptions.plan_subscription_usage', $planSubscriptionUsageModel = $this->app['config']['rinvex.subscriptions.models.plan_subscription_usage']);
+        $planSubscriptionUsageModel === PlanSubscriptionUsage::class || $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsage::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();
@@ -61,7 +57,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // Load migrations
         ! $this->app->runningInConsole() || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
@@ -75,7 +71,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function publishResources()
+    protected function publishResources(): void
     {
         $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.subscriptions.php')], 'rinvex-subscriptions-config');
         $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'rinvex-subscriptions-migrations');
@@ -86,13 +82,11 @@ class SubscriptionsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         // Register artisan commands
         foreach ($this->commands as $key => $value) {
-            $this->app->singleton($value, function ($app) use ($key) {
-                return new $key();
-            });
+            $this->app->singleton($value, $key);
         }
 
         $this->commands(array_values($this->commands));
