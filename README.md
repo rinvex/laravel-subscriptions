@@ -55,7 +55,7 @@ That's it, we only have to use that trait in our User model! Now your users may 
 
 ```php
 $plan = app('rinvex.subscriptions.plan')->create([
-    'name' => 'Pro',
+    'title' => 'Pro',
     'description' => 'Pro plan',
     'price' => 9.99,
     'signup_fee' => 1.99,
@@ -69,10 +69,10 @@ $plan = app('rinvex.subscriptions.plan')->create([
 
 // Create multiple plan features at once
 $plan->features()->saveMany([
-    new PlanFeature(['name' => 'listings', 'value' => 50, 'sort_order' => 1]),
-    new PlanFeature(['name' => 'pictures_per_listing', 'value' => 10, 'sort_order' => 5]),
-    new PlanFeature(['name' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10, 'resettable_period' => 1, 'resettable_interval' => 'month']),
-    new PlanFeature(['name' => 'listing_title_bold', 'value' => 'Y', 'sort_order' => 15])
+    new PlanFeature(['title' => 'listings', 'value' => 50, 'sort_order' => 1]),
+    new PlanFeature(['title' => 'pictures_per_listing', 'value' => 10, 'sort_order' => 5]),
+    new PlanFeature(['title' => 'listing_duration_days', 'value' => 30, 'sort_order' => 10, 'resettable_period' => 1, 'resettable_interval' => 'month']),
+    new PlanFeature(['title' => 'listing_title_bold', 'value' => 'Y', 'sort_order' => 15])
 ]);
 ```
 
@@ -127,7 +127,7 @@ $plan = app('rinvex.subscriptions.plan')->find(1);
 $user->newSubscription('main', $plan);
 ```
 
-The first argument passed to `newSubscription` method should be the name of the subscription. If your application offer a single subscription, you might call this `main` or `primary`. The second argument is the plan instance your user is subscribing to.
+The first argument passed to `newSubscription` method should be the title of the subscription. If your application offer a single subscription, you might call this `main` or `primary`. The second argument is the plan instance your user is subscribing to.
 
 ### Change the Plan
 

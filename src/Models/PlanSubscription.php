@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string                                                                                             $user_type
  * @property int                                                                                                $plan_id
  * @property string                                                                                             $slug
- * @property array                                                                                              $name
+ * @property array                                                                                              $title
  * @property array                                                                                              $description
  * @property \Carbon\Carbon                                                                                     $trial_ends_at
  * @property \Carbon\Carbon                                                                                     $starts_at
@@ -53,7 +53,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription wherePlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereStartsAt($value)
@@ -79,7 +79,7 @@ class PlanSubscription extends Model
         'user_type',
         'plan_id',
         'slug',
-        'name',
+        'title',
         'description',
         'trial_ends_at',
         'starts_at',
@@ -118,7 +118,7 @@ class PlanSubscription extends Model
      * @var array
      */
     public $translatable = [
-        'name',
+        'title',
         'description',
     ];
 
@@ -148,7 +148,7 @@ class PlanSubscription extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
-            'name' => 'required|string|max:150',
+            'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
@@ -185,7 +185,7 @@ class PlanSubscription extends Model
     {
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
+                          ->generateSlugsFrom('title')
                           ->saveSlugsTo('slug');
     }
 

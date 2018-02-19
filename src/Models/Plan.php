@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int                                                                                          $id
  * @property string                                                                                       $slug
- * @property array                                                                                        $name
+ * @property array                                                                                        $title
  * @property array                                                                                        $description
  * @property bool                                                                                         $is_active
  * @property float                                                                                        $price
@@ -54,7 +54,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereInvoiceInterval($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereInvoicePeriod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereProrateDay($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereProrateExtendDue($value)
@@ -80,7 +80,7 @@ class Plan extends Model implements Sortable
      */
     protected $fillable = [
         'slug',
-        'name',
+        'title',
         'description',
         'is_active',
         'price',
@@ -136,7 +136,7 @@ class Plan extends Model implements Sortable
      * @var array
      */
     public $translatable = [
-        'name',
+        'title',
         'description',
     ];
 
@@ -176,7 +176,7 @@ class Plan extends Model implements Sortable
         $this->setTable(config('rinvex.subscriptions.tables.plans'));
         $this->setRules([
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',slug',
-            'name' => 'required|string|max:150',
+            'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'is_active' => 'sometimes|boolean',
             'price' => 'required|numeric',
@@ -205,7 +205,7 @@ class Plan extends Model implements Sortable
     {
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
+                          ->generateSlugsFrom('title')
                           ->saveSlugsTo('slug');
     }
 

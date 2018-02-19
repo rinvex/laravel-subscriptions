@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int                                                                                               $id
  * @property int                                                                                               $plan_id
  * @property string                                                                                            $slug
- * @property array                                                                                             $name
+ * @property array                                                                                             $title
  * @property array                                                                                             $description
  * @property string                                                                                            $value
  * @property int                                                                                               $resettable_period
@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature wherePlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettableInterval($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettablePeriod($value)
@@ -66,7 +66,7 @@ class PlanFeature extends Model implements Sortable
     protected $fillable = [
         'plan_id',
         'slug',
-        'name',
+        'title',
         'description',
         'value',
         'resettable_period',
@@ -101,7 +101,7 @@ class PlanFeature extends Model implements Sortable
      * @var array
      */
     public $translatable = [
-        'name',
+        'title',
         'description',
     ];
 
@@ -142,7 +142,7 @@ class PlanFeature extends Model implements Sortable
         $this->setRules([
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
-            'name' => 'required|string|max:150',
+            'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
@@ -160,7 +160,7 @@ class PlanFeature extends Model implements Sortable
     {
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
+                          ->generateSlugsFrom('title')
                           ->saveSlugsTo('slug');
     }
 
