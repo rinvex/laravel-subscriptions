@@ -99,7 +99,7 @@ $plan->hasTrial();
 $plan->hasGrace();
 ```
 
-Both `$plan->features` and `$plan->subscriptions` are collections, driven from relationships, and thus you can query these relations as any normal Eloquent relationship. E.g. `$plan->features()->where('slug', 'listing_title_bold')->first()`.
+Both `$plan->features` and `$plan->subscriptions` are collections, driven from relationships, and thus you can query these relations as any normal Eloquent relationship. E.g. `$plan->features()->where('name', 'listing_title_bold')->first()`.
 
 ### Get Feature Value 
 
@@ -107,10 +107,10 @@ Say you want to show the value of the feature _pictures_per_listing_ from above.
 
 ```php
 // Use the plan instance to get feature's value
-$amountOfPictures = $plan->getFeatureBySlug('pictures_per_listing')->value;
+$amountOfPictures = $plan->getFeatureByName('pictures_per_listing')->value;
 
 // Query the feature itself directly
-$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('slug', 'pictures_per_listing')->first()->value;
+$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
 
 // Get feature value through the subscription instance
 $amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
@@ -149,7 +149,7 @@ Plan features are great for fine tuning subscriptions, you can topup certain fea
 
 ```php
 // Find plan feature
-$feature = app('rinvex.subscriptions.plan_feature')->where('slug', 'listing_duration_days')->first();
+$feature = app('rinvex.subscriptions.plan_feature')->where('name', 'listing_duration_days')->first();
 
 // Get feature reset date
 $feature->getResetDate(new \Carbon\Carbon());
@@ -185,7 +185,7 @@ In order to effectively use the ability methods you will need to keep track of e
 $user->subscription('main')->recordFeatureUsage('listings');
 ```
 
-The `recordFeatureUsage` method accept 3 parameters: the first one is the feature's slug, the second one is the quantity of uses to add (default is `1`), and the third one indicates if the addition should be incremental (default behavior), when disabled the usage will be override by the quantity provided. E.g.:
+The `recordFeatureUsage` method accept 3 parameters: the first one is the feature's name, the second one is the quantity of uses to add (default is `1`), and the third one indicates if the addition should be incremental (default behavior), when disabled the usage will be override by the quantity provided. E.g.:
 
 ```php
 // Increment by 2
