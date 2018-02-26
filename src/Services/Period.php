@@ -45,7 +45,7 @@ class Period
      *
      * @return void
      */
-    public function __construct($interval = 'm', $count = 1, $start = '')
+    public function __construct($interval = 'month', $count = 1, $start = '')
     {
         if (empty($start)) {
             $this->start = now();
@@ -55,14 +55,12 @@ class Period
             $this->start = $start;
         }
 
-        $this->interval = in_array($interval, ['d', 'w', 'm', 'y']) ? $interval : 'm';
-
         if ($count > 0) {
             $this->period = $count;
         }
 
-        $method = 'add'.ucfirst($this->interval).'s';
         $start = clone $this->start;
+        $method = 'add'.ucfirst($this->interval).'s';
         $this->end = $start->$method($this->period);
     }
 
