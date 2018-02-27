@@ -46,15 +46,15 @@ trait HasSubscriptions
     }
 
     /**
-     * Get a subscription by slug.
+     * Get a subscription by name.
      *
-     * @param string $subscriptionSlug
+     * @param string $subscriptionName
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscription(string $subscriptionSlug): ?PlanSubscription
+    public function subscription(string $subscriptionName): ?PlanSubscription
     {
-        return $this->subscriptions()->where('slug', $subscriptionSlug)->first();
+        return $this->subscriptions()->where('name', $subscriptionName)->first();
     }
 
     /**
