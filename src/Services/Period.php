@@ -65,7 +65,7 @@ class Period
             'd' => 'Day',
             'w' => 'Week',
             'm' => 'Month',
-            'y' => 'Year',  
+            'y' => 'Year',
         ];
 
         $method = 'add'.$periodMapping[$this->interval].'s';
