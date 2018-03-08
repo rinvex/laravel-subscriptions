@@ -61,7 +61,14 @@ class Period
             $this->period = $count;
         }
 
-        $method = 'add'.ucfirst($this->interval).'s';
+        $periodMapping = [
+            'd' => 'Day',
+            'w' => 'Week',
+            'm' => 'Month',
+            'y' => 'Year',  
+        ];
+
+        $method = 'add'.$periodMapping[$this->interval].'s';
         $start = clone $this->start;
         $this->end = $start->$method($this->period);
     }
