@@ -18,7 +18,7 @@ class CreatePlansTable extends Migration
             // Columns
             $table->increments('id');
             $table->string('slug');
-            $table->{$this->jsonable()}('title');
+            $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->decimal('price')->default('0.00');

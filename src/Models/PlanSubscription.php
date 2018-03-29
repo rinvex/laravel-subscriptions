@@ -79,7 +79,7 @@ class PlanSubscription extends Model
         'user_type',
         'plan_id',
         'slug',
-        'title',
+        'name',
         'description',
         'trial_ends_at',
         'starts_at',
@@ -118,7 +118,7 @@ class PlanSubscription extends Model
      * @var array
      */
     public $translatable = [
-        'title',
+        'name',
         'description',
     ];
 
@@ -148,7 +148,7 @@ class PlanSubscription extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
-            'title' => 'required|string|max:150',
+            'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
@@ -185,7 +185,7 @@ class PlanSubscription extends Model
     {
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('title')
+                          ->generateSlugsFrom('name')
                           ->saveSlugsTo('slug');
     }
 
