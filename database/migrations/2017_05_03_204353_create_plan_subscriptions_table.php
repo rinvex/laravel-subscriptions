@@ -18,7 +18,7 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->increments('id');
             $table->morphs('user');
             $table->integer('plan_id')->unsigned();
-            $table->string('name');
+            $table->string('slug');
             $table->{$this->jsonable()}('title');
             $table->{$this->jsonable()}('description')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
@@ -30,7 +30,7 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->softDeletes();
 
             // Indexes
-            $table->unique('name');
+            $table->unique('slug');
             $table->foreign('plan_id')->references('id')->on(config('rinvex.subscriptions.tables.plans'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });

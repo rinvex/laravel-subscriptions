@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Rinvex\Subscriptions\Models\Plan.
  *
  * @property int                                                                                          $id
- * @property string                                                                                       $name
+ * @property string                                                                                       $slug
  * @property array                                                                                        $title
  * @property array                                                                                        $description
  * @property bool                                                                                         $is_active
@@ -60,7 +60,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereProrateExtendDue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereProratePeriod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereSignupFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereSortOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereTrialInterval($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereTrialPeriod($value)
@@ -79,7 +79,7 @@ class Plan extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $fillable = [
-        'name',
+        'slug',
         'title',
         'description',
         'is_active',
@@ -103,7 +103,7 @@ class Plan extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $casts = [
-        'name' => 'string',
+        'slug' => 'string',
         'is_active' => 'boolean',
         'price' => 'float',
         'signup_fee' => 'float',
@@ -175,7 +175,7 @@ class Plan extends Model implements Sortable
 
         $this->setTable(config('rinvex.subscriptions.tables.plans'));
         $this->setRules([
-            'name' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',name',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',slug',
             'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'is_active' => 'sometimes|boolean',
@@ -206,7 +206,7 @@ class Plan extends Model implements Sortable
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('title')
-                          ->saveSlugsTo('name');
+                          ->saveSlugsTo('slug');
     }
 
     /**
@@ -260,15 +260,15 @@ class Plan extends Model implements Sortable
     }
 
     /**
-     * Get plan feature by the given name.
+     * Get plan feature by the given slug.
      *
-     * @param string $featureName
+     * @param string $featureSlug
      *
      * @return \Rinvex\Subscriptions\Models\PlanFeature|null
      */
-    public function getFeatureByName(string $featureName): ?PlanFeature
+    public function getFeatureBySlug(string $featureSlug): ?PlanFeature
     {
-        return $this->features()->where('name', $featureName)->first();
+        return $this->features()->where('slug', $featureSlug)->first();
     }
 
     /**

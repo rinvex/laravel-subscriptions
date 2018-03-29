@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int                                                                                               $id
  * @property int                                                                                               $plan_id
- * @property string                                                                                            $name
+ * @property string                                                                                            $slug
  * @property array                                                                                             $title
  * @property array                                                                                             $description
  * @property string                                                                                            $value
@@ -45,7 +45,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature wherePlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettableInterval($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettablePeriod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereSortOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereValue($value)
@@ -65,7 +65,7 @@ class PlanFeature extends Model implements Sortable
      */
     protected $fillable = [
         'plan_id',
-        'name',
+        'slug',
         'title',
         'description',
         'value',
@@ -79,7 +79,7 @@ class PlanFeature extends Model implements Sortable
      */
     protected $casts = [
         'plan_id' => 'integer',
-        'name' => 'string',
+        'slug' => 'string',
         'value' => 'string',
         'resettable_period' => 'integer',
         'resettable_interval' => 'string',
@@ -141,7 +141,7 @@ class PlanFeature extends Model implements Sortable
         $this->setTable(config('rinvex.subscriptions.tables.plan_features'));
         $this->setRules([
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
-            'name' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',name',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
             'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
@@ -152,7 +152,7 @@ class PlanFeature extends Model implements Sortable
     }
 
     /**
-     * Get the options for generating the name.
+     * Get the options for generating the slug.
      *
      * @return \Spatie\Sluggable\SlugOptions
      */
@@ -161,7 +161,7 @@ class PlanFeature extends Model implements Sortable
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('title')
-                          ->saveSlugsTo('name');
+                          ->saveSlugsTo('slug');
     }
 
     /**

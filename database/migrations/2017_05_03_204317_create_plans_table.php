@@ -17,7 +17,7 @@ class CreatePlansTable extends Migration
         Schema::create(config('rinvex.subscriptions.tables.plans'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
-            $table->string('name');
+            $table->string('slug');
             $table->{$this->jsonable()}('title');
             $table->{$this->jsonable()}('description')->nullable();
             $table->boolean('is_active')->default(true);
@@ -39,7 +39,7 @@ class CreatePlansTable extends Migration
             $table->softDeletes();
 
             // Indexes
-            $table->unique('name');
+            $table->unique('slug');
         });
     }
 
