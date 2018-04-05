@@ -276,7 +276,7 @@ class Plan extends Model implements Sortable
      *
      * @return $this
      */
-    public function activate()
+    public function makeActive()
     {
         $this->update(['is_active' => true]);
 
@@ -288,7 +288,7 @@ class Plan extends Model implements Sortable
      *
      * @return $this
      */
-    public function deactivate()
+    public function makeInactive()
     {
         $this->update(['is_active' => false]);
 
