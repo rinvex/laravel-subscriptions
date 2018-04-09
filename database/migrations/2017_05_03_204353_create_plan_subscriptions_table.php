@@ -21,11 +21,12 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
-            $table->timestamp('starts_at')->nullable();
-            $table->timestamp('ends_at')->nullable();
-            $table->timestamp('cancels_at')->nullable();
-            $table->timestamp('canceled_at')->nullable();
+            $table->dateTime('trial_ends_at')->nullable();
+            $table->dateTime('starts_at')->nullable();
+            $table->dateTime('ends_at')->nullable();
+            $table->dateTime('cancels_at')->nullable();
+            $table->dateTime('canceled_at')->nullable();
+            $table->string('timezone')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
