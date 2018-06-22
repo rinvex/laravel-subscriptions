@@ -61,6 +61,11 @@
             "Rinvex\\Subscriptions\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Rinvex\\Subscriptions\\Tests\\": "tests"
+        }
+    },
     "config": {
         "sort-packages": true,
         "preferred-install": "dist",
