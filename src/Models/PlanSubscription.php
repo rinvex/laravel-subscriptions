@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string                                                                                             $user_type
  * @property int                                                                                                $plan_id
  * @property string                                                                                             $slug
- * @property array                                                                                              $name
+ * @property array                                                                                              $title
  * @property array                                                                                              $description
  * @property \Carbon\Carbon                                                                                     $trial_ends_at
  * @property \Carbon\Carbon                                                                                     $starts_at
@@ -53,7 +53,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription wherePlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereStartsAt($value)
@@ -196,7 +196,7 @@ class PlanSubscription extends Model
      */
     public function user(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('user', 'user_type', 'user_id');
     }
 
     /**

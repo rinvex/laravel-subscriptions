@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v0.0.4] - 2018-09-21
+- Update travis php versions
+- Define polymorphic relationship parameters explicitly
+- Fix fully qualified booking unit methods (fix #20)
+- Convert timestamps into datetime fields and add timezone
+- Tweak validation rules
+- Drop StyleCI multi-language support (paid feature now!)
+- Update composer dependencies
+- Prepare and tweak testing configuration
+- Update StyleCI options
+- Update PHPUnit options
+- Rename subscription model activation and deactivation methods
+
 ## [v0.0.3] - 2018-02-18
 - Add PublishCommand to artisan
 - Move slug auto generation to the custom HasSlug trait
@@ -34,5 +47,6 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
+[v0.0.4]: https://github.com/rinvex/subscriptions/compare/v0.0.3...v0.0.4
 [v0.0.3]: https://github.com/rinvex/subscriptions/compare/v0.0.2...v0.0.3
 [v0.0.2]: https://github.com/rinvex/subscriptions/compare/v0.0.1...v0.0.2

@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int                                                                                               $id
  * @property int                                                                                               $plan_id
  * @property string                                                                                            $slug
- * @property array                                                                                             $name
+ * @property array                                                                                             $title
  * @property array                                                                                             $description
  * @property string                                                                                            $value
  * @property int                                                                                               $resettable_period
@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature wherePlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettableInterval($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanFeature whereResettablePeriod($value)
@@ -146,7 +146,7 @@ class PlanFeature extends Model implements Sortable
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
-            'resettable_interval' => 'sometimes|string|in:hour,day,week,month',
+            'resettable_interval' => 'sometimes|in:hour,day,week,month',
             'sort_order' => 'nullable|integer|max:10000000',
         ]);
     }
