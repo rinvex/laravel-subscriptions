@@ -2,12 +2,12 @@
 
 **Rinvex Subscriptions** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
 
-[![Packagist](https://img.shields.io/packagist/v/rinvex/subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/subscriptions)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/subscriptions/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/subscriptions)
-[![Travis](https://img.shields.io/travis/rinvex/subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/subscriptions)
+[![Packagist](https://img.shields.io/packagist/v/rinvex/laravel-subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/laravel-subscriptions)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/laravel-subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/laravel-subscriptions/)
+[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/laravel-subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/laravel-subscriptions)
+[![Travis](https://img.shields.io/travis/rinvex/laravel-subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/laravel-subscriptions)
 [![StyleCI](https://styleci.io/repos/93313402/shield)](https://styleci.io/repos/93313402)
-[![License](https://img.shields.io/packagist/l/rinvex/subscriptions.svg?label=License&style=flat-square)](https://github.com/rinvex/subscriptions/blob/develop/LICENSE)
+[![License](https://img.shields.io/packagist/l/rinvex/laravel-subscriptions.svg?label=License&style=flat-square)](https://github.com/rinvex/laravel-subscriptions/blob/develop/LICENSE)
 
 
 ## Considerations
@@ -20,7 +20,7 @@
 
 1. Install the package via composer:
     ```shell
-    composer require rinvex/subscriptions
+    composer require rinvex/laravel-subscriptions
     ```
 
 2. Execute migrations via the following command:
