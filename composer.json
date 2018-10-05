@@ -43,7 +43,7 @@
         "illuminate/support": "~5.7.0",
         "nesbot/carbon": "~1.22",
         "rinvex/laravel-cacheable": "^1.0.0",
-        "rinvex/laravel-support": "v1.0.0",
+        "rinvex/laravel-support": "^1.0.0",
         "spatie/eloquent-sortable": "^3.4.0",
         "spatie/laravel-sluggable": "^2.1.0",
         "spatie/laravel-translatable": "^2.1.0",
