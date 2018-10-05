@@ -1,6 +1,7 @@
 {
-    "name": "rinvex/subscriptions",
+    "name": "rinvex/laravel-subscriptions",
     "description": "Rinvex Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
+    "type": "library",
     "keywords": [
         "plan",
         "value",
@@ -14,9 +15,9 @@
     "homepage": "https://rinvex.com",
     "support": {
         "email": "help@rinvex.com",
-        "issues": "https://github.com/rinvex/subscriptions/issues",
-        "source": "https://github.com/rinvex/subscriptions",
-        "docs": "https://github.com/rinvex/subscriptions/blob/master/README.md"
+        "issues": "https://github.com/rinvex/laravel-subscriptions/issues",
+        "source": "https://github.com/rinvex/laravel-subscriptions",
+        "docs": "https://github.com/rinvex/laravel-subscriptions/blob/master/README.md"
     },
     "authors": [
         {
@@ -32,7 +33,7 @@
         },
         {
             "name": "The Generous Laravel Community",
-            "homepage": "https://github.com/rinvex/subscriptions/contributors"
+            "homepage": "https://github.com/rinvex/laravel-subscriptions/contributors"
         }
     ],
     "require": {
@@ -41,15 +42,15 @@
         "illuminate/database": "~5.7.0",
         "illuminate/support": "~5.7.0",
         "nesbot/carbon": "~1.22",
-        "rinvex/cacheable": "dev-develop",
-        "rinvex/support": "dev-develop",
+        "rinvex/laravel-cacheable": "^1.0.0",
+        "rinvex/laravel-support": "v1.0.0",
         "spatie/eloquent-sortable": "^3.4.0",
         "spatie/laravel-sluggable": "^2.1.0",
         "spatie/laravel-translatable": "^2.1.0",
         "watson/validating": "^3.1.0"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.20.0",
+        "codedungeon/phpunit-result-printer": "^0.22.0",
         "illuminate/container": "~5.7.0",
         "phpunit/phpunit": "^7.0.0"
     },
@@ -66,15 +67,15 @@
             "Rinvex\\Subscriptions\\Tests\\": "tests"
         }
     },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
     "config": {
         "sort-packages": true,
         "preferred-install": "dist",
         "optimize-autoloader": true
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
         "laravel": {
             "providers": [
                 "Rinvex\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
