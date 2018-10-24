@@ -47,6 +47,8 @@ class Period
      */
     public function __construct($interval = 'month', $count = 1, $start = '')
     {
+         $this->interval = $interval;
+        
         if (empty($start)) {
             $this->start = now();
         } elseif (! $start instanceof Carbon) {
