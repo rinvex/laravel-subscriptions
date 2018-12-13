@@ -21,6 +21,7 @@ class CreatePlanFeaturesTable extends Migration
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
+            $table->string('key');
             $table->string('value');
             $table->smallInteger('resettable_period')->unsigned()->default(0);
             $table->string('resettable_interval')->default('month');
@@ -29,6 +30,7 @@ class CreatePlanFeaturesTable extends Migration
             $table->softDeletes();
 
             // Indexes
+            $table->index('key');
             $table->unique(['plan_id', 'slug']);
             $table->foreign('plan_id')->references('id')->on(config('rinvex.subscriptions.tables.plans'))
                   ->onDelete('cascade')->onUpdate('cascade');

@@ -272,6 +272,16 @@ class Plan extends Model implements Sortable
     }
 
     /**
+     * Get feature by the given key
+     *
+     * @param string $key
+     * @return PlanFeature|null
+     */
+    public function getFeature(string $key): ?PlanFeature
+    {
+        return $this->features()->where('plan_id',$this->id)->where('key',$key)->first();
+    }
+    /**
      * Activate the plan.
      *
      * @return $this

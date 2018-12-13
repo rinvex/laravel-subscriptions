@@ -104,4 +104,31 @@ trait HasSubscriptions
             'ends_at' => $period->getEndDate(),
         ]);
     }
+
+    /**
+     * Check weather this user has subscriptions or not
+     *
+     * @return bool
+     */
+    public function hasSubscription(){
+        return count($this->subscriptions) > 0;
+    }
+
+    /**
+     * Get the first subscription plan
+     *
+     * @return mixed
+     */
+    public function defaultSubscriptionPlan(){
+        return $this->defaultSubscription()->plan;
+    }
+
+    /**
+     * Get the first subscription
+     *
+     * @return mixed
+     */
+    public function defaultSubscription(){
+        return $this->subscriptions[0];
+    }
 }
