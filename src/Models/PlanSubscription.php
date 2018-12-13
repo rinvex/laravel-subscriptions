@@ -431,14 +431,14 @@ class PlanSubscription extends Model
     /**
      * Record feature usage.
      *
-     * @param string $featureSlug
+     * @param string $key
      * @param int    $uses
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage
      */
-    public function recordFeatureUsage(string $featureSlug, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
+    public function recordFeatureUsage(string $key, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
     {
-        $feature = $this->plan->features()->where('slug', $featureSlug)->first();
+        $feature = $this->plan->features()->where('key', $key)->first();
 
         $usage = $this->usage()->firstOrNew([
             'subscription_id' => $this->getKey(),

@@ -120,7 +120,7 @@ trait HasSubscriptions
      * @return mixed
      */
     public function defaultSubscriptionPlan(){
-        return $this->defaultSubscription()->plan;
+        return $this->hasSubscription() ? $this->defaultSubscription()->plan : null;
     }
 
     /**
@@ -129,6 +129,6 @@ trait HasSubscriptions
      * @return mixed
      */
     public function defaultSubscription(){
-        return $this->subscriptions[0];
+        return $this->hasSubscription() ? $this->subscriptions[0] : null;
     }
 }
