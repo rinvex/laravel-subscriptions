@@ -7,7 +7,7 @@ namespace Namdeveloper\Subscriptions\Models;
 use Illuminate\Database\Eloquent\Model;
 use Namdeveloper\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Namdeveloper\Support\Traits\ValidatingTrait;
+use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**

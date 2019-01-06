@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Namdeveloper\Subscriptions\Models;
 
 use Spatie\Sluggable\SlugOptions;
-use Namdeveloper\Support\Traits\HasSlug;
+use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Namdeveloper\Cacheable\CacheableEloquent;
-use Namdeveloper\Support\Traits\HasTranslations;
-use Namdeveloper\Support\Traits\ValidatingTrait;
+use Rinvex\Support\Traits\HasTranslations;
+use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
