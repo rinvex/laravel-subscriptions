@@ -32,7 +32,7 @@ trait HasSubscriptions
      */
     public function subscriptions(): MorphMany
     {
-        return $this->morphMany(config('namdeveloper.subscriptions.models.plan_subscription'), 'user');
+        return $this->morphMany(config('namdeveloper.subscriptions.models.plan_subscription'), 'object');
     }
 
     /**
