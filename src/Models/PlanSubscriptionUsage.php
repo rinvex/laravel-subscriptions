@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Namdeveloper\Subscriptions\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Namdeveloper\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,7 +37,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PlanSubscriptionUsage extends Model
 {
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}

@@ -9,7 +9,6 @@ use LogicException;
 use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
-use Namdeveloper\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Namdeveloper\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
@@ -69,7 +68,6 @@ class PlanSubscription extends Model
     use BelongsToPlan;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
