@@ -36,14 +36,7 @@
             "homepage": "https://github.com/namdeveloper/laravel-subscriptions/contributors"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/rinvex/laravel-subscriptions"
-        }
-    ],
     "require": {
-        "monolog/monolog": "dev-master",
         "php": "^7.1.3",
         "illuminate/console": "~5.7.0",
         "illuminate/database": "~5.7.0",
