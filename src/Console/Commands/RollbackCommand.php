@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscriptions\Console\Commands;
+namespace Namdeveloper\Subscriptions\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -13,14 +13,14 @@ class RollbackCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:rollback:subscriptions {--force : Force the operation to run when in production.}';
+    protected $signature = 'namdeveloper:rollback:subscriptions {--force : Force the operation to run when in production.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Rollback Rinvex Subscriptions Tables.';
+    protected $description = 'Rollback Namdeveloper Subscriptions Tables.';
 
     /**
      * Execute the console command.
@@ -30,6 +30,6 @@ class RollbackCommand extends Command
     public function handle(): void
     {
         $this->warn($this->description);
-        $this->call('migrate:reset', ['--path' => 'vendor/rinvex/laravel-subscriptions/database/migrations', '--force' => $this->option('force')]);
+        $this->call('migrate:reset', ['--path' => 'vendor/namdeveloper/laravel-subscriptions/database/migrations', '--force' => $this->option('force')]);
     }
 }

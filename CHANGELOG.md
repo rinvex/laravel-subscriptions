@@ -1,4 +1,4 @@
-# Rinvex Subscriptions Change Log
+# Namdeveloper Subscriptions Change Log
 
 All notable changes to this project will be documented in this file.
 
@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
 ## [v1.0.2] - 2018-12-30
-- Rinvex\Subscriptions\Services\Period: adding interval received as parameter in constructor to property ->interval
+- Namdeveloper\Subscriptions\Services\Period: adding interval received as parameter in constructor to property ->interval
 
 ## [v1.0.1] - 2018-12-22
 - Update composer dependencies
@@ -16,7 +16,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## [v1.0.0] - 2018-10-01
 - Enforce Consistency
 - Support Laravel 5.7+
-- Rename package to rinvex/laravel-subscriptions
+- Rename package to namdeveloper/laravel-subscriptions
 
 ## [v0.0.4] - 2018-09-21
 - Update travis php versions
@@ -55,14 +55,14 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 ## [v0.0.2] - 2017-09-08
 - Fix many issues and apply many enhancements
-- Rename package rinvex/laravel-subscriptions from rinvex/subscribable
+- Rename package namdeveloper/laravel-subscriptions from namdeveloper/subscribable
 
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
-[v1.0.2]: https://github.com/rinvex/laravel-subscriptions/compare/v1.0.1...v1.0.2
-[v1.0.1]: https://github.com/rinvex/laravel-subscriptions/compare/v1.0.0...v1.0.1
-[v1.0.0]: https://github.com/rinvex/laravel-subscriptions/compare/v0.0.4...v1.0.0
-[v0.0.4]: https://github.com/rinvex/laravel-subscriptions/compare/v0.0.3...v0.0.4
-[v0.0.3]: https://github.com/rinvex/laravel-subscriptions/compare/v0.0.2...v0.0.3
-[v0.0.2]: https://github.com/rinvex/laravel-subscriptions/compare/v0.0.1...v0.0.2
+[v1.0.2]: https://github.com/namdeveloper/laravel-subscriptions/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/namdeveloper/laravel-subscriptions/compare/v1.0.0...v1.0.1
+[v1.0.0]: https://github.com/namdeveloper/laravel-subscriptions/compare/v0.0.4...v1.0.0
+[v0.0.4]: https://github.com/namdeveloper/laravel-subscriptions/compare/v0.0.3...v0.0.4
+[v0.0.3]: https://github.com/namdeveloper/laravel-subscriptions/compare/v0.0.2...v0.0.3
+[v0.0.2]: https://github.com/namdeveloper/laravel-subscriptions/compare/v0.0.1...v0.0.2

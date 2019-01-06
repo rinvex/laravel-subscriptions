@@ -14,7 +14,7 @@ class CreatePlanFeaturesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
+        Schema::create(config('namdeveloper.subscriptions.tables.plan_features'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
             $table->integer('plan_id')->unsigned();
@@ -30,7 +30,7 @@ class CreatePlanFeaturesTable extends Migration
 
             // Indexes
             $table->unique(['plan_id', 'slug']);
-            $table->foreign('plan_id')->references('id')->on(config('rinvex.subscriptions.tables.plans'))
+            $table->foreign('plan_id')->references('id')->on(config('namdeveloper.subscriptions.tables.plans'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -42,7 +42,7 @@ class CreatePlanFeaturesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_features'));
+        Schema::dropIfExists(config('namdeveloper.subscriptions.tables.plan_features'));
     }
 
     /**

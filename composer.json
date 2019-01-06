@@ -1,6 +1,6 @@
 {
-    "name": "rinvex/laravel-subscriptions",
-    "description": "Rinvex Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
+    "name": "namdeveloper/laravel-subscriptions",
+    "description": "Namdeveloper Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
     "type": "library",
     "keywords": [
         "plan",
@@ -12,18 +12,18 @@
         "subscription"
     ],
     "license": "MIT",
-    "homepage": "https://rinvex.com",
+    "homepage": "https://namdeveloper.com",
     "support": {
-        "email": "help@rinvex.com",
-        "issues": "https://github.com/rinvex/laravel-subscriptions/issues",
-        "source": "https://github.com/rinvex/laravel-subscriptions",
-        "docs": "https://github.com/rinvex/laravel-subscriptions/blob/master/README.md"
+        "email": "help@namdeveloper.com",
+        "issues": "https://github.com/namdeveloper/laravel-subscriptions/issues",
+        "source": "https://github.com/namdeveloper/laravel-subscriptions",
+        "docs": "https://github.com/namdeveloper/laravel-subscriptions/blob/master/README.md"
     },
     "authors": [
         {
-            "name": "Rinvex LLC",
-            "homepage": "https://rinvex.com",
-            "email": "help@rinvex.com"
+            "name": "Namdeveloper LLC",
+            "homepage": "https://namdeveloper.com",
+            "email": "help@namdeveloper.com"
         },
         {
             "name": "Abdelrahman Omran",
@@ -33,7 +33,7 @@
         },
         {
             "name": "The Generous Laravel Community",
-            "homepage": "https://github.com/rinvex/laravel-subscriptions/contributors"
+            "homepage": "https://github.com/namdeveloper/laravel-subscriptions/contributors"
         }
     ],
     "require": {
@@ -41,7 +41,6 @@
         "illuminate/console": "~5.7.0",
         "illuminate/database": "~5.7.0",
         "illuminate/support": "~5.7.0",
-        "rinvex/laravel-cacheable": "^1.0.0",
         "rinvex/laravel-support": "^1.0.0",
         "spatie/eloquent-sortable": "^3.4.0",
         "spatie/laravel-sluggable": "^2.1.0",
@@ -58,12 +57,12 @@
             "database"
         ],
         "psr-4": {
-            "Rinvex\\Subscriptions\\": "src"
+            "Namdeveloper\\Subscriptions\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rinvex\\Subscriptions\\Tests\\": "tests"
+            "Namdeveloper\\Subscriptions\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -77,7 +76,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Rinvex\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
+                "Namdeveloper\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
             ]
         }
     },

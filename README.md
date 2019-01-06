@@ -1,13 +1,13 @@
-# Rinvex Subscriptions
+# Namdeveloper Subscriptions
 
-**Rinvex Subscriptions** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
+**Namdeveloper Subscriptions** is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.
 
-[![Packagist](https://img.shields.io/packagist/v/rinvex/laravel-subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/laravel-subscriptions)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/laravel-subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/laravel-subscriptions/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/laravel-subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/laravel-subscriptions)
-[![Travis](https://img.shields.io/travis/rinvex/laravel-subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/laravel-subscriptions)
+[![Packagist](https://img.shields.io/packagist/v/namdeveloper/laravel-subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/namdeveloper/laravel-subscriptions)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/namdeveloper/laravel-subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/namdeveloper/laravel-subscriptions/)
+[![Code Climate](https://img.shields.io/codeclimate/github/namdeveloper/laravel-subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/namdeveloper/laravel-subscriptions)
+[![Travis](https://img.shields.io/travis/namdeveloper/laravel-subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/namdeveloper/laravel-subscriptions)
 [![StyleCI](https://styleci.io/repos/93313402/shield)](https://styleci.io/repos/93313402)
-[![License](https://img.shields.io/packagist/l/rinvex/laravel-subscriptions.svg?label=License&style=flat-square)](https://github.com/rinvex/laravel-subscriptions/blob/develop/LICENSE)
+[![License](https://img.shields.io/packagist/l/namdeveloper/laravel-subscriptions.svg?label=License&style=flat-square)](https://github.com/namdeveloper/laravel-subscriptions/blob/develop/LICENSE)
 
 
 ## Considerations
@@ -20,17 +20,17 @@
 
 1. Install the package via composer:
     ```shell
-    composer require rinvex/laravel-subscriptions
+    composer require namdeveloper/laravel-subscriptions
     ```
 
 2. Execute migrations via the following command:
     ```shell
-    php artisan rinvex:migrate:subscriptions
+    php artisan namdeveloper:migrate:subscriptions
     ```
 
 3. **Optional** if you want to change the configurations:
     ```shell
-    php artisan rinvex:publish:subscriptions
+    php artisan namdeveloper:publish:subscriptions
     ```
 
 4. Done!
@@ -40,12 +40,12 @@
 
 ### Add Subscriptions to User model
 
-**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\HasSubscriptions` trait like this:
+**Namdeveloper Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Namdeveloper\Subscriptions\Traits\HasSubscriptions` trait like this:
 
 ```php
 namespace App\Models;
 
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
+use Namdeveloper\Subscriptions\Traits\HasSubscriptions;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -59,7 +59,7 @@ That's it, we only have to use that trait in our User model! Now your users may 
 ### Create a Plan
 
 ```php
-$plan = app('rinvex.subscriptions.plan')->create([
+$plan = app('namdeveloper.subscriptions.plan')->create([
     'name' => 'Pro',
     'description' => 'Pro plan',
     'price' => 9.99,
@@ -86,7 +86,7 @@ $plan->features()->saveMany([
 You can query the plan for further details, using the intuitive API as follows:
 
 ```php
-$plan = app('rinvex.subscriptions.plan')->find(1);
+$plan = app('namdeveloper.subscriptions.plan')->find(1);
 
 // Get all plan features                
 $plan->features;
@@ -115,10 +115,10 @@ Say you want to show the value of the feature _pictures_per_listing_ from above.
 $amountOfPictures = $plan->getFeatureByName('pictures_per_listing')->value;
 
 // Query the feature itself directly
-$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
+$amountOfPictures = app('namdeveloper.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
 
 // Get feature value through the subscription instance
-$amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
+$amountOfPictures = app('namdeveloper.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
 ```
 
 ### Create a Subscription
@@ -127,7 +127,7 @@ You can subscribe a user to a plan by using the `newSubscription()` function ava
 
 ```php
 $user = User::find(1);
-$plan = app('rinvex.subscriptions.plan')->find(1);
+$plan = app('namdeveloper.subscriptions.plan')->find(1);
 
 $user->newSubscription('main', $plan);
 ```
@@ -139,8 +139,8 @@ The first argument passed to `newSubscription` method should be the title of the
 You can change subscription plan easily as follows:
 
 ```php
-$plan = app('rinvex.subscriptions.plan')->find(2);
-$subscription = app('rinvex.subscriptions.plan_subscription')->find(1);
+$plan = app('namdeveloper.subscriptions.plan')->find(2);
+$subscription = app('namdeveloper.subscriptions.plan_subscription')->find(1);
 
 // Change subscription plan
 $subscription->changePlan($plan);
@@ -154,7 +154,7 @@ Plan features are great for fine tuning subscriptions, you can topup certain fea
 
 ```php
 // Find plan feature
-$feature = app('rinvex.subscriptions.plan_feature')->where('name', 'listing_duration_days')->first();
+$feature = app('namdeveloper.subscriptions.plan_feature')->where('name', 'listing_duration_days')->first();
 
 // Get feature reset date
 $feature->getResetDate(new \Carbon\Carbon());
@@ -266,34 +266,34 @@ $user->subscription('main')->cancel(true);
 
 ```php
 // Get subscriptions by plan
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
+$subscriptions = app('namdeveloper.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
 
 // Get bookings of the given user
 $user = \App\Models\User::find(1);
-$bookingsOfUser = app('rinvex.subscriptions.plan_subscription')->ofUser($user)->get(); 
+$bookingsOfUser = app('namdeveloper.subscriptions.plan_subscription')->ofUser($user)->get(); 
 
 // Get subscriptions with trial ending in 3 days
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
+$subscriptions = app('namdeveloper.subscriptions.plan_subscription')->findEndingTrial(3)->get();
 
 // Get subscriptions with ended trial
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedTrial()->get();
+$subscriptions = app('namdeveloper.subscriptions.plan_subscription')->findEndedTrial()->get();
 
 // Get subscriptions with period ending in 3 days
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
+$subscriptions = app('namdeveloper.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
 
 // Get subscriptions with ended period
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedPeriod()->get();
+$subscriptions = app('namdeveloper.subscriptions.plan_subscription')->findEndedPeriod()->get();
 ```
 
 ### Models
 
-**Rinvex Subscriptions** uses 4 models:
+**Namdeveloper Subscriptions** uses 4 models:
 
 ```php
-Rinvex\Subscriptions\Models\Plan;
-Rinvex\Subscriptions\Models\PlanFeature;
-Rinvex\Subscriptions\Models\PlanSubscription;
-Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
+Namdeveloper\Subscriptions\Models\Plan;
+Namdeveloper\Subscriptions\Models\PlanFeature;
+Namdeveloper\Subscriptions\Models\PlanSubscription;
+Namdeveloper\Subscriptions\Models\PlanSubscriptionUsage;
 ```
 
 
@@ -306,9 +306,9 @@ Refer to the [Changelog](CHANGELOG.md) for a full history of the project.
 
 The following support channels are available at your fingertips:
 
-- [Chat on Slack](http://chat.rinvex.com)
-- [Help on Email](mailto:help@rinvex.com)
-- [Follow on Twitter](https://twitter.com/rinvex)
+- [Chat on Slack](http://chat.namdeveloper.com)
+- [Help on Email](mailto:help@namdeveloper.com)
+- [Follow on Twitter](https://twitter.com/namdeveloper)
 
 
 ## Contributing & Protocols
@@ -326,16 +326,16 @@ Bug reports, feature requests, and pull requests are very welcome.
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within this project, please send an e-mail to [help@rinvex.com](help@rinvex.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this project, please send an e-mail to [help@namdeveloper.com](help@namdeveloper.com). All security vulnerabilities will be promptly addressed.
 
 
-## About Rinvex
+## About Namdeveloper
 
-Rinvex is a software solutions startup, specialized in integrated enterprise solutions for SMEs established in Alexandria, Egypt since June 2016. We believe that our drive The Value, The Reach, and The Impact is what differentiates us and unleash the endless possibilities of our philosophy through the power of software. We like to call it Innovation At The Speed Of Life. That’s how we do our share of advancing humanity.
+Namdeveloper is a software solutions startup, specialized in integrated enterprise solutions for SMEs established in Alexandria, Egypt since June 2016. We believe that our drive The Value, The Reach, and The Impact is what differentiates us and unleash the endless possibilities of our philosophy through the power of software. We like to call it Innovation At The Speed Of Life. That’s how we do our share of advancing humanity.
 
 
 ## License
 
 This software is released under [The MIT License (MIT)](LICENSE).
 
-(c) 2016-2019 Rinvex LLC, Some rights reserved.
+(c) 2016-2019 Namdeveloper LLC, Some rights reserved.

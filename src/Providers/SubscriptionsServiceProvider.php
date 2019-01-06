@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscriptions\Providers;
+namespace Namdeveloper\Subscriptions\Providers;
 
-use Rinvex\Subscriptions\Models\Plan;
+use Namdeveloper\Subscriptions\Models\Plan;
 use Illuminate\Support\ServiceProvider;
-use Rinvex\Subscriptions\Models\PlanFeature;
-use Rinvex\Subscriptions\Models\PlanSubscription;
-use Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
-use Rinvex\Subscriptions\Console\Commands\MigrateCommand;
-use Rinvex\Subscriptions\Console\Commands\PublishCommand;
-use Rinvex\Subscriptions\Console\Commands\RollbackCommand;
+use Namdeveloper\Subscriptions\Models\PlanFeature;
+use Namdeveloper\Subscriptions\Models\PlanSubscription;
+use Namdeveloper\Subscriptions\Models\PlanSubscriptionUsage;
+use Namdeveloper\Subscriptions\Console\Commands\MigrateCommand;
+use Namdeveloper\Subscriptions\Console\Commands\PublishCommand;
+use Namdeveloper\Subscriptions\Console\Commands\RollbackCommand;
 
 class SubscriptionsServiceProvider extends ServiceProvider
 {
@@ -21,9 +21,9 @@ class SubscriptionsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        MigrateCommand::class => 'command.rinvex.subscriptions.migrate',
-        PublishCommand::class => 'command.rinvex.subscriptions.publish',
-        RollbackCommand::class => 'command.rinvex.subscriptions.rollback',
+        MigrateCommand::class => 'command.namdeveloper.subscriptions.migrate',
+        PublishCommand::class => 'command.namdeveloper.subscriptions.publish',
+        RollbackCommand::class => 'command.namdeveloper.subscriptions.rollback',
     ];
 
     /**
@@ -33,20 +33,20 @@ class SubscriptionsServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.subscriptions');
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'namdeveloper.subscriptions');
 
         // Bind eloquent models to IoC container
-        $this->app->singleton('rinvex.subscriptions.plan', $planModel = $this->app['config']['rinvex.subscriptions.models.plan']);
-        $planModel === Plan::class || $this->app->alias('rinvex.subscriptions.plan', Plan::class);
+        $this->app->singleton('namdeveloper.subscriptions.plan', $planModel = $this->app['config']['namdeveloper.subscriptions.models.plan']);
+        $planModel === Plan::class || $this->app->alias('namdeveloper.subscriptions.plan', Plan::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_features', $planFeatureModel = $this->app['config']['rinvex.subscriptions.models.plan_feature']);
-        $planFeatureModel === PlanFeature::class || $this->app->alias('rinvex.subscriptions.plan_features', PlanFeature::class);
+        $this->app->singleton('namdeveloper.subscriptions.plan_features', $planFeatureModel = $this->app['config']['namdeveloper.subscriptions.models.plan_feature']);
+        $planFeatureModel === PlanFeature::class || $this->app->alias('namdeveloper.subscriptions.plan_features', PlanFeature::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_subscriptions', $planSubscriptionModel = $this->app['config']['rinvex.subscriptions.models.plan_subscription']);
-        $planSubscriptionModel === PlanSubscription::class || $this->app->alias('rinvex.subscriptions.plan_subscriptions', PlanSubscription::class);
+        $this->app->singleton('namdeveloper.subscriptions.plan_subscriptions', $planSubscriptionModel = $this->app['config']['namdeveloper.subscriptions.models.plan_subscription']);
+        $planSubscriptionModel === PlanSubscription::class || $this->app->alias('namdeveloper.subscriptions.plan_subscriptions', PlanSubscription::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_subscription_usage', $planSubscriptionUsageModel = $this->app['config']['rinvex.subscriptions.models.plan_subscription_usage']);
-        $planSubscriptionUsageModel === PlanSubscriptionUsage::class || $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsage::class);
+        $this->app->singleton('namdeveloper.subscriptions.plan_subscription_usage', $planSubscriptionUsageModel = $this->app['config']['namdeveloper.subscriptions.models.plan_subscription_usage']);
+        $planSubscriptionUsageModel === PlanSubscriptionUsage::class || $this->app->alias('namdeveloper.subscriptions.plan_subscription_usage', PlanSubscriptionUsage::class);
 
         // Register console commands
         ! $this->app->runningInConsole() || $this->registerCommands();
@@ -73,8 +73,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
      */
     protected function publishResources(): void
     {
-        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.subscriptions.php')], 'rinvex-subscriptions-config');
-        $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'rinvex-subscriptions-migrations');
+        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('namdeveloper.subscriptions.php')], 'namdeveloper-subscriptions-config');
+        $this->publishes([realpath(__DIR__.'/../../database/migrations') => database_path('migrations')], 'namdeveloper-subscriptions-migrations');
     }
 
     /**

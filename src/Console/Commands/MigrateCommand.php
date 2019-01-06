@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscriptions\Console\Commands;
+namespace Namdeveloper\Subscriptions\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -13,14 +13,14 @@ class MigrateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:migrate:subscriptions {--force : Force the operation to run when in production.}';
+    protected $signature = 'namdeveloper:migrate:subscriptions {--force : Force the operation to run when in production.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Migrate Rinvex Subscriptions Tables.';
+    protected $description = 'Migrate Namdeveloper Subscriptions Tables.';
 
     /**
      * Execute the console command.
@@ -30,6 +30,6 @@ class MigrateCommand extends Command
     public function handle(): void
     {
         $this->warn($this->description);
-        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/laravel-subscriptions/database/migrations', '--force' => $this->option('force')]);
+        $this->call('migrate', ['--step' => true, '--path' => 'vendor/namdeveloper/laravel-subscriptions/database/migrations', '--force' => $this->option('force')]);
     }
 }

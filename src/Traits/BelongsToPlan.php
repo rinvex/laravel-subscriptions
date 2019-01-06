@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscriptions\Traits;
+namespace Namdeveloper\Subscriptions\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +16,7 @@ trait BelongsToPlan
      */
     public function plan(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan'), 'plan_id', 'id');
+        return $this->belongsTo(config('namdeveloper.subscriptions.models.plan'), 'plan_id', 'id');
     }
 
     /**

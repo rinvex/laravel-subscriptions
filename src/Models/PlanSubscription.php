@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscriptions\Models;
+namespace Namdeveloper\Subscriptions\Models;
 
 use DB;
 use LogicException;
 use Spatie\Sluggable\SlugOptions;
-use Rinvex\Support\Traits\HasSlug;
+use Namdeveloper\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
+use Namdeveloper\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Rinvex\Subscriptions\Services\Period;
-use Rinvex\Support\Traits\HasTranslations;
-use Rinvex\Support\Traits\ValidatingTrait;
-use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Namdeveloper\Subscriptions\Services\Period;
+use Namdeveloper\Support\Traits\HasTranslations;
+use Namdeveloper\Support\Traits\ValidatingTrait;
+use Namdeveloper\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * Rinvex\Subscriptions\Models\PlanSubscription.
+ * Namdeveloper\Subscriptions\Models\PlanSubscription.
  *
  * @property int                                                                                                $id
  * @property int                                                                                                $user_id
@@ -36,31 +36,31 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property \Carbon\Carbon                                                                                     $created_at
  * @property \Carbon\Carbon                                                                                     $updated_at
  * @property \Carbon\Carbon                                                                                     $deleted_at
- * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
- * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
+ * @property-read \Namdeveloper\Subscriptions\Models\Plan                                                             $plan
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Namdeveloper\Subscriptions\Models\PlanSubscriptionUsage[] $usage
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                 $user
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription byPlanId($planId)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedPeriod()
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndedTrial()
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingPeriod($dayRange = 3)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription findEndingTrial($dayRange = 3)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription ofUser(\Illuminate\Database\Eloquent\Model $user)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCanceledAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCancelsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription wherePlanId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereStartsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereTrialEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscription whereUserType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription byPlanId($planId)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription findEndedPeriod()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription findEndedTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription findEndingPeriod($dayRange = 3)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription findEndingTrial($dayRange = 3)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription ofUser(\Illuminate\Database\Eloquent\Model $user)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereCanceledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereCancelsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription wherePlanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereStartsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereTrialEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Namdeveloper\Subscriptions\Models\PlanSubscription whereUserType($value)
  * @mixin \Eloquent
  */
 class PlanSubscription extends Model
@@ -146,12 +146,12 @@ class PlanSubscription extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
+        $this->setTable(config('namdeveloper.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
-            'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('namdeveloper.subscriptions.tables.plan_subscriptions').',slug',
+            'plan_id' => 'required|integer|exists:'.config('namdeveloper.subscriptions.tables.plans').',id',
             'user_id' => 'required|integer',
             'user_type' => 'required|string',
             'trial_ends_at' => 'nullable|date',
@@ -206,7 +206,7 @@ class PlanSubscription extends Model
      */
     public function usage(): hasMany
     {
-        return $this->hasMany(config('rinvex.subscriptions.models.plan_subscription_usage'), 'subscription_id', 'id');
+        return $this->hasMany(config('namdeveloper.subscriptions.models.plan_subscription_usage'), 'subscription_id', 'id');
     }
 
     /**
@@ -282,7 +282,7 @@ class PlanSubscription extends Model
     /**
      * Change subscription plan.
      *
-     * @param \Rinvex\Subscriptions\Models\Plan $plan
+     * @param \Namdeveloper\Subscriptions\Models\Plan $plan
      *
      * @return $this
      */
@@ -434,7 +434,7 @@ class PlanSubscription extends Model
      * @param string $featureSlug
      * @param int    $uses
      *
-     * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage
+     * @return \Namdeveloper\Subscriptions\Models\PlanSubscriptionUsage
      */
     public function recordFeatureUsage(string $featureSlug, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
     {
@@ -472,7 +472,7 @@ class PlanSubscription extends Model
      * @param string $featureSlug
      * @param int    $uses
      *
-     * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage|null
+     * @return \Namdeveloper\Subscriptions\Models\PlanSubscriptionUsage|null
      */
     public function reduceFeatureUsage(string $featureSlug, int $uses = 1): ?PlanSubscriptionUsage
     {
