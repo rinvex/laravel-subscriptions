@@ -10,7 +10,6 @@ use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Namdeveloper\Subscriptions\Services\Period;
-use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
 use Namdeveloper\Subscriptions\Traits\BelongsToPlan;
@@ -55,7 +54,6 @@ class PlanFeature extends Model implements Sortable
     use HasSlug;
     use BelongsToPlan;
     use SortableTrait;
-    use HasTranslations;
     use ValidatingTrait;
 
     /**

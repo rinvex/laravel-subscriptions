@@ -11,7 +11,6 @@ use Rinvex\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Namdeveloper\Subscriptions\Services\Period;
-use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Namdeveloper\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -66,7 +65,6 @@ class PlanSubscription extends Model
 {
     use HasSlug;
     use BelongsToPlan;
-    use HasTranslations;
     use ValidatingTrait;
 
     /**
