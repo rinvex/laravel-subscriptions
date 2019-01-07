@@ -16,7 +16,7 @@ class CreatePlanSubscriptionsTable extends Migration
     {
         Schema::create(config('namdeveloper.subscriptions.tables.plan_subscriptions'), function (Blueprint $table) {
             $table->increments('id');
-            $table->morphs('user');
+            $table->morphs('object');
             $table->integer('plan_id')->unsigned();
             $table->string('slug');
             $table->{$this->jsonable()}('name');
