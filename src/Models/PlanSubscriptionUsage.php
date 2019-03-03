@@ -17,10 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int                                               $subscription_id
  * @property int                                               $feature_id
  * @property int                                               $used
- * @property \Carbon\Carbon                                    $valid_until
- * @property \Carbon\Carbon                                    $created_at
- * @property \Carbon\Carbon                                    $updated_at
- * @property \Carbon\Carbon                                    $deleted_at
+ * @property \Carbon\Carbon|null                               $valid_until
+ * @property \Carbon\Carbon|null                               $created_at
+ * @property \Carbon\Carbon|null                               $updated_at
+ * @property \Carbon\Carbon|null                               $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
  * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *
