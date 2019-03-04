@@ -137,7 +137,7 @@ class PlanFeature extends Model implements Sortable
         $this->setTable(config('namdeveloper.subscriptions.tables.plan_features'));
         $this->setRules([
             'plan_id' => 'required|integer|exists:'.config('namdeveloper.subscriptions.tables.plans').',id',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('namdeveloper.subscriptions.tables.plan_features').',slug',
+            'slug' => 'required|alpha_dash|max:150:'.config('namdeveloper.subscriptions.tables.plan_features').',slug',
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
@@ -157,7 +157,8 @@ class PlanFeature extends Model implements Sortable
         return SlugOptions::create()
                           ->doNotGenerateSlugsOnUpdate()
                           ->generateSlugsFrom('name')
-                          ->saveSlugsTo('slug');
+                          ->saveSlugsTo('slug')
+                          ->allowDuplicateSlugs();
     }
 
     /**
