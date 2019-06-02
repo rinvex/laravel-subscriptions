@@ -23,14 +23,14 @@
     composer require rinvex/laravel-subscriptions
     ```
 
-2. Execute migrations via the following command:
-    ```shell
-    php artisan rinvex:migrate:subscriptions
-    ```
-
-3. **Optional** if you want to change the configurations:
+2. Publish resources (migrations and config files):
     ```shell
     php artisan rinvex:publish:subscriptions
+    ```
+
+3. Execute migrations via the following command:
+    ```shell
+    php artisan rinvex:migrate:subscriptions
     ```
 
 4. Done!
