@@ -29,7 +29,18 @@ class MigrateCommand extends Command
      */
     public function handle(): void
     {
-        $this->warn($this->description);
-        $this->call('migrate', ['--step' => true, '--path' => 'vendor/rinvex/laravel-subscriptions/database/migrations', '--force' => $this->option('force')]);
+        $this->alert($this->description);
+
+        if (file_exists($path = 'database/migrations/rinvex/laravel-subscriptions')) {
+            $this->call('migrate', [
+                '--step' => true,
+                '--path' => $path,
+                '--force' => $this->option('force'),
+            ]);
+        } else {
+            $this->warn('No migrations found! Consider publish them first: <fg=green>php artisan rinvex:publish:subscriptions</>');
+        }
+
+        $this->line('');
     }
 }

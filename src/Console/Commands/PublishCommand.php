@@ -13,7 +13,7 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:publish:subscriptions {--force : Overwrite any existing files.}';
+    protected $signature = 'rinvex:publish:subscriptions {--force : Overwrite any existing files.} {--R|resource=all}';
 
     /**
      * The console command description.
@@ -29,7 +29,21 @@ class PublishCommand extends Command
      */
     public function handle(): void
     {
-        $this->warn($this->description);
-        $this->call('vendor:publish', ['--tag' => 'rinvex-subscriptions-config', '--force' => $this->option('force')]);
+        $this->alert($this->description);
+
+        switch ($this->option('resource')) {
+            case 'config':
+                $this->call('vendor:publish', ['--tag' => 'rinvex-subscriptions-config', '--force' => $this->option('force')]);
+                break;
+            case 'migrations':
+                $this->call('vendor:publish', ['--tag' => 'rinvex-subscriptions-migrations', '--force' => $this->option('force')]);
+                break;
+            default:
+                $this->call('vendor:publish', ['--tag' => 'rinvex-subscriptions-config', '--force' => $this->option('force')]);
+                $this->call('vendor:publish', ['--tag' => 'rinvex-subscriptions-migrations', '--force' => $this->option('force')]);
+                break;
+        }
+
+        $this->line('');
     }
 }

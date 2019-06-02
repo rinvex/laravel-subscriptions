@@ -4,7 +4,6 @@
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/laravel-subscriptions.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/laravel-subscriptions)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/laravel-subscriptions.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/laravel-subscriptions/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/laravel-subscriptions.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/laravel-subscriptions)
 [![Travis](https://img.shields.io/travis/rinvex/laravel-subscriptions.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/laravel-subscriptions)
 [![StyleCI](https://styleci.io/repos/93313402/shield)](https://styleci.io/repos/93313402)
 [![License](https://img.shields.io/packagist/l/rinvex/laravel-subscriptions.svg?label=License&style=flat-square)](https://github.com/rinvex/laravel-subscriptions/blob/develop/LICENSE)
@@ -23,14 +22,14 @@
     composer require rinvex/laravel-subscriptions
     ```
 
-2. Execute migrations via the following command:
-    ```shell
-    php artisan rinvex:migrate:subscriptions
-    ```
-
-3. **Optional** if you want to change the configurations:
+2. Publish resources (migrations and config files):
     ```shell
     php artisan rinvex:publish:subscriptions
+    ```
+
+3. Execute migrations via the following command:
+    ```shell
+    php artisan rinvex:migrate:subscriptions
     ```
 
 4. Done!
