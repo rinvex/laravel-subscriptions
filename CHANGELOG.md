@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v2.1.1] - 2019-06-03
+- Enforce latest composer package versions
+
 ## [v2.1.0] - 2019-06-02
 - Update composer deps
 - Drop PHP 7.1 travis test
@@ -71,6 +74,8 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
+[v2.1.1]: https://github.com/rinvex/laravel-subscriptions/compare/v2.1.0...v2.1.1
+[v2.1.0]: https://github.com/rinvex/laravel-subscriptions/compare/v2.0.0...v2.1.0
 [v2.0.0]: https://github.com/rinvex/laravel-subscriptions/compare/v1.0.2...v2.0.0
 [v1.0.2]: https://github.com/rinvex/laravel-subscriptions/compare/v1.0.1...v1.0.2
 [v1.0.1]: https://github.com/rinvex/laravel-subscriptions/compare/v1.0.0...v1.0.1
