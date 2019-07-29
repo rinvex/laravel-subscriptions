@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
  * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *
+ * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage byFeatureSlug($featureSlug)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage byFeatureName($featureName)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereDeletedAt($value)
@@ -134,6 +135,20 @@ class PlanSubscriptionUsage extends Model
     {
         $feature = PlanFeature::where('name', $featureName)->first();
 
+        return $builder->where('feature_id', $feature->getKey() ?? null);
+    }
+
+    /**
+     * Scope subscription usage by feature slug.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param string                                $featureSlug
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByFeatureSlug(Builder $builder, $featureSlug): Builder
+    {
+        $feature = PlanFeature::where('slug', $featureSlug)->first();
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }
 
