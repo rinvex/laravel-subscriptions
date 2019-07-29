@@ -149,6 +149,7 @@ class PlanSubscriptionUsage extends Model
     public function scopeByFeatureSlug(Builder $builder, $featureSlug): Builder
     {
         $feature = PlanFeature::where('slug', $featureSlug)->first();
+
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }
 
