@@ -38,20 +38,20 @@
     ],
     "require": {
         "php": "^7.2.0",
-        "illuminate/console": "~5.8.0",
-        "illuminate/database": "~5.8.0",
-        "illuminate/support": "~5.8.0",
-        "rinvex/laravel-cacheable": "^2.1.0",
-        "rinvex/laravel-support": "^2.1.0",
-        "spatie/eloquent-sortable": "^3.6.0",
-        "spatie/laravel-sluggable": "^2.1.0",
-        "spatie/laravel-translatable": "^4.1.0",
-        "watson/validating": "^3.2.0"
+        "illuminate/console": "^6.0.0",
+        "illuminate/database": "^6.0.0",
+        "illuminate/support": "^6.0.0",
+        "rinvex/laravel-cacheable": "^3.0.0",
+        "rinvex/laravel-support": "^3.0.0",
+        "spatie/eloquent-sortable": "^3.7.0",
+        "spatie/laravel-sluggable": "^2.2.0",
+        "spatie/laravel-translatable": "^4.2.0",
+        "watson/validating": "^3.3.0"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.26.0",
-        "illuminate/container": "~5.8.0",
-        "phpunit/phpunit": "^8.1.0"
+        "illuminate/container": "^6.0.0",
+        "phpunit/phpunit": "^8.3.0"
     },
     "autoload": {
         "classmap": [
