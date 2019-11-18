@@ -32,7 +32,7 @@ trait HasSubscriptions
      */
     public function subscriptions(): MorphMany
     {
-        return $this->rinvex_subscriptions();
+        return $this->rinvexSubscriptions();
     }
 
     /**
@@ -40,7 +40,7 @@ trait HasSubscriptions
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function rinvex_subscriptions(): MorphMany
+    public function rinvexSubscriptions(): MorphMany
     {
         return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'user');
     }
@@ -64,7 +64,7 @@ trait HasSubscriptions
      */
     public function subscription(string $subscriptionSlug): ?PlanSubscription
     {
-        return $this->rinvex_subscription($subscriptionSlug);
+        return $this->rinvexSubscription($subscriptionSlug);
     }
 
     /**
@@ -74,9 +74,9 @@ trait HasSubscriptions
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function rinvex_subscription(string $subscriptionSlug): ?PlanSubscription
+    public function rinvexSubscription(string $subscriptionSlug): ?PlanSubscription
     {
-        return $this->rinvex_subscriptions()->where('slug', $subscriptionSlug)->first();
+        return $this->rinvexSubscriptions()->where('slug', $subscriptionSlug)->first();
     }
 
     /**
@@ -100,7 +100,7 @@ trait HasSubscriptions
      */
     public function subscribedTo($planId): bool
     {
-        $subscription = $this->rinvex_subscriptions()->where('plan_id', $planId)->first();
+        $subscription = $this->rinvexSubscriptions()->where('plan_id', $planId)->first();
 
         return $subscription && $subscription->active();
     }
@@ -115,7 +115,7 @@ trait HasSubscriptions
      */
     public function newSubscription($subscription, Plan $plan): PlanSubscription
     {
-        return $this->rinvex_newSubscription($subscription, $plan);
+        return $this->rinvexNewSubscription($subscription, $plan);
     }
 
     /**
@@ -126,12 +126,12 @@ trait HasSubscriptions
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function rinvex_newSubscription($subscription, Plan $plan): PlanSubscription
+    public function rinvexNewSubscription($subscription, Plan $plan): PlanSubscription
     {
         $trial = new Period($plan->trial_interval, $plan->trial_period, now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
 
-        return $this->rinvex_subscriptions()->create([
+        return $this->rinvexSubscriptions()->create([
             'name' => $subscription,
             'plan_id' => $plan->getKey(),
             'trial_ends_at' => $trial->getEndDate(),

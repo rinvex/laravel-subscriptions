@@ -308,12 +308,12 @@ class User extends Authenticatable
 {
    use Billable, HasSubscriptions {
       Billable::newSubscription insteadof HasSubscriptions;
-      Billable::subscription insteadof HoasSubscriptions;
+      Billable::subscription insteadof HasSubscriptions;
       Billable::subscriptions insteadof HasSubscriptions;
    }
 ...
 ```
-Then, when refer to this package (instead cashier), call `$user->rinvex_newSubscription()` instead `$user->newSubscription()` (which is part of Laravel Cashier). The same for `subscriptions()` and `subscription()` functions.
+Then, when refer to this package (instead cashier), call `$user->rinvexNewSubscription()` instead `$user->newSubscription()` (which is part of Laravel Cashier). The same for `subscriptions()` and `subscription()` functions, following `camelCaseStyle`.
 
 
 ## Changelog
