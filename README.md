@@ -13,7 +13,7 @@
 
 - Payments are out of scope for this package.
 - You may want to extend some of the core models, in case you need to override the logic behind some helper methods like `renew()`, `cancel()` etc. E.g.: when cancelling a subscription you may want to also cancel the recurring payment attached.
-
+- If you are using Laravel Cashier, take a look at [solving conflicts with Laravel Cashier](#solving-conflicts-with-laravel-cashier)
 
 ## Installation
 
@@ -43,12 +43,12 @@
 
 ```php
 namespace App\Models;
-
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable
-{
+ 
+ use Rinvex\Subscriptions\Traits\HasSubscriptions;
+ use Illuminate\Foundation\Auth\User as Authenticatable;
+ 
+ class User extends Authenticatable
+ {
     use HasSubscriptions;
 }
 ```
@@ -294,6 +294,26 @@ Rinvex\Subscriptions\Models\PlanFeature;
 Rinvex\Subscriptions\Models\PlanSubscription;
 Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
 ```
+
+### Solving conflicts with Laravel Cashier
+Adapt your your `User.php` model file with something like this:
+
+```php
+namespace App\Models;
+
+use Rinvex\Subscriptions\Traits\HasSubscriptions;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+   use Billable, HasSubscriptions {
+      Billable::newSubscription insteadof HasSubscriptions;
+      Billable::subscription insteadof HoasSubscriptions;
+      Billable::subscriptions insteadof HasSubscriptions;
+   }
+...
+```
+Then, when refer to this package (instead cashier), call `$user->rinvex_newSubscription()` instead `$user->newSubscription()` (which is part of Laravel Cashier). The same for `subscriptions()` and `subscription()` functions.
 
 
 ## Changelog
