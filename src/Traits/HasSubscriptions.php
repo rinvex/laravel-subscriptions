@@ -88,12 +88,13 @@ trait HasSubscriptions
      *
      * @param string                            $subscription
      * @param \Rinvex\Subscriptions\Models\Plan $plan
+     * @param date                              $start_date
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function newSubscription($subscription, Plan $plan): PlanSubscription
+    public function newSubscription($subscription, Plan $plan, $start_date): PlanSubscription
     {
-        $trial = new Period($plan->trial_interval, $plan->trial_period, now());
+        $trial = new Period($plan->trial_interval, $plan->trial_period, $start_date);
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
 
         return $this->subscriptions()->create([
