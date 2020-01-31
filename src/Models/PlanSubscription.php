@@ -526,6 +526,10 @@ class PlanSubscription extends Model
     {
         $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
+        if (is_null($usage)) {
+            return 0;
+        }
+        
         return ! $usage->expired() ? $usage->used : 0;
     }
 
