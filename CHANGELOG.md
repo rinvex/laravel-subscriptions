@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v4.0.0] - 2020-03-15
+- Upgrade to Laravel v7.1.x & PHP v7.4.x
+
 ## [v3.0.2] - 2020-03-13
 - Tweak TravisCI config
 - Add migrations autoload option to the package
@@ -88,6 +91,8 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
+[v4.0.0]: https://github.com/rinvex/laravel-subscriptions/compare/v3.0.2...v4.0.0
+[v3.0.2]: https://github.com/rinvex/laravel-subscriptions/compare/v3.0.1...v3.0.2
 [v3.0.1]: https://github.com/rinvex/laravel-subscriptions/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/rinvex/laravel-subscriptions/compare/v2.1.1...v3.0.0
 [v2.1.1]: https://github.com/rinvex/laravel-subscriptions/compare/v2.1.0...v2.1.1
