@@ -16,8 +16,8 @@ class CreatePlanFeaturesTable extends Migration
     {
         Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
             // Columns
-            $table->increments('id');
-            $table->integer('plan_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('plan_id')->unsigned();
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
