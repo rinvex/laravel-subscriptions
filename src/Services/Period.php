@@ -50,7 +50,7 @@ class Period
         $this->interval = $interval;
 
         if (empty($start)) {
-            $this->start = now();
+            $this->start = Carbon::now();
         } elseif (! $start instanceof Carbon) {
             $this->start = new Carbon($start);
         } else {

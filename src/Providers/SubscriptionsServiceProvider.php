@@ -63,7 +63,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Publish Resources
-        ! $this->app->runningInConsole() || $this->publishesConfig('rinvex/laravel-subscriptions');
-        ! $this->app->runningInConsole() || $this->publishesMigrations('rinvex/laravel-subscriptions');
+        $this->publishesConfig('rinvex/laravel-subscriptions');
+        $this->publishesMigrations('rinvex/laravel-subscriptions');
+        ! $this->autoloadMigrations('rinvex.subscriptions') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
     }
 }
