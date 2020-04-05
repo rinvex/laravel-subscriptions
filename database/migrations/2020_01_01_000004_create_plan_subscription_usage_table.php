@@ -18,7 +18,7 @@ class CreatePlanSubscriptionUsageTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('subscription_id')->unsigned();
             $table->bigInteger('feature_id')->unsigned();
-            $table->smallInteger('used')->unsigned();
+            $table->bigInteger('used')->unsigned();
             $table->dateTime('valid_until')->nullable();
             $table->string('timezone')->nullable();
             $table->timestamps();
