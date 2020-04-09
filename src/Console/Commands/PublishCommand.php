@@ -31,7 +31,7 @@ class PublishCommand extends Command
     {
         $this->alert($this->description);
 
-        collect($this->option('resource'))->each(function ($resource) {
+        collect($this->option('resource') ?: ['config', 'migrations'])->each(function ($resource) {
             $this->call('vendor:publish', ['--tag' => "rinvex/subscriptions::{$resource}", '--force' => $this->option('force')]);
         });
 
