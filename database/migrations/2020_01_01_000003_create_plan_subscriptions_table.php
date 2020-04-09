@@ -15,9 +15,9 @@ class CreatePlanSubscriptionsTable extends Migration
     public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plan_subscriptions'), function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->morphs('user');
-            $table->bigInteger('plan_id')->unsigned();
+            $table->integer('plan_id')->unsigned();
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();
