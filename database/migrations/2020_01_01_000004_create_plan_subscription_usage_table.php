@@ -15,9 +15,9 @@ class CreatePlanSubscriptionUsageTable extends Migration
     public function up(): void
     {
         Schema::create(config('rinvex.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('subscription_id')->unsigned();
-            $table->bigInteger('feature_id')->unsigned();
+            $table->increments('id');
+            $table->integer('subscription_id')->unsigned();
+            $table->integer('feature_id')->unsigned();
             $table->bigInteger('used')->unsigned();
             $table->dateTime('valid_until')->nullable();
             $table->string('timezone')->nullable();
