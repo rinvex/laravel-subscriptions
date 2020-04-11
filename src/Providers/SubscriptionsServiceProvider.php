@@ -52,7 +52,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
         $planSubscriptionUsageModel === PlanSubscriptionUsage::class || $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsage::class);
 
         // Register console commands
-        $this->registerCommands();
+        $this->registerCommands($this->commands);
     }
 
     /**
