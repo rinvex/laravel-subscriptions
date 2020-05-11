@@ -143,7 +143,7 @@ class PlanFeature extends Model implements Sortable
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
             'name' => 'required|string|strip_tags|max:150',
-            'description' => 'nullable|string|strip_tags|max:10000',
+            'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
             'resettable_interval' => 'sometimes|in:hour,day,week,month',
