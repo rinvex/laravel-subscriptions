@@ -197,7 +197,7 @@ class PlanSubscription extends Model
      */
     public function user(): MorphTo
     {
-        return $this->morphTo('user', 'user_type', 'user_id');
+        return $this->morphTo('user', 'user_type', 'user_id', 'id');
     }
 
     /**
