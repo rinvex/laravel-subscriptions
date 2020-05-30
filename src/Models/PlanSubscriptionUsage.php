@@ -110,7 +110,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function feature(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id', 'feature');
     }
 
     /**
@@ -120,7 +120,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function subscription(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id', 'subscription');
     }
 
     /**

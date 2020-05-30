@@ -149,7 +149,7 @@ class PlanSubscription extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
-            'name' => 'required|string|max:150',
+            'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
@@ -197,7 +197,7 @@ class PlanSubscription extends Model
      */
     public function user(): MorphTo
     {
-        return $this->morphTo('user', 'user_type', 'user_id');
+        return $this->morphTo('user', 'user_type', 'user_id', 'id');
     }
 
     /**

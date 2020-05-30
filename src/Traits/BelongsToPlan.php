@@ -16,7 +16,7 @@ trait BelongsToPlan
      */
     public function plan(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan'), 'plan_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan'), 'plan_id', 'id', 'plan');
     }
 
     /**
