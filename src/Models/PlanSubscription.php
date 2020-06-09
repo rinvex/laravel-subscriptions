@@ -152,7 +152,7 @@ class PlanSubscription extends Model
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'user_id' => 'required|integer',
-            'user_type' => 'required|string',
+            'user_type' => 'required|string|strip_tags|max:150',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
