@@ -8,7 +8,6 @@ use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
@@ -73,7 +72,6 @@ class Plan extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
