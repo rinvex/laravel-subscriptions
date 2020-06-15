@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v4.1.0] - 2020-06-15
+- Update validation rules
+- Drop using rinvex/laravel-cacheable from core packages for more flexibility
+  - Caching should be handled on the application layer, not enforced from the core packages
+- Drop PHP 7.2 & 7.3 support from travis
+
 ## [v4.0.6] - 2020-05-30
 - Remove default indent size config
 - Add strip_tags validation rule to string fields
@@ -120,6 +126,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
+[v4.1.0]: https://github.com/rinvex/laravel-subscriptions/compare/v4.0.6...v4.1.0
 [v4.0.6]: https://github.com/rinvex/laravel-subscriptions/compare/v4.0.5...v4.0.6
 [v4.0.5]: https://github.com/rinvex/laravel-subscriptions/compare/v4.0.4...v4.0.5
 [v4.0.4]: https://github.com/rinvex/laravel-subscriptions/compare/v4.0.3...v4.0.4
