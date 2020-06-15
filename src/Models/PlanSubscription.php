@@ -10,7 +10,6 @@ use LogicException;
 use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
@@ -70,7 +69,6 @@ class PlanSubscription extends Model
     use BelongsToPlan;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
@@ -154,7 +152,7 @@ class PlanSubscription extends Model
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'user_id' => 'required|integer',
-            'user_type' => 'required|string',
+            'user_type' => 'required|string|strip_tags|max:150',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
