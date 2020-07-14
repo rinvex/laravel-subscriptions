@@ -175,22 +175,22 @@ class Plan extends Model implements Sortable
         $this->setRules([
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',slug',
             'name' => 'required|string|strip_tags|max:150',
-            'description' => 'nullable|string|max:10000',
+            'description' => 'nullable|string|max:32768',
             'is_active' => 'sometimes|boolean',
             'price' => 'required|numeric',
             'signup_fee' => 'required|numeric',
             'currency' => 'required|alpha|size:3',
-            'trial_period' => 'sometimes|integer|max:10000',
+            'trial_period' => 'sometimes|integer|max:100000',
             'trial_interval' => 'sometimes|in:hour,day,week,month',
-            'invoice_period' => 'sometimes|integer|max:10000',
+            'invoice_period' => 'sometimes|integer|max:100000',
             'invoice_interval' => 'sometimes|in:hour,day,week,month',
-            'grace_period' => 'sometimes|integer|max:10000',
+            'grace_period' => 'sometimes|integer|max:100000',
             'grace_interval' => 'sometimes|in:hour,day,week,month',
-            'sort_order' => 'nullable|integer|max:10000',
+            'sort_order' => 'nullable|integer|max:100000',
             'prorate_day' => 'nullable|integer|max:150',
             'prorate_period' => 'nullable|integer|max:150',
             'prorate_extend_due' => 'nullable|integer|max:150',
-            'active_subscribers_limit' => 'nullable|integer|max:10000',
+            'active_subscribers_limit' => 'nullable|integer|max:100000',
         ]);
     }
 
