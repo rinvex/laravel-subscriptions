@@ -45,11 +45,14 @@ class SubscriptionsServiceProvider extends ServiceProvider
         );
         $planModel === Plan::class || $this->app->alias('rinvex.subscriptions.plan', Plan::class);
 
-        $this->app->singleton('rinvex.subscriptions.plan_feature',
-            $planFeatureModel = $this->app['config']['rinvex.subscriptions.models.plan_feature']);
+        $this->app->singleton(
+            'rinvex.subscriptions.plan_feature',
+            $planFeatureModel = $this->app['config']['rinvex.subscriptions.models.plan_feature']
+        );
         $planFeatureModel === PlanFeature::class || $this->app->alias(
             'rinvex.subscriptions.plan_feature',
-            PlanFeature::class);
+            PlanFeature::class
+        );
 
         $this->app->singleton(
             'rinvex.subscriptions.plan_subscription',
@@ -57,7 +60,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
         );
         $planSubscriptionModel === PlanSubscription::class || $this->app->alias(
             'rinvex.subscriptions.plan_subscription',
-            PlanSubscription::class);
+            PlanSubscription::class
+        );
 
         $this->app->singleton(
             'rinvex.subscriptions.plan_subscription_usage',
@@ -65,7 +69,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
         );
         $planSubscriptionUsageModel === PlanSubscriptionUsage::class || $this->app->alias(
             'rinvex.subscriptions.plan_subscription_usage',
-            PlanSubscriptionUsage::class);
+            PlanSubscriptionUsage::class
+        );
 
         // Register console commands
         $this->registerCommands($this->commands);
