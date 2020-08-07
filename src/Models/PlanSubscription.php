@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Carbon\Carbon;
 use DB;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 use LogicException;
-use Rinvex\Subscriptions\Services\Period;
-use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Illuminate\Validation\Rule;
+use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
-use Spatie\Sluggable\SlugOptions;
+use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
@@ -151,13 +151,19 @@ class PlanSubscription extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
-            'tag' => ['required', 'alpha_dash', 'max:150', Rule::unique(config('rinvex.subscriptions.tables.plan_subscriptions'))->where(function ($query) {
-                return $query->where('id', '!=', $this->id)->where('user_type', $this->user_type)->where('user_id', $this->user_id);
-            })],
+            'tag' => [
+                'required',
+                'alpha_dash',
+                'max:150',
+                Rule::unique(config('rinvex.subscriptions.tables.plan_subscriptions'))->where(function ($query) {
+                    return $query->where('id', '!=', $this->id)->where('user_type', $this->user_type)->where('user_id',
+                        $this->user_id);
+                })
+            ],
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
-            'slug' => 'required|alpha_dash|max:150|unique:' . config('rinvex.subscriptions.tables.plan_subscriptions') . ',slug',
-            'plan_id' => 'required|integer|exists:' . config('rinvex.subscriptions.tables.plans') . ',id',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
+            'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'user_id' => 'required|integer',
             'user_type' => 'required|string|strip_tags|max:150',
             'trial_ends_at' => 'nullable|date',
@@ -176,7 +182,7 @@ class PlanSubscription extends Model
         parent::boot();
 
         static::validating(function (self $model) {
-            if (!$model->starts_at || !$model->ends_at) {
+            if (! $model->starts_at || ! $model->ends_at) {
                 $model->setNewPeriod();
             }
         });
@@ -222,7 +228,7 @@ class PlanSubscription extends Model
      */
     public function active(): bool
     {
-        return !$this->ended() || $this->onTrial();
+        return ! $this->ended() || $this->onTrial();
     }
 
     /**
@@ -232,7 +238,7 @@ class PlanSubscription extends Model
      */
     public function inactive(): bool
     {
-        return !$this->active();
+        return ! $this->active();
     }
 
     /**
@@ -442,8 +448,11 @@ class PlanSubscription extends Model
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage
      */
-    public function recordFeatureUsage(string $featureTag, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
-    {
+    public function recordFeatureUsage(
+        string $featureTag,
+        int $uses = 1,
+        bool $incremental = true
+    ): PlanSubscriptionUsage {
         $feature = $this->plan->features()->where('tag', $featureTag)->first();
 
         $usage = $this->usage()->firstOrNew([
@@ -532,7 +541,7 @@ class PlanSubscription extends Model
     {
         $usage = $this->usage()->byFeatureTag($featureTag)->first();
 
-        return !$usage->expired() ? $usage->used : 0;
+        return ! $usage->expired() ? $usage->used : 0;
     }
 
     /**

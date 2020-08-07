@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Rinvex\Support\Traits\HasSlug;
-use Rinvex\Support\Traits\HasTranslations;
-use Rinvex\Support\Traits\ValidatingTrait;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
+use Spatie\EloquentSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
+use Rinvex\Support\Traits\HasTranslations;
+use Spatie\EloquentSortable\SortableTrait;
+use Rinvex\Support\Traits\ValidatingTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Rinvex\Subscriptions\Models\Plan.
@@ -176,8 +176,8 @@ class Plan extends Model implements Sortable
 
         $this->setTable(config('rinvex.subscriptions.tables.plans'));
         $this->setRules([
-            'tag' => 'required|max:150|unique:' . config('rinvex.subscriptions.tables.plans') . ',tag',
-            'slug' => 'required|alpha_dash|max:150|unique:' . config('rinvex.subscriptions.tables.plans') . ',slug',
+            'tag' => 'required|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',tag',
+            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',slug',
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:32768',
             'is_active' => 'sometimes|boolean',
