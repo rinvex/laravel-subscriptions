@@ -5,21 +5,23 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
-use Spatie\Sluggable\SlugOptions;
-use Rinvex\Support\Traits\HasSlug;
-use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Validation\Rule;
 use Rinvex\Subscriptions\Services\Period;
+use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Rinvex\Support\Traits\HasSlug;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
+use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Rinvex\Subscriptions\Traits\BelongsToPlan;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * Rinvex\Subscriptions\Models\PlanFeature.
  *
  * @property int                                                                                                $id
+ * @property string                                                                                             $tag
  * @property int                                                                                                $plan_id
  * @property string                                                                                             $slug
  * @property array                                                                                              $title
@@ -62,6 +64,7 @@ class PlanFeature extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $fillable = [
+        'tag',
         'plan_id',
         'slug',
         'name',
@@ -76,6 +79,7 @@ class PlanFeature extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $casts = [
+        'tag' => 'string',
         'plan_id' => 'integer',
         'slug' => 'string',
         'value' => 'string',
@@ -138,8 +142,11 @@ class PlanFeature extends Model implements Sortable
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_features'));
         $this->setRules([
-            'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
+            'tag' => ['required', 'max:150', Rule::unique(config('rinvex.subscriptions.tables.plan_features'))->where(function ($query) {
+                return $query->where('id', '!=', $this->id)->where('plan_id', $this->plan_id);
+            })],
+            'plan_id' => 'required|integer|exists:' . config('rinvex.subscriptions.tables.plans') . ',id',
+            'slug' => 'required|alpha_dash|max:150|unique:' . config('rinvex.subscriptions.tables.plan_features') . ',slug',
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
@@ -157,9 +164,9 @@ class PlanFeature extends Model implements Sortable
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
-                          ->saveSlugsTo('slug');
+            ->doNotGenerateSlugsOnUpdate()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
     }
 
     /**

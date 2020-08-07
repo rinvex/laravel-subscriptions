@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreatePlansTable extends Migration
 {
@@ -17,6 +17,7 @@ class CreatePlansTable extends Migration
         Schema::create(config('rinvex.subscriptions.tables.plans'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
+            $table->string('tag')->unique();
             $table->string('slug');
             $table->{$this->jsonable()}('name');
             $table->{$this->jsonable()}('description')->nullable();

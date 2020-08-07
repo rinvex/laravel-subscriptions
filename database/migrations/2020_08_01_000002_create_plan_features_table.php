@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreatePlanFeaturesTable extends Migration
 {
@@ -17,6 +17,7 @@ class CreatePlanFeaturesTable extends Migration
         Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
+            $table->string('tag');
             $table->integer('plan_id')->unsigned();
             $table->string('slug');
             $table->{$this->jsonable()}('name');
@@ -29,9 +30,10 @@ class CreatePlanFeaturesTable extends Migration
             $table->softDeletes();
 
             // Indexes
+            $table->unique(['tag', 'plan_id']);
             $table->unique(['plan_id', 'slug']);
             $table->foreign('plan_id')->references('id')->on(config('rinvex.subscriptions.tables.plans'))
-                  ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

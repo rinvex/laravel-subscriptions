@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use DB;
 use Carbon\Carbon;
-use LogicException;
-use Spatie\Sluggable\SlugOptions;
-use Rinvex\Support\Traits\HasSlug;
-use Illuminate\Database\Eloquent\Model;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
-use Rinvex\Subscriptions\Services\Period;
-use Rinvex\Support\Traits\HasTranslations;
-use Rinvex\Support\Traits\ValidatingTrait;
-use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Validation\Rule;
+use LogicException;
+use Rinvex\Subscriptions\Services\Period;
+use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Rinvex\Support\Traits\HasSlug;
+use Rinvex\Support\Traits\HasTranslations;
+use Rinvex\Support\Traits\ValidatingTrait;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
  *
  * @property int                                                                                                $id
+ * @property string                                                                                             $tag
  * @property int                                                                                                $user_id
  * @property string                                                                                             $user_type
  * @property int                                                                                                $plan_id
@@ -74,6 +76,7 @@ class PlanSubscription extends Model
      * {@inheritdoc}
      */
     protected $fillable = [
+        'tag',
         'user_id',
         'user_type',
         'plan_id',
@@ -91,6 +94,7 @@ class PlanSubscription extends Model
      * {@inheritdoc}
      */
     protected $casts = [
+        'tag' => 'string',
         'user_id' => 'integer',
         'user_type' => 'string',
         'plan_id' => 'integer',
@@ -147,10 +151,13 @@ class PlanSubscription extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
+            'tag' => ['required', 'alpha_dash', 'max:150', Rule::unique(config('rinvex.subscriptions.tables.plan_subscriptions'))->where(function ($query) {
+                return $query->where('id', '!=', $this->id)->where('user_type', $this->user_type)->where('user_id', $this->user_id);
+            })],
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
-            'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
+            'slug' => 'required|alpha_dash|max:150|unique:' . config('rinvex.subscriptions.tables.plan_subscriptions') . ',slug',
+            'plan_id' => 'required|integer|exists:' . config('rinvex.subscriptions.tables.plans') . ',id',
             'user_id' => 'required|integer',
             'user_type' => 'required|string|strip_tags|max:150',
             'trial_ends_at' => 'nullable|date',
@@ -169,7 +176,7 @@ class PlanSubscription extends Model
         parent::boot();
 
         static::validating(function (self $model) {
-            if (! $model->starts_at || ! $model->ends_at) {
+            if (!$model->starts_at || !$model->ends_at) {
                 $model->setNewPeriod();
             }
         });
@@ -183,9 +190,9 @@ class PlanSubscription extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
-                          ->saveSlugsTo('slug');
+            ->doNotGenerateSlugsOnUpdate()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
     }
 
     /**
@@ -215,7 +222,7 @@ class PlanSubscription extends Model
      */
     public function active(): bool
     {
-        return ! $this->ended() || $this->onTrial();
+        return !$this->ended() || $this->onTrial();
     }
 
     /**
@@ -225,7 +232,7 @@ class PlanSubscription extends Model
      */
     public function inactive(): bool
     {
-        return ! $this->active();
+        return !$this->active();
     }
 
     /**
@@ -306,9 +313,9 @@ class PlanSubscription extends Model
     /**
      * Renew subscription period.
      *
+     * @return $this
      * @throws \LogicException
      *
-     * @return $this
      */
     public function renew()
     {
@@ -430,14 +437,14 @@ class PlanSubscription extends Model
     /**
      * Record feature usage.
      *
-     * @param string $featureSlug
+     * @param string $featureTag
      * @param int    $uses
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage
      */
-    public function recordFeatureUsage(string $featureSlug, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
+    public function recordFeatureUsage(string $featureTag, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
     {
-        $feature = $this->plan->features()->where('slug', $featureSlug)->first();
+        $feature = $this->plan->features()->where('tag', $featureTag)->first();
 
         $usage = $this->usage()->firstOrNew([
             'subscription_id' => $this->getKey(),
@@ -468,14 +475,14 @@ class PlanSubscription extends Model
     /**
      * Reduce usage.
      *
-     * @param string $featureSlug
+     * @param string $featureTag
      * @param int    $uses
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage|null
      */
-    public function reduceFeatureUsage(string $featureSlug, int $uses = 1): ?PlanSubscriptionUsage
+    public function reduceFeatureUsage(string $featureTag, int $uses = 1): ?PlanSubscriptionUsage
     {
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
+        $usage = $this->usage()->byFeatureTag($featureTag)->first();
 
         if (is_null($usage)) {
             return null;
@@ -491,14 +498,14 @@ class PlanSubscription extends Model
     /**
      * Determine if the feature can be used.
      *
-     * @param string $featureSlug
+     * @param string $featureTag
      *
      * @return bool
      */
-    public function canUseFeature(string $featureSlug): bool
+    public function canUseFeature(string $featureTag): bool
     {
-        $featureValue = $this->getFeatureValue($featureSlug);
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
+        $featureValue = $this->getFeatureValue($featureTag);
+        $usage = $this->usage()->byFeatureTag($featureTag)->first();
 
         if ($featureValue === 'true') {
             return true;
@@ -511,45 +518,45 @@ class PlanSubscription extends Model
         }
 
         // Check for available uses
-        return $this->getFeatureRemainings($featureSlug) > 0;
+        return $this->getFeatureRemainings($featureTag) > 0;
     }
 
     /**
      * Get how many times the feature has been used.
      *
-     * @param string $featureSlug
+     * @param string $featureTag
      *
      * @return int
      */
-    public function getFeatureUsage(string $featureSlug): int
+    public function getFeatureUsage(string $featureTag): int
     {
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
+        $usage = $this->usage()->byFeatureTag($featureTag)->first();
 
-        return ! $usage->expired() ? $usage->used : 0;
+        return !$usage->expired() ? $usage->used : 0;
     }
 
     /**
      * Get the available uses.
      *
-     * @param string $featureSlug
+     * @param string $featureTag
      *
      * @return int
      */
-    public function getFeatureRemainings(string $featureSlug): int
+    public function getFeatureRemainings(string $featureTag): int
     {
-        return $this->getFeatureValue($featureSlug) - $this->getFeatureUsage($featureSlug);
+        return $this->getFeatureValue($featureTag) - $this->getFeatureUsage($featureTag);
     }
 
     /**
      * Get feature value.
      *
-     * @param string $featureSlug
+     * @param string $featureTag
      *
      * @return mixed
      */
-    public function getFeatureValue(string $featureSlug)
+    public function getFeatureValue(string $featureTag)
     {
-        $feature = $this->plan->features()->where('slug', $featureSlug)->first();
+        $feature = $this->plan->features()->where('tag', $featureTag)->first();
 
         return $feature->value ?? null;
     }

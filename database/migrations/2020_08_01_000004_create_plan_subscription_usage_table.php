@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreatePlanSubscriptionUsageTable extends Migration
 {
@@ -26,9 +26,9 @@ class CreatePlanSubscriptionUsageTable extends Migration
 
             $table->unique(['subscription_id', 'feature_id']);
             $table->foreign('subscription_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_subscriptions'))
-                  ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('feature_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_features'))
-                  ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
