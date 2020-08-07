@@ -20,19 +20,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Rinvex\Subscriptions\Models\PlanFeature.
  *
- * @property int                                                                                                $id
- * @property string                                                                                             $tag
- * @property int                                                                                                $plan_id
- * @property string                                                                                             $slug
- * @property array                                                                                              $title
- * @property array                                                                                              $description
- * @property string                                                                                             $value
- * @property int                                                                                                $resettable_period
- * @property string                                                                                             $resettable_interval
- * @property int                                                                                                $sort_order
- * @property \Carbon\Carbon|null                                                                                $created_at
- * @property \Carbon\Carbon|null                                                                                $updated_at
- * @property \Carbon\Carbon|null                                                                                $deleted_at
+ * @property int                 $id
+ * @property string              $tag
+ * @property int                 $plan_id
+ * @property string              $slug
+ * @property array               $title
+ * @property array               $description
+ * @property string              $value
+ * @property int                 $resettable_period
+ * @property string              $resettable_interval
+ * @property int                 $sort_order
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
  *
