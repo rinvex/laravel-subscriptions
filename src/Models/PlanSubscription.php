@@ -156,9 +156,9 @@ class PlanSubscription extends Model
                 'alpha_dash',
                 'max:150',
                 Rule::unique(config('rinvex.subscriptions.tables.plan_subscriptions'))->where(function ($query) {
-                    return $query->where('id', '!=', $this->id)->where('user_type', $this->user_type)->where('user_id',
-                        $this->user_id);
-                })
+                    return $query->where('id', '!=', $this->id)->where('user_type', $this->user_type)
+                        ->where('user_id', $this->user_id);
+                }),
             ],
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
@@ -319,9 +319,9 @@ class PlanSubscription extends Model
     /**
      * Renew subscription period.
      *
-     * @return $this
      * @throws \LogicException
      *
+     * @return $this
      */
     public function renew()
     {
@@ -417,7 +417,7 @@ class PlanSubscription extends Model
      * Set new subscription period.
      *
      * @param string $invoice_interval
-     * @param int    $invoice_period
+     * @param string $invoice_period
      * @param string $start
      *
      * @return $this

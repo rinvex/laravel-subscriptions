@@ -147,7 +147,7 @@ class PlanFeature extends Model implements Sortable
                 'max:150',
                 Rule::unique(config('rinvex.subscriptions.tables.plan_features'))->where(function ($query) {
                     return $query->where('id', '!=', $this->id)->where('plan_id', $this->plan_id);
-                })
+                }),
             ],
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',

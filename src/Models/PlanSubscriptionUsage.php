@@ -118,8 +118,12 @@ class PlanSubscriptionUsage extends Model
      */
     public function subscription(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id',
-            'subscription');
+        return $this->belongsTo(
+            config('rinvex.subscriptions.models.plan_subscription'),
+            'subscription_id',
+            'id',
+            'subscription'
+        );
     }
 
     /**

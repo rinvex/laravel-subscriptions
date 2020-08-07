@@ -238,7 +238,7 @@ class Plan extends Model implements Sortable
      */
     public function isFree(): bool
     {
-        return (float)$this->price <= 0.00;
+        return (float) $this->price <= 0.00;
     }
 
     /**
