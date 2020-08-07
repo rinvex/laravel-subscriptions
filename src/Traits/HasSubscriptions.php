@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Traits;
 
-use Rinvex\Subscriptions\Models\Plan;
-use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
-use Rinvex\Subscriptions\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Rinvex\Subscriptions\Models\Plan;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Rinvex\Subscriptions\Services\Period;
 
 trait HasSubscriptions
 {
@@ -46,15 +46,15 @@ trait HasSubscriptions
     }
 
     /**
-     * Get a subscription by slug.
+     * Get a subscription by tag.
      *
-     * @param string $subscriptionSlug
+     * @param string $subscriptionTag
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscription(string $subscriptionSlug): ?PlanSubscription
+    public function subscription(string $subscriptionTag): ?PlanSubscription
     {
-        return $this->subscriptions()->where('slug', $subscriptionSlug)->first();
+        return $this->subscriptions()->where('tag', $subscriptionTag)->first();
     }
 
     /**
@@ -86,18 +86,20 @@ trait HasSubscriptions
     /**
      * Subscribe user to a new plan.
      *
-     * @param string                            $subscription
+     * @param string                            $subscription Identifier tag for the subscription
      * @param \Rinvex\Subscriptions\Models\Plan $plan
+     * @param string                            $name         Human readable name for your plan
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function newSubscription($subscription, Plan $plan): PlanSubscription
+    public function newSubscription($subscription, Plan $plan, $name): PlanSubscription
     {
         $trial = new Period($plan->trial_interval, $plan->trial_period, now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
 
         return $this->subscriptions()->create([
-            'name' => $subscription,
+            'tag' => $subscription,
+            'name' => $name,
             'plan_id' => $plan->getKey(),
             'trial_ends_at' => $trial->getEndDate(),
             'starts_at' => $period->getStartDate(),

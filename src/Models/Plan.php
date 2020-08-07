@@ -4,40 +4,41 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Spatie\Sluggable\SlugOptions;
-use Rinvex\Support\Traits\HasSlug;
-use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rinvex\Support\Traits\HasSlug;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
+use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * Rinvex\Subscriptions\Models\Plan.
  *
- * @property int                                                                                          $id
- * @property string                                                                                       $slug
- * @property array                                                                                        $name
- * @property array                                                                                        $description
- * @property bool                                                                                         $is_active
- * @property float                                                                                        $price
- * @property float                                                                                        $signup_fee
- * @property string                                                                                       $currency
- * @property int                                                                                          $trial_period
- * @property string                                                                                       $trial_interval
- * @property int                                                                                          $invoice_period
- * @property string                                                                                       $invoice_interval
- * @property int                                                                                          $grace_period
- * @property string                                                                                       $grace_interval
- * @property int                                                                                          $prorate_day
- * @property int                                                                                          $prorate_period
- * @property int                                                                                          $prorate_extend_due
- * @property int                                                                                          $active_subscribers_limit
- * @property int                                                                                          $sort_order
- * @property \Carbon\Carbon|null                                                                          $created_at
- * @property \Carbon\Carbon|null                                                                          $updated_at
- * @property \Carbon\Carbon|null                                                                          $deleted_at
+ * @property int                                                                                           $id
+ * @property string                                                                                        $tag
+ * @property string                                                                                        $slug
+ * @property array                                                                                         $name
+ * @property array                                                                                         $description
+ * @property bool                                                                                          $is_active
+ * @property float                                                                                         $price
+ * @property float                                                                                         $signup_fee
+ * @property string                                                                                        $currency
+ * @property int                                                                                           $trial_period
+ * @property string                                                                                        $trial_interval
+ * @property int                                                                                           $invoice_period
+ * @property string                                                                                        $invoice_interval
+ * @property int                                                                                           $grace_period
+ * @property string                                                                                        $grace_interval
+ * @property int                                                                                           $prorate_day
+ * @property int                                                                                           $prorate_period
+ * @property int                                                                                           $prorate_extend_due
+ * @property int                                                                                           $active_subscribers_limit
+ * @property int                                                                                           $sort_order
+ * @property \Carbon\Carbon|null                                                                           $created_at
+ * @property \Carbon\Carbon|null                                                                           $updated_at
+ * @property \Carbon\Carbon|null                                                                           $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanFeature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscription[] $subscriptions
  *
@@ -77,6 +78,7 @@ class Plan extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $fillable = [
+        'tag',
         'slug',
         'name',
         'description',
@@ -101,6 +103,7 @@ class Plan extends Model implements Sortable
      * {@inheritdoc}
      */
     protected $casts = [
+        'tag' => 'string',
         'slug' => 'string',
         'is_active' => 'boolean',
         'price' => 'float',
@@ -173,7 +176,8 @@ class Plan extends Model implements Sortable
 
         $this->setTable(config('rinvex.subscriptions.tables.plans'));
         $this->setRules([
-            'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',slug',
+            'tag' => 'required|max:150|unique:' . config('rinvex.subscriptions.tables.plans') . ',tag',
+            'slug' => 'required|alpha_dash|max:150|unique:' . config('rinvex.subscriptions.tables.plans') . ',slug',
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:32768',
             'is_active' => 'sometimes|boolean',
@@ -202,9 +206,9 @@ class Plan extends Model implements Sortable
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-                          ->doNotGenerateSlugsOnUpdate()
-                          ->generateSlugsFrom('name')
-                          ->saveSlugsTo('slug');
+            ->doNotGenerateSlugsOnUpdate()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
     }
 
     /**
@@ -234,7 +238,7 @@ class Plan extends Model implements Sortable
      */
     public function isFree(): bool
     {
-        return (float) $this->price <= 0.00;
+        return (float)$this->price <= 0.00;
     }
 
     /**
@@ -267,6 +271,18 @@ class Plan extends Model implements Sortable
     public function getFeatureBySlug(string $featureSlug): ?PlanFeature
     {
         return $this->features()->where('slug', $featureSlug)->first();
+    }
+
+    /**
+     * Get plan feature by the given tag.
+     *
+     * @param string $featureTag
+     *
+     * @return \Rinvex\Subscriptions\Models\PlanFeature|null
+     */
+    public function getFeatureByTag(string $featureTag): ?PlanFeature
+    {
+        return $this->features()->where('tag', $featureTag)->first();
     }
 
     /**

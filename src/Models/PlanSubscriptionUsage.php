@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Rinvex\Support\Traits\ValidatingTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Rinvex\Support\Traits\ValidatingTrait;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
  *
- * @property int                                               $id
- * @property int                                               $subscription_id
- * @property int                                               $feature_id
- * @property int                                               $used
- * @property \Carbon\Carbon|null                               $valid_until
- * @property \Carbon\Carbon|null                               $created_at
- * @property \Carbon\Carbon|null                               $updated_at
- * @property \Carbon\Carbon|null                               $deleted_at
+ * @property int                                                $id
+ * @property int                                                $subscription_id
+ * @property int                                                $feature_id
+ * @property int                                                $used
+ * @property \Carbon\Carbon|null                                $valid_until
+ * @property \Carbon\Carbon|null                                $created_at
+ * @property \Carbon\Carbon|null                                $updated_at
+ * @property \Carbon\Carbon|null                                $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
  * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *
@@ -94,8 +94,8 @@ class PlanSubscriptionUsage extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscription_usage'));
         $this->setRules([
-            'subscription_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_subscriptions').',id',
-            'feature_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_features').',id',
+            'subscription_id' => 'required|integer|exists:' . config('rinvex.subscriptions.tables.plan_subscriptions') . ',id',
+            'feature_id' => 'required|integer|exists:' . config('rinvex.subscriptions.tables.plan_features') . ',id',
             'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
@@ -122,16 +122,16 @@ class PlanSubscriptionUsage extends Model
     }
 
     /**
-     * Scope subscription usage by feature name.
+     * Scope subscription usage by feature tag.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string                                $featureName
+     * @param string                                $featureTag
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeByFeatureName(Builder $builder, string $featureName): Builder
+    public function scopeByFeatureTag(Builder $builder, string $featureTag): Builder
     {
-        $feature = PlanFeature::where('name', $featureName)->first();
+        $feature = PlanFeature::where('tag', $featureTag)->first();
 
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }
