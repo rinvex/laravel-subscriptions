@@ -451,6 +451,33 @@ public function down()
     });
 }
 ```
+##### Plans subscription usage
+This is a minor change.
+```php
+/**
+ * Run the migrations.
+ *
+ * @return void
+ */
+public function up()
+{
+    Schema::table(config('rinvex.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
+        $table->integer('used')->unsigned()->change();
+    });
+}
+
+/**
+ * Reverse the migrations.
+ *
+ * @return void
+ */
+public function down()
+{
+    Schema::table(config('rinvex.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
+        $table->smallInteger('used')->unsigned()->change();
+    });
+}
+```
 
 ## Changelog<a name="changelog"></a>
 
