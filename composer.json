@@ -41,8 +41,6 @@
         "illuminate/console": "^8.0.0",
         "illuminate/database": "^8.0.0",
         "illuminate/support": "^8.0.0",
-        "rinvex/laravel-cacheable": "^3.0.0",
-        "rinvex/laravel-support": "^3.0.0",
         "spatie/eloquent-sortable": "^3.7.0",
         "spatie/laravel-sluggable": "^2.2.0",
         "spatie/laravel-translatable": "^4.2.0",
