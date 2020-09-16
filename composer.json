@@ -1,5 +1,5 @@
 {
-    "name": "rinvex/laravel-subscriptions",
+    "name": "jbstoker/laravel-subscriptions",
     "description": "Rinvex Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
     "type": "library",
     "keywords": [
@@ -37,14 +37,15 @@
         }
     ],
     "require": {
-        "php": "^7.4.0",
-        "illuminate/console": "^7.0.0",
-        "illuminate/database": "^7.0.0",
-        "illuminate/support": "^7.0.0",
-        "rinvex/laravel-support": "^4.0.0",
+        "php": "^7.2.0",
+        "illuminate/console": "^8.0.0",
+        "illuminate/database": "^8.0.0",
+        "illuminate/support": "^8.0.0",
+        "jbstoker/laravel-support": "dev-master",
         "spatie/eloquent-sortable": "^3.7.0",
         "spatie/laravel-sluggable": "^2.2.0",
-        "spatie/laravel-translatable": "^4.2.0"
+        "spatie/laravel-translatable": "^4.2.0",
+        "watson/validating": "^6.0.0"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.27.0",
@@ -78,7 +79,5 @@
                 "Rinvex\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
             ]
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
