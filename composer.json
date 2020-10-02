@@ -45,7 +45,15 @@
         "spatie/eloquent-sortable": "^3.7.0",
         "spatie/laravel-sluggable": "^2.2.0",
         "spatie/laravel-translatable": "^4.2.0"
+        "tallesairan/laravel-support": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/tallesairan/laravel-support.git"
+
+        }
+    ],
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.27.0",
         "illuminate/container": "^7.0.0",
