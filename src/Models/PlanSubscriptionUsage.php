@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,7 +38,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PlanSubscriptionUsage extends Model
 {
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
@@ -109,7 +108,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function feature(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id', 'feature');
     }
 
     /**
@@ -119,7 +118,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function subscription(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id');
+        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id', 'subscription');
     }
 
     /**
@@ -148,6 +147,6 @@ class PlanSubscriptionUsage extends Model
             return false;
         }
 
-        return now()->gte($this->valid_until);
+        return Carbon::now()->gte($this->valid_until);
     }
 }

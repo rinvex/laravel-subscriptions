@@ -9,7 +9,6 @@ use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
@@ -58,7 +57,6 @@ class PlanFeature extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
@@ -142,12 +140,12 @@ class PlanFeature extends Model implements Sortable
         $this->setRules([
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
-            'name' => 'required|string|max:150',
+            'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
             'resettable_interval' => 'sometimes|in:hour,day,week,month',
-            'sort_order' => 'nullable|integer|max:10000000',
+            'sort_order' => 'nullable|integer|max:10000',
         ]);
     }
 

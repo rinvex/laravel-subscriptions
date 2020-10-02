@@ -52,7 +52,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
         $planSubscriptionUsageModel === PlanSubscriptionUsage::class || $this->app->alias('rinvex.subscriptions.plan_subscription_usage', PlanSubscriptionUsage::class);
 
         // Register console commands
-        ! $this->app->runningInConsole() || $this->registerCommands();
+        $this->registerCommands($this->commands);
     }
 
     /**
@@ -63,7 +63,8 @@ class SubscriptionsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Publish Resources
-        ! $this->app->runningInConsole() || $this->publishesConfig('rinvex/laravel-subscriptions');
-        ! $this->app->runningInConsole() || $this->publishesMigrations('rinvex/laravel-subscriptions');
+        $this->publishesConfig('rinvex/laravel-subscriptions');
+        $this->publishesMigrations('rinvex/laravel-subscriptions');
+        ! $this->autoloadMigrations('rinvex/laravel-subscriptions') || $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
     }
 }

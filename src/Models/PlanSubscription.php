@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use DB;
+use Carbon\Carbon;
 use LogicException;
 use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
@@ -69,7 +69,6 @@ class PlanSubscription extends Model
     use BelongsToPlan;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
@@ -148,12 +147,12 @@ class PlanSubscription extends Model
 
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
-            'name' => 'required|string|max:150',
+            'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'user_id' => 'required|integer',
-            'user_type' => 'required|string',
+            'user_type' => 'required|string|strip_tags|max:150',
             'trial_ends_at' => 'nullable|date',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
@@ -196,7 +195,7 @@ class PlanSubscription extends Model
      */
     public function user(): MorphTo
     {
-        return $this->morphTo('user', 'user_type', 'user_id');
+        return $this->morphTo('user', 'user_type', 'user_id', 'id');
     }
 
     /**
@@ -236,7 +235,7 @@ class PlanSubscription extends Model
      */
     public function onTrial(): bool
     {
-        return $this->trial_ends_at ? now()->lt($this->trial_ends_at) : false;
+        return $this->trial_ends_at ? Carbon::now()->lt($this->trial_ends_at) : false;
     }
 
     /**
@@ -246,7 +245,7 @@ class PlanSubscription extends Model
      */
     public function canceled(): bool
     {
-        return $this->canceled_at ? now()->gte($this->canceled_at) : false;
+        return $this->canceled_at ? Carbon::now()->gte($this->canceled_at) : false;
     }
 
     /**
@@ -256,7 +255,7 @@ class PlanSubscription extends Model
      */
     public function ended(): bool
     {
-        return $this->ends_at ? now()->gte($this->ends_at) : false;
+        return $this->ends_at ? Carbon::now()->gte($this->ends_at) : false;
     }
 
     /**
@@ -268,7 +267,7 @@ class PlanSubscription extends Model
      */
     public function cancel($immediately = false)
     {
-        $this->canceled_at = now();
+        $this->canceled_at = Carbon::now();
 
         if ($immediately) {
             $this->ends_at = $this->canceled_at;
@@ -355,8 +354,8 @@ class PlanSubscription extends Model
      */
     public function scopeFindEndingTrial(Builder $builder, int $dayRange = 3): Builder
     {
-        $from = now();
-        $to = now()->addDays($dayRange);
+        $from = Carbon::now();
+        $to = Carbon::now()->addDays($dayRange);
 
         return $builder->whereBetween('trial_ends_at', [$from, $to]);
     }
@@ -383,8 +382,8 @@ class PlanSubscription extends Model
      */
     public function scopeFindEndingPeriod(Builder $builder, int $dayRange = 3): Builder
     {
-        $from = now();
-        $to = now()->addDays($dayRange);
+        $from = Carbon::now();
+        $to = Carbon::now()->addDays($dayRange);
 
         return $builder->whereBetween('ends_at', [$from, $to]);
     }

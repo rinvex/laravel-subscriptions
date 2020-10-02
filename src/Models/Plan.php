@@ -8,7 +8,6 @@ use Spatie\Sluggable\SlugOptions;
 use Rinvex\Support\Traits\HasSlug;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Rinvex\Cacheable\CacheableEloquent;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
@@ -73,7 +72,6 @@ class Plan extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
 
     /**
      * {@inheritdoc}
@@ -176,7 +174,7 @@ class Plan extends Model implements Sortable
         $this->setTable(config('rinvex.subscriptions.tables.plans'));
         $this->setRules([
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plans').',slug',
-            'name' => 'required|string|max:150',
+            'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:10000',
             'is_active' => 'sometimes|boolean',
             'price' => 'required|numeric',
@@ -188,7 +186,7 @@ class Plan extends Model implements Sortable
             'invoice_interval' => 'sometimes|in:hour,day,week,month',
             'grace_period' => 'sometimes|integer|max:10000',
             'grace_interval' => 'sometimes|in:hour,day,week,month',
-            'sort_order' => 'nullable|integer|max:10000000',
+            'sort_order' => 'nullable|integer|max:10000',
             'prorate_day' => 'nullable|integer|max:150',
             'prorate_period' => 'nullable|integer|max:150',
             'prorate_extend_due' => 'nullable|integer|max:150',
