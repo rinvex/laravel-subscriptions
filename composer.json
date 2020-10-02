@@ -44,7 +44,7 @@
         "spatie/eloquent-sortable": "^3.7.0",
         "spatie/laravel-sluggable": "^2.2.0",
         "spatie/laravel-translatable": "^4.2.0",
-        "tallesairan/laravel-support": "master"
+        "tallesairan/laravel-support": "dev-master"
     },
     "repositories": [
         {
