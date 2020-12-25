@@ -13,14 +13,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
  *
- * @property int                                               $id
- * @property int                                               $subscription_id
- * @property int                                               $feature_id
- * @property int                                               $used
- * @property \Carbon\Carbon|null                               $valid_until
- * @property \Carbon\Carbon|null                               $created_at
- * @property \Carbon\Carbon|null                               $updated_at
- * @property \Carbon\Carbon|null                               $deleted_at
+ * @property int                 $id
+ * @property int                 $subscription_id
+ * @property int                 $feature_id
+ * @property int                 $used
+ * @property \Carbon\Carbon|null $valid_until
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
  * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
  *

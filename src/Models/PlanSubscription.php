@@ -21,21 +21,21 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
  *
- * @property int                                                                                                $id
- * @property int                                                                                                $user_id
- * @property string                                                                                             $user_type
- * @property int                                                                                                $plan_id
- * @property string                                                                                             $slug
- * @property array                                                                                              $title
- * @property array                                                                                              $description
- * @property \Carbon\Carbon|null                                                                                $trial_ends_at
- * @property \Carbon\Carbon|null                                                                                $starts_at
- * @property \Carbon\Carbon|null                                                                                $ends_at
- * @property \Carbon\Carbon|null                                                                                $cancels_at
- * @property \Carbon\Carbon|null                                                                                $canceled_at
- * @property \Carbon\Carbon|null                                                                                $created_at
- * @property \Carbon\Carbon|null                                                                                $updated_at
- * @property \Carbon\Carbon|null                                                                                $deleted_at
+ * @property int                 $id
+ * @property int                 $user_id
+ * @property string              $user_type
+ * @property int                 $plan_id
+ * @property string              $slug
+ * @property array               $title
+ * @property array               $description
+ * @property \Carbon\Carbon|null $trial_ends_at
+ * @property \Carbon\Carbon|null $starts_at
+ * @property \Carbon\Carbon|null $ends_at
+ * @property \Carbon\Carbon|null $cancels_at
+ * @property \Carbon\Carbon|null $canceled_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read \Rinvex\Subscriptions\Models\Plan                                                             $plan
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage[] $usage
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent                                                 $user
