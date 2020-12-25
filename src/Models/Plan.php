@@ -16,28 +16,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Rinvex\Subscriptions\Models\Plan.
  *
- * @property int                                                                                          $id
- * @property string                                                                                       $slug
- * @property array                                                                                        $name
- * @property array                                                                                        $description
- * @property bool                                                                                         $is_active
- * @property float                                                                                        $price
- * @property float                                                                                        $signup_fee
- * @property string                                                                                       $currency
- * @property int                                                                                          $trial_period
- * @property string                                                                                       $trial_interval
- * @property int                                                                                          $invoice_period
- * @property string                                                                                       $invoice_interval
- * @property int                                                                                          $grace_period
- * @property string                                                                                       $grace_interval
- * @property int                                                                                          $prorate_day
- * @property int                                                                                          $prorate_period
- * @property int                                                                                          $prorate_extend_due
- * @property int                                                                                          $active_subscribers_limit
- * @property int                                                                                          $sort_order
- * @property \Carbon\Carbon|null                                                                          $created_at
- * @property \Carbon\Carbon|null                                                                          $updated_at
- * @property \Carbon\Carbon|null                                                                          $deleted_at
+ * @property int                 $id
+ * @property string              $slug
+ * @property array               $name
+ * @property array               $description
+ * @property bool                $is_active
+ * @property float               $price
+ * @property float               $signup_fee
+ * @property string              $currency
+ * @property int                 $trial_period
+ * @property string              $trial_interval
+ * @property int                 $invoice_period
+ * @property string              $invoice_interval
+ * @property int                 $grace_period
+ * @property string              $grace_interval
+ * @property int                 $prorate_day
+ * @property int                 $prorate_period
+ * @property int                 $prorate_extend_due
+ * @property int                 $active_subscribers_limit
+ * @property int                 $sort_order
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanFeature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscription[] $subscriptions
  *
