@@ -55,6 +55,8 @@ class User extends Authenticatable
 
 That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
+> **Note:** you can use `HasSubscriptions` trait on any subscriber model, it doesn't have to be the user model, in fact any model will do.
+
 ### Create a Plan
 
 ```php
@@ -149,7 +151,7 @@ If both plans (current and new plan) have the same billing frequency (e.g., `inv
 
 ### Feature Options
 
-Plan features are great for fine tuning subscriptions, you can topup certain feature for X times of usage, so users may then use it only for that amount. Features also have the ability to be resettable and then it's usage could be expired too. See the following examples:
+Plan features are great for fine-tuning subscriptions, you can top-up certain feature for X times of usage, so users may then use it only for that amount. Features also have the ability to be resettable and then it's usage could be expired too. See the following examples:
 
 ```php
 // Find plan feature
@@ -173,7 +175,7 @@ The `canUseFeature` method returns `true` or `false` depending on multiple facto
 $user->subscription('main')->canUseFeature('listings');
 ```
 
-Other feature methods on the user subscription instnace are:
+Other feature methods on the user subscription instance are:
 
 - `getFeatureUsage`: returns how many times the user has used a particular feature.
 - `getFeatureRemainings`: returns available uses for a particular feature.
