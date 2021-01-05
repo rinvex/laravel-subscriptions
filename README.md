@@ -113,10 +113,10 @@ Say you want to show the value of the feature _pictures_per_listing_ from above.
 
 ```php
 // Use the plan instance to get feature's value
-$amountOfPictures = $plan->getFeatureByName('pictures_per_listing')->value;
+$amountOfPictures = $plan->getFeatureBySlug('pictures_per_listing')->value;
 
 // Query the feature itself directly
-$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
+$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('slug', 'pictures_per_listing')->first()->value;
 
 // Get feature value through the subscription instance
 $amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
