@@ -54,7 +54,10 @@
     "autoload": {
         "psr-4": {
             "Rinvex\\Subscriptions\\": "src"
-        }
+        },
+        "files": [
+            "vendor/rinvex/laravel-subscriptions/src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
