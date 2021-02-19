@@ -122,7 +122,7 @@ class PlanSubscriptionUsage extends Model
     }
 
     /**
-     * Scope subscription usage by feature name.
+     * Scope subscription usage by feature slug.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
      * @param string                                $featureSlug
