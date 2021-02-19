@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Traits;
 
+use Carbon\Carbon;
 use Rinvex\Subscriptions\Models\Plan;
 use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,13 +27,13 @@ trait HasSubscriptions
     abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
 
     /**
-     * The user may have many subscriptions.
+     * The subscriber may have many subscriptions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function subscriptions(): MorphMany
     {
-        return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'user');
+        return $this->morphMany(config('rinvex.subscriptions.models.plan_subscription'), 'subscriber', 'subscriber_type', 'subscriber_id');
     }
 
     /**
@@ -70,7 +71,7 @@ trait HasSubscriptions
     }
 
     /**
-     * Check if the user subscribed to the given plan.
+     * Check if the subscriber subscribed to the given plan.
      *
      * @param int $planId
      *
@@ -84,16 +85,17 @@ trait HasSubscriptions
     }
 
     /**
-     * Subscribe user to a new plan.
+     * Subscribe subscriber to a new plan.
      *
      * @param string                            $subscription
      * @param \Rinvex\Subscriptions\Models\Plan $plan
+     * @param \Carbon\Carbon|null               $startDate
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function newSubscription($subscription, Plan $plan): PlanSubscription
+    public function newSubscription($subscription, Plan $plan, Carbon $startDate = null): PlanSubscription
     {
-        $trial = new Period($plan->trial_interval, $plan->trial_period, now());
+        $trial = new Period($plan->trial_interval, $plan->trial_period, $startDate ?? now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
 
         return $this->subscriptions()->create([

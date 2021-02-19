@@ -55,6 +55,8 @@ class User extends Authenticatable
 
 That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
+> **Note:** you can use `HasSubscriptions` trait on any subscriber model, it doesn't have to be the user model, in fact any model will do.
+
 ### Create a Plan
 
 ```php
@@ -111,10 +113,10 @@ Say you want to show the value of the feature _pictures_per_listing_ from above.
 
 ```php
 // Use the plan instance to get feature's value
-$amountOfPictures = $plan->getFeatureByName('pictures_per_listing')->value;
+$amountOfPictures = $plan->getFeatureBySlug('pictures_per_listing')->value;
 
 // Query the feature itself directly
-$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
+$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('slug', 'pictures_per_listing')->first()->value;
 
 // Get feature value through the subscription instance
 $amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
@@ -131,7 +133,7 @@ $plan = app('rinvex.subscriptions.plan')->find(1);
 $user->newSubscription('main', $plan);
 ```
 
-The first argument passed to `newSubscription` method should be the title of the subscription. If your application offer a single subscription, you might call this `main` or `primary`. The second argument is the plan instance your user is subscribing to.
+The first argument passed to `newSubscription` method should be the title of the subscription. If your application offer a single subscription, you might call this `main` or `primary`, while the second argument is the plan instance your user is subscribing to, and there's an optional third parameter to specify custom start date as an instance of `Carbon\Carbon` (by default if not provided, it will start now).
 
 ### Change the Plan
 
@@ -149,7 +151,7 @@ If both plans (current and new plan) have the same billing frequency (e.g., `inv
 
 ### Feature Options
 
-Plan features are great for fine tuning subscriptions, you can topup certain feature for X times of usage, so users may then use it only for that amount. Features also have the ability to be resettable and then it's usage could be expired too. See the following examples:
+Plan features are great for fine-tuning subscriptions, you can top-up certain feature for X times of usage, so users may then use it only for that amount. Features also have the ability to be resettable and then it's usage could be expired too. See the following examples:
 
 ```php
 // Find plan feature
@@ -173,7 +175,7 @@ The `canUseFeature` method returns `true` or `false` depending on multiple facto
 $user->subscription('main')->canUseFeature('listings');
 ```
 
-Other feature methods on the user subscription instnace are:
+Other feature methods on the user subscription instance are:
 
 - `getFeatureUsage`: returns how many times the user has used a particular feature.
 - `getFeatureRemainings`: returns available uses for a particular feature.
