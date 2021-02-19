@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v5.0.2] - 2021-02-19
+- Define morphMany parameters explicitly
+- Simplify service provider model registration into IoC
+- Add startDate optional parameter to new subscription creation (fix #79)
+- Fix FeatureSlug confused with FeatureName by mistake (fix #43 #48 #62 #65 #136 #137)
+- Breaking Change: Rename "User" to "Subscriber" for more generic naming convention (fix #63)
+
 ## [v5.0.1] - 2020-12-25
 - Add support for PHP v8
 
@@ -133,6 +140,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
+[v5.0.2]: https://github.com/rinvex/laravel-subscriptions/compare/v5.0.1...v5.0.2
 [v5.0.1]: https://github.com/rinvex/laravel-subscriptions/compare/v5.0.0...v5.0.1
 [v5.0.0]: https://github.com/rinvex/laravel-subscriptions/compare/v4.1.0...v5.0.0
 [v4.1.0]: https://github.com/rinvex/laravel-subscriptions/compare/v4.0.6...v4.1.0
