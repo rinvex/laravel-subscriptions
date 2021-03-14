@@ -57,10 +57,7 @@ class Period
             $this->start = $start;
         }
 
-        if ($count > 0) {
-            $this->period = $count;
-        }
-
+        $this->period = $count;
         $start = clone $this->start;
         $method = 'add'.ucfirst($this->interval).'s';
         $this->end = $start->{$method}($this->period);
