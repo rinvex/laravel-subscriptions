@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Rinvex\Support\Traits\ValidatingTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Rinvex\Support\Traits\ValidatingTrait;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
@@ -38,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PlanSubscriptionUsage extends Model
 {
     use ValidatingTrait;
+    use SoftDeletes;
 
     /**
      * {@inheritdoc}

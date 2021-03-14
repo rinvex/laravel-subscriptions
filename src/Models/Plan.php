@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Spatie\Sluggable\SlugOptions;
-use Rinvex\Support\Traits\HasSlug;
-use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Rinvex\Support\Traits\HasSlug;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
+use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  * Rinvex\Subscriptions\Models\Plan.
@@ -72,6 +73,7 @@ class Plan extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
+    use SoftDeletes;
 
     /**
      * {@inheritdoc}
