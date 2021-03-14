@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -69,6 +70,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Plan extends Model implements Sortable
 {
     use HasSlug;
+    use SoftDeletes;
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;

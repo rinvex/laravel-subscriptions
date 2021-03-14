@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -66,6 +67,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class PlanSubscription extends Model
 {
     use HasSlug;
+    use SoftDeletes;
     use BelongsToPlan;
     use HasTranslations;
     use ValidatingTrait;
