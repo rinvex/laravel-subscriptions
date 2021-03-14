@@ -506,7 +506,7 @@ class PlanSubscription extends Model
 
         // If the feature value is zero, let's return false since
         // there's no uses available. (useful to disable countable features)
-        if ($usage->expired() || is_null($featureValue) || $featureValue === '0' || $featureValue === 'false') {
+        if (! $usage || $usage->expired() || is_null($featureValue) || $featureValue === '0' || $featureValue === 'false') {
             return false;
         }
 
@@ -525,7 +525,7 @@ class PlanSubscription extends Model
     {
         $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
-        return ! $usage->expired() ? $usage->used : 0;
+        return (! $usage || $usage->expired()) ? 0 : $usage->used;
     }
 
     /**
