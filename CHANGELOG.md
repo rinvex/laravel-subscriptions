@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v5.0.3] - 2021-03-15
+- Changes in doc to reflect new ofSubscriber breaking change
+- Utilize `SoftDeletes` functionality (fix #142)
+- Update hardcoded model to use service container IoC
+- Add period regardless if it's 0 or more, this should be fine
+- Check if there's usage or not (fix #26 & #138)
+
 ## [v5.0.2] - 2021-02-19
 - Define morphMany parameters explicitly
 - Simplify service provider model registration into IoC
@@ -140,6 +147,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2017-06-29
 - Tag first release
 
+[v5.0.3]: https://github.com/rinvex/laravel-subscriptions/compare/v5.0.2...v5.0.3
 [v5.0.2]: https://github.com/rinvex/laravel-subscriptions/compare/v5.0.1...v5.0.2
 [v5.0.1]: https://github.com/rinvex/laravel-subscriptions/compare/v5.0.0...v5.0.1
 [v5.0.0]: https://github.com/rinvex/laravel-subscriptions/compare/v4.1.0...v5.0.0
