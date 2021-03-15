@@ -13,6 +13,7 @@ use Rinvex\Subscriptions\Services\Period;
 use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -53,6 +54,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class PlanFeature extends Model implements Sortable
 {
     use HasSlug;
+    use SoftDeletes;
     use BelongsToPlan;
     use SortableTrait;
     use HasTranslations;

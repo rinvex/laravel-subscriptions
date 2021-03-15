@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\ValidatingTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -37,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class PlanSubscriptionUsage extends Model
 {
+    use SoftDeletes;
     use ValidatingTrait;
 
     /**
@@ -131,7 +133,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function scopeByFeatureSlug(Builder $builder, string $featureSlug): Builder
     {
-        $feature = PlanFeature::where('slug', $featureSlug)->first();
+        $feature = app('rinvex.subscriptions.plan_feature')->where('slug', $featureSlug)->first();
 
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }

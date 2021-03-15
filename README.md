@@ -271,7 +271,7 @@ $subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_i
 
 // Get bookings of the given user
 $user = \App\Models\User::find(1);
-$bookingsOfUser = app('rinvex.subscriptions.plan_subscription')->ofUser($user)->get(); 
+$bookingsOfSubscriber = app('rinvex.subscriptions.plan_subscription')->ofSubscriber($user)->get(); 
 
 // Get subscriptions with trial ending in 3 days
 $subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
