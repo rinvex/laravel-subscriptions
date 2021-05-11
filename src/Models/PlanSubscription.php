@@ -145,8 +145,6 @@ class PlanSubscription extends Model
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
         $this->setRules([
             'name' => 'required|string|strip_tags|max:150',
@@ -161,6 +159,8 @@ class PlanSubscription extends Model
             'cancels_at' => 'nullable|date',
             'canceled_at' => 'nullable|date',
         ]);
+
+        parent::__construct($attributes);
     }
 
     /**

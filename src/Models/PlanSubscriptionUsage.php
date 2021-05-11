@@ -92,8 +92,6 @@ class PlanSubscriptionUsage extends Model
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscription_usage'));
         $this->setRules([
             'subscription_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_subscriptions').',id',
@@ -101,6 +99,8 @@ class PlanSubscriptionUsage extends Model
             'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
+
+        parent::__construct($attributes);
     }
 
     /**

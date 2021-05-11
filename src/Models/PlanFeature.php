@@ -136,8 +136,6 @@ class PlanFeature extends Model implements Sortable
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->setTable(config('rinvex.subscriptions.tables.plan_features'));
         $this->setRules([
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
@@ -149,6 +147,8 @@ class PlanFeature extends Model implements Sortable
             'resettable_interval' => 'sometimes|in:hour,day,week,month',
             'sort_order' => 'nullable|integer|max:100000',
         ]);
+
+        parent::__construct($attributes);
     }
 
     /**
