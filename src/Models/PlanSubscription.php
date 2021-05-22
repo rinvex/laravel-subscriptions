@@ -146,7 +146,7 @@ class PlanSubscription extends Model
     public function __construct(array $attributes = [])
     {
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscriptions'));
-        $this->setRules([
+        $this->mergeRules([
             'name' => 'required|string|strip_tags|max:150',
             'description' => 'nullable|string|max:32768',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_subscriptions').',slug',

@@ -93,7 +93,7 @@ class PlanSubscriptionUsage extends Model
     public function __construct(array $attributes = [])
     {
         $this->setTable(config('rinvex.subscriptions.tables.plan_subscription_usage'));
-        $this->setRules([
+        $this->mergeRules([
             'subscription_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_subscriptions').',id',
             'feature_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_features').',id',
             'used' => 'required|integer',
