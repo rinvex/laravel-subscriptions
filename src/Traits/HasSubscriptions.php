@@ -53,7 +53,7 @@ trait HasSubscriptions
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
      */
-    public function subscription(string $subscriptionSlug): ?PlanSubscription
+    public function subscription(string $subscriptionSlug)
     {
         return $this->subscriptions()->where('slug', $subscriptionSlug)->first();
     }
