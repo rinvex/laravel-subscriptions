@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use DB;
-use Carbon\Carbon;
-use LogicException;
 use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\ValidatingTrait;
+use Rinvex\Support\Traits\HasTranslations;
 use Rinvex\Support\Traits\HasSlug;
+use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Rinvex\Subscriptions\Services\Period;
+use LogicException;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Rinvex\Subscriptions\Services\Period;
-use Rinvex\Support\Traits\HasTranslations;
-use Rinvex\Support\Traits\ValidatingTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Rinvex\Subscriptions\Traits\BelongsToPlan;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
+use DB;
+use Carbon\Carbon;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
@@ -174,6 +174,10 @@ class PlanSubscription extends Model
             if (! $model->starts_at || ! $model->ends_at) {
                 $model->setNewPeriod();
             }
+        });
+
+        static::deleted(function ($subscription) {
+            $subscription->usage()->delete();
         });
     }
 

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Carbon\Carbon;
 use Spatie\Sluggable\SlugOptions;
-use Rinvex\Support\Traits\HasSlug;
-use Spatie\EloquentSortable\Sortable;
-use Illuminate\Database\Eloquent\Model;
-use Rinvex\Subscriptions\Services\Period;
-use Rinvex\Support\Traits\HasTranslations;
-use Rinvex\Support\Traits\ValidatingTrait;
 use Spatie\EloquentSortable\SortableTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Rinvex\Support\Traits\ValidatingTrait;
+use Rinvex\Support\Traits\HasTranslations;
+use Rinvex\Support\Traits\HasSlug;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Rinvex\Subscriptions\Services\Period;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 /**
  * Rinvex\Subscriptions\Models\PlanFeature.
@@ -149,6 +149,18 @@ class PlanFeature extends Model implements Sortable
         ]);
 
         parent::__construct($attributes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($plan_feature) {
+            $plan_feature->usage()->delete();
+        });
     }
 
     /**
