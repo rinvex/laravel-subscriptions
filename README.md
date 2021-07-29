@@ -19,7 +19,7 @@
 
 1. Install the package via composer:
     ```shell
-    composer require mo7zayed/laravel-subscriptions
+    composer require mo7zayed/laravel-subscriptions "dev-master"
     ```
 
 2. Publish resources (migrations and config files):
