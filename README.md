@@ -36,4 +36,4 @@
 
 
 ## Docs
-Please continue reading the docs on (https://github.com/rinvex/laravel-subscriptions)[https://github.com/rinvex/laravel-subscriptions]
+Please continue reading the docs on [https://github.com/rinvex/laravel-subscriptions](https://github.com/rinvex/laravel-subscriptions)
