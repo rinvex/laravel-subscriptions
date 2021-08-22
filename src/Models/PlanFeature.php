@@ -136,10 +136,8 @@ class PlanFeature extends Model implements Sortable
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->setTable(config('rinvex.subscriptions.tables.plan_features'));
-        $this->setRules([
+        $this->mergeRules([
             'plan_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plans').',id',
             'slug' => 'required|alpha_dash|max:150|unique:'.config('rinvex.subscriptions.tables.plan_features').',slug',
             'name' => 'required|string|strip_tags|max:150',
@@ -149,6 +147,8 @@ class PlanFeature extends Model implements Sortable
             'resettable_interval' => 'sometimes|in:hour,day,week,month',
             'sort_order' => 'nullable|integer|max:100000',
         ]);
+
+        parent::__construct($attributes);
     }
 
     /**
