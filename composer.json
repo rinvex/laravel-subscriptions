@@ -1,5 +1,5 @@
 {
-    "name": "mo7zayed/laravel-subscriptions",
+    "name": "rinvex/laravel-subscriptions",
     "description": "Rinvex Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
     "type": "library",
     "keywords": [
