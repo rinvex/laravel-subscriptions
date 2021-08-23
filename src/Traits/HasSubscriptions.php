@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Traits;
 
 use Carbon\Carbon;
-use Rinvex\Subscriptions\Models\Plan;
-use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
-use Rinvex\Subscriptions\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Rinvex\Subscriptions\Models\Plan;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Rinvex\Subscriptions\Services\Period;
 
 trait HasSubscriptions
 {
@@ -61,9 +61,9 @@ trait HasSubscriptions
     /**
      * Get subscribed plans.
      *
-     * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
+     * @return Illuminate\Database\Eloquent\Collection
      */
-    public function subscribedPlans(): ?PlanSubscription
+    public function subscribedPlans(): Collection
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
