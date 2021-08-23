@@ -37,17 +37,17 @@
         }
     ],
     "require": {
-        "php": "^7.4.0 || ^8.0.0",
-        "illuminate/console": "^8.52",
-        "illuminate/database": "^8.52",
-        "illuminate/support": "^8.52",
-        "rinvex/laravel-support": "^5.0",
-        "spatie/eloquent-sortable": "^4.0",
-        "spatie/laravel-sluggable": "^3.1",
-        "spatie/laravel-translatable": "^5.0"
+        "php": "^8.0.0",
+        "illuminate/console": "^8.0.0 || ^9.0.0",
+        "illuminate/database": "^8.0.0 || ^9.0.0",
+        "illuminate/support": "^8.0.0 || ^9.0.0",
+        "rinvex/laravel-support": "^6.0.0",
+        "spatie/eloquent-sortable": "^4.0.0",
+        "spatie/laravel-sluggable": "^3.0.0",
+        "spatie/laravel-translatable": "^5.0.0"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.30.0",
+        "codedungeon/phpunit-result-printer": "^0.31.0",
         "illuminate/container": "^8.0.0 || ^9.0.0",
         "phpunit/phpunit": "^9.5.0"
     },
