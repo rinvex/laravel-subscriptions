@@ -61,9 +61,9 @@ trait HasSubscriptions
     /**
      * Get subscribed plans.
      *
-     * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function subscribedPlans(): ?PlanSubscription
+    public function subscribedPlans(): Collection
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
