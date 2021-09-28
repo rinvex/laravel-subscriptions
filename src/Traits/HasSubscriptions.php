@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Rinvex\Subscriptions\Traits;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Rinvex\Subscriptions\Models\Plan;
-use Rinvex\Subscriptions\Models\PlanSubscription;
 use Rinvex\Subscriptions\Services\Period;
+use Illuminate\Database\Eloquent\Collection;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasSubscriptions
 {
@@ -61,7 +61,7 @@ trait HasSubscriptions
     /**
      * Get subscribed plans.
      *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function subscribedPlans(): Collection
     {
