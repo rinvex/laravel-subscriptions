@@ -107,7 +107,7 @@ $plan->hasGrace();
 
 Both `$plan->features` and `$plan->subscriptions` are collections, driven from relationships, and thus you can query these relations as any normal Eloquent relationship. E.g. `$plan->features()->where('name', 'listing_title_bold')->first()`.
 
-### Get Feature Value 
+### Get Feature Value
 
 Say you want to show the value of the feature _pictures_per_listing_ from above. You can do so in many ways:
 
@@ -297,6 +297,15 @@ Rinvex\Subscriptions\Models\PlanSubscription;
 Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
 ```
 
+
+## Roadmap
+
+**Looking for contributors!**
+
+The following are a set of limitations to be improved, or feature requests that's looking for contributors to implement, all PRs are welcome 🙂
+
+[] Change *features* to be in a many-to-many relationship with plans. Multiple plans can have the same feature, and many plans can have many features as well.
+[] Plan subscription timezone field in database isn't utilized, this should be implemented to respect timezone on date calculations (i.e. starts_at, ends_at, trial_ends_at).
 
 ## Changelog
 
