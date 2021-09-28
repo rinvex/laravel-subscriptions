@@ -175,6 +175,10 @@ class PlanSubscription extends Model
                 $model->setNewPeriod();
             }
         });
+
+        static::deleted(function ($subscription) {
+            $subscription->usage()->delete();
+        });
     }
 
     /**

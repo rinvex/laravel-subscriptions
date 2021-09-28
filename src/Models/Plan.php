@@ -197,6 +197,19 @@ class Plan extends Model implements Sortable
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($plan) {
+            $plan->features()->delete();
+            $plan->subscriptions()->delete();
+        });
+    }
+
+    /**
      * Get the options for generating the slug.
      *
      * @return \Spatie\Sluggable\SlugOptions
