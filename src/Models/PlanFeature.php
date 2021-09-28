@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Rinvex\Subscriptions\Models;
 
-use Spatie\Sluggable\SlugOptions;
-use Spatie\EloquentSortable\SortableTrait;
-use Spatie\EloquentSortable\Sortable;
-use Rinvex\Support\Traits\ValidatingTrait;
-use Rinvex\Support\Traits\HasTranslations;
-use Rinvex\Support\Traits\HasSlug;
-use Rinvex\Subscriptions\Traits\BelongsToPlan;
-use Rinvex\Subscriptions\Services\Period;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Spatie\Sluggable\SlugOptions;
+use Rinvex\Support\Traits\HasSlug;
+use Spatie\EloquentSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
+use Rinvex\Subscriptions\Services\Period;
+use Rinvex\Support\Traits\HasTranslations;
+use Rinvex\Support\Traits\ValidatingTrait;
+use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Rinvex\Subscriptions\Traits\BelongsToPlan;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Rinvex\Subscriptions\Models\PlanFeature.
