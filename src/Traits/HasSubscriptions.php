@@ -27,6 +27,18 @@ trait HasSubscriptions
     abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
 
     /**
+     * Boot the HasSubscriptions trait for the model.
+     *
+     * @return void
+     */
+    protected static function bootHasSubscriptions()
+    {
+        static::deleted(function ($plan) {
+            $plan->subscriptions()->delete();
+        });
+    }
+
+    /**
      * The subscriber may have many subscriptions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -61,9 +73,9 @@ trait HasSubscriptions
     /**
      * Get subscribed plans.
      *
-     * @return \Rinvex\Subscriptions\Models\PlanSubscription|null
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function subscribedPlans(): ?PlanSubscription
+    public function subscribedPlans(): Collection
     {
         $planIds = $this->subscriptions->reject->inactive()->pluck('plan_id')->unique();
 
