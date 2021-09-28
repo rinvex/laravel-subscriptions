@@ -39,23 +39,23 @@
 
 ### Add Subscriptions to User model
 
-**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\HasSubscriptions` trait like this:
+**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\HasPlanSubscriptions` trait like this:
 
 ```php
 namespace App\Models;
 
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
+use Rinvex\Subscriptions\Traits\HasPlanSubscriptions;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasSubscriptions;
+    use HasPlanSubscriptions;
 }
 ```
 
 That's it, we only have to use that trait in our User model! Now your users may subscribe to plans.
 
-> **Note:** you can use `HasSubscriptions` trait on any subscriber model, it doesn't have to be the user model, in fact any model will do.
+> **Note:** you can use `HasPlanSubscriptions` trait on any subscriber model, it doesn't have to be the user model, in fact any model will do.
 
 ### Create a Plan
 
@@ -93,7 +93,7 @@ $plan = app('rinvex.subscriptions.plan')->find(1);
 $plan->features;
 
 // Get all plan subscriptions
-$plan->subscriptions;
+$plan->planSubscriptions;
 
 // Check if the plan is free
 $plan->isFree();
@@ -105,7 +105,7 @@ $plan->hasTrial();
 $plan->hasGrace();
 ```
 
-Both `$plan->features` and `$plan->subscriptions` are collections, driven from relationships, and thus you can query these relations as any normal Eloquent relationship. E.g. `$plan->features()->where('name', 'listing_title_bold')->first()`.
+Both `$plan->features` and `$plan->planSubscriptions` are collections, driven from relationships, and thus you can query these relations as any normal Eloquent relationship. E.g. `$plan->features()->where('name', 'listing_title_bold')->first()`.
 
 ### Get Feature Value
 
@@ -124,13 +124,13 @@ $amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getF
 
 ### Create a Subscription
 
-You can subscribe a user to a plan by using the `newSubscription()` function available in the `HasSubscriptions` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
+You can subscribe a user to a plan by using the `newSubscription()` function available in the `HasPlanSubscriptions` trait. First, retrieve an instance of your subscriber model, which typically will be your user model and an instance of the plan your user is subscribing to. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription.
 
 ```php
 $user = User::find(1);
 $plan = app('rinvex.subscriptions.plan')->find(1);
 
-$user->newSubscription('main', $plan);
+$user->newPlanSubscription('main', $plan);
 ```
 
 The first argument passed to `newSubscription` method should be the title of the subscription. If your application offer a single subscription, you might call this `main` or `primary`, while the second argument is the plan instance your user is subscribing to, and there's an optional third parameter to specify custom start date as an instance of `Carbon\Carbon` (by default if not provided, it will start now).
@@ -172,7 +172,7 @@ The `canUseFeature` method returns `true` or `false` depending on multiple facto
 - Or feature has remaining uses available.
 
 ```php
-$user->subscription('main')->canUseFeature('listings');
+$user->planSubscription('main')->canUseFeature('listings');
 ```
 
 Other feature methods on the user subscription instance are:
@@ -181,24 +181,24 @@ Other feature methods on the user subscription instance are:
 - `getFeatureRemainings`: returns available uses for a particular feature.
 - `getFeatureValue`: returns the feature value.
 
-> All methods share the same signature: e.g. `$user->subscription('main')->getFeatureUsage('listings');`.
+> All methods share the same signature: e.g. `$user->planSubscription('main')->getFeatureUsage('listings');`.
 
 ### Record Feature Usage
 
 In order to effectively use the ability methods you will need to keep track of every usage of each feature (or at least those that require it). You may use the `recordFeatureUsage` method available through the user `subscription()` method:
 
 ```php
-$user->subscription('main')->recordFeatureUsage('listings');
+$user->planSubscription('main')->recordFeatureUsage('listings');
 ```
 
 The `recordFeatureUsage` method accept 3 parameters: the first one is the feature's name, the second one is the quantity of uses to add (default is `1`), and the third one indicates if the addition should be incremental (default behavior), when disabled the usage will be override by the quantity provided. E.g.:
 
 ```php
 // Increment by 2
-$user->subscription('main')->recordFeatureUsage('listings', 2);
+$user->planSubscription('main')->recordFeatureUsage('listings', 2);
 
 // Override with 9
-$user->subscription('main')->recordFeatureUsage('listings', 9, false);
+$user->planSubscription('main')->recordFeatureUsage('listings', 9, false);
 ```
 
 ### Reduce Feature Usage
@@ -206,13 +206,13 @@ $user->subscription('main')->recordFeatureUsage('listings', 9, false);
 Reducing the feature usage is _almost_ the same as incrementing it. Here we only _substract_ a given quantity (default is `1`) to the actual usage:
 
 ```php
-$user->subscription('main')->reduceFeatureUsage('listings', 2);
+$user->planSubscription('main')->reduceFeatureUsage('listings', 2);
 ```
 
 ### Clear The Subscription Usage Data
 
 ```php
-$user->subscription('main')->usage()->delete();
+$user->planSubscription('main')->usage()->delete();
 ```
 
 ### Check Subscription Status
@@ -229,10 +229,10 @@ $user->subscribedTo($planId);
 Alternatively you can use the following methods available in the subscription model:
 
 ```php
-$user->subscription('main')->active();
-$user->subscription('main')->canceled();
-$user->subscription('main')->ended();
-$user->subscription('main')->onTrial();
+$user->planSubscription('main')->active();
+$user->planSubscription('main')->canceled();
+$user->planSubscription('main')->ended();
+$user->planSubscription('main')->onTrial();
 ```
 
 > Canceled subscriptions with an active trial or `ends_at` in the future are considered active.
@@ -242,7 +242,7 @@ $user->subscription('main')->onTrial();
 To renew a subscription you may use the `renew` method available in the subscription model. This will set a new `ends_at` date based on the selected plan and _will clear the usage data_ of the subscription.
 
 ```php
-$user->subscription('main')->renew();
+$user->planSubscription('main')->renew();
 ```
 
 _Canceled subscriptions with an ended period can't be renewed._
@@ -252,13 +252,13 @@ _Canceled subscriptions with an ended period can't be renewed._
 To cancel a subscription, simply use the `cancel` method on the user's subscription:
 
 ```php
-$user->subscription('main')->cancel();
+$user->planSubscription('main')->cancel();
 ```
 
 By default the subscription will remain active until the end of the period, you may pass `true` to end the subscription _immediately_:
 
 ```php
-$user->subscription('main')->cancel(true);
+$user->planSubscription('main')->cancel(true);
 ```
 
 ### Scopes
