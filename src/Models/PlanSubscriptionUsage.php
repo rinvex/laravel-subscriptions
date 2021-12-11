@@ -135,7 +135,7 @@ class PlanSubscriptionUsage extends Model
     {
         $feature = app('rinvex.subscriptions.plan_feature')->where('slug', $featureSlug)->first();
 
-        return $builder->where('feature_id', $feature->getKey() ?? null);
+        return $builder->where('feature_id', $feature ? $feature->getKey() : null);
     }
 
     /**
