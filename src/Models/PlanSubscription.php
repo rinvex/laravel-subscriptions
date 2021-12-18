@@ -407,6 +407,18 @@ class PlanSubscription extends Model
     }
 
     /**
+     * Scope all active subscriptions for a user.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFindActive(Builder $builder): Builder
+    {
+        return $builder->where('ends_at', '>', now());
+    }
+
+    /**
      * Set new subscription period.
      *
      * @param string $invoice_interval
