@@ -413,7 +413,7 @@ class PlanSubscription extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    function scopeFindActive(Builder $builder): Builder
+    public function scopeFindActive(Builder $builder): Builder
     {
         return $builder->where('ends_at', '>', now());
     }
