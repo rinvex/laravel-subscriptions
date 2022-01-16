@@ -7,7 +7,7 @@ namespace Rinvex\Subscriptions\Providers;
 use Rinvex\Subscriptions\Models\Plan;
 use Illuminate\Support\ServiceProvider;
 use Rinvex\Support\Traits\ConsoleTools;
-use Rinvex\Subscriptions\Models\PlanFeature;
+use Rinvex\Subscriptions\Models\Feature;
 use Rinvex\Subscriptions\Models\PlanSubscription;
 use Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
 use Rinvex\Subscriptions\Console\Commands\MigrateCommand;
@@ -41,7 +41,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
         // Bind eloquent models to IoC container
         $this->registerModels([
             'rinvex.subscriptions.plan' => Plan::class,
-            'rinvex.subscriptions.plan_feature' => PlanFeature::class,
+            'rinvex.subscriptions.plan_feature' => Feature::class,
             'rinvex.subscriptions.plan_subscription' => PlanSubscription::class,
             'rinvex.subscriptions.plan_subscription_usage' => PlanSubscriptionUsage::class,
         ]);

@@ -306,7 +306,7 @@ The following are a set of limitations to be improved, or feature requests that'
 
 - [ ] Allow paying for multiple occurrences of the same plan (i.e. monthly plan, user can pay for 6 months of that plan) (#64)
 - [ ] Plan prorate fields in database isn't utilized, this should be implemented to consolidate extension dates, and prices (#68)
-- [ ] Change *features* to be in a many-to-many relationship with plans. Multiple plans can have the same feature, and many plans can have many features as well (#101)
+- [x] Change *features* to be in a many-to-many relationship with plans. Multiple plans can have the same feature, and many plans can have many features as well (#101)
 - [ ] Plan subscription timezone field in database isn't utilized, this should be implemented to respect timezone on date calculations (i.e. starts_at, ends_at, trial_ends_at) (#78)
 - [ ] Separate trial feature from the subscription periods and adjust subscriptions accordingly. Users should be able to have a trial period without having a subscription at all (#67)
 

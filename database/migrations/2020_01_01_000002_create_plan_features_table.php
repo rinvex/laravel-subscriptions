@@ -14,7 +14,7 @@ class CreatePlanFeaturesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
+        Schema::create(config('rinvex.subscriptions.tables.features'), function (Blueprint $table) {
             // Columns
             $table->increments('id');
             $table->integer('plan_id')->unsigned();
@@ -42,6 +42,6 @@ class CreatePlanFeaturesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_features'));
+        Schema::dropIfExists(config('rinvex.subscriptions.tables.features'));
     }
 }
