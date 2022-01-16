@@ -10,7 +10,7 @@ class CreateFeaturePlanTable extends Migration
 {
     public function up(): void
     {
-        if(Schema::hasColumn(config('rinvex.subscriptions.tables.features'), 'plan_id')) {
+        if (Schema::hasColumn(config('rinvex.subscriptions.tables.features'), 'plan_id')) {
             Schema::table(config('rinvex.subscriptions.tables.features'), function (Blueprint $table) {
                 $table->dropForeign('plan_id');
                 $table->dropColumn('plan_id');
