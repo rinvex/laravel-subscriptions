@@ -39,7 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanFeature[]      $features
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\Feature[]      $features
  * @property-read \Illuminate\Database\Eloquent\Collection|\Rinvex\Subscriptions\Models\PlanSubscription[] $subscriptions
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan ordered($direction = 'asc')
@@ -223,13 +223,23 @@ class Plan extends Model implements Sortable
     }
 
     /**
-     * The plan may have many features.
+     * The plan may belong to many features.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function features(): HasMany
+    public function features(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(config('rinvex.subscriptions.models.plan_feature'), 'plan_id', 'id');
+        return $this->belongsToMany(
+            config('rinvex.subscriptions.models.plan_feature'),
+            config('rinvex.subscriptions.tables.feature_plan'),
+            'plan_id',
+            'feature_id'
+        )
+            ->withPivot(
+                'value',
+                'resettable_period',
+                'resettable_interval',
+            );
     }
 
     /**
@@ -277,9 +287,9 @@ class Plan extends Model implements Sortable
      *
      * @param string $featureSlug
      *
-     * @return \Rinvex\Subscriptions\Models\PlanFeature|null
+     * @return \Rinvex\Subscriptions\Models\Feature|null
      */
-    public function getFeatureBySlug(string $featureSlug): ?PlanFeature
+    public function getFeatureBySlug(string $featureSlug): ?Feature
     {
         return $this->features()->where('slug', $featureSlug)->first();
     }

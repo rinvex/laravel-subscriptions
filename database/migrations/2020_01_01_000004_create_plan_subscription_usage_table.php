@@ -27,7 +27,7 @@ class CreatePlanSubscriptionUsageTable extends Migration
             $table->unique(['subscription_id', 'feature_id']);
             $table->foreign('subscription_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_subscriptions'))
                   ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('feature_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_features'))
+            $table->foreign('feature_id')->references('id')->on(config('rinvex.subscriptions.tables.features'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });
     }
