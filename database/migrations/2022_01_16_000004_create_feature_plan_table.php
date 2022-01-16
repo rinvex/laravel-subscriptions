@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
 
 class CreateFeaturePlanTable extends Migration
 {
@@ -18,7 +18,6 @@ class CreateFeaturePlanTable extends Migration
         }
 
         Schema::create(config('rinvex.subscriptions.tables.feature_plan'), function (Blueprint $table) {
-
             $table->foreignId('plan_id')
                 ->constrained(config('rinvex.subscriptions.tables.plans'))
                 ->cascadeOnDelete();
