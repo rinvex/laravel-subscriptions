@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
-## [7.0.1] - 2022-01-16
+## [v7.0.1] - 2022-01-16
 - Change *features* to be in a many-to-many relationship with plans. Multiple plans can have the same feature, and many plans can have many features as well
 
 ## [v6.0.1] - 2021-12-15
