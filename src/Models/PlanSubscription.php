@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Rinvex\Subscriptions\Traits\BelongsToPlan;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscription.
@@ -67,6 +68,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class PlanSubscription extends Model
 {
     use HasSlug;
+    use HasFactory;
     use SoftDeletes;
     use BelongsToPlan;
     use HasTranslations;

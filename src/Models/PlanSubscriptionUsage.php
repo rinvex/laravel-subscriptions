@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rinvex\Support\Traits\ValidatingTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
@@ -38,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class PlanSubscriptionUsage extends Model
 {
+    use HasFactory;
     use SoftDeletes;
     use ValidatingTrait;
 
