@@ -47,7 +47,7 @@
         "spatie/laravel-translatable": "^5.2.0"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.31.0",
+        "codedungeon/phpunit-result-printer": "^0.31.0 || ^0.32.0",
         "illuminate/container": "^9.0.0 || ^10.0.0",
         "phpunit/phpunit": "^9.5.0"
     },
